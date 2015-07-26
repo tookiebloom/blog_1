@@ -1,0 +1,95 @@
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+	background-image: url(../img/pattern1.png);
+}
+
+header {
+	padding-left: $GRID_GUTTER;
+	padding-right: $GRID_GUTTER;
+}
+
+body > section {
+	padding-left: $GRID_GUTTER;
+	padding-right: $GRID_GUTTER;
+	
+}
+
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+
+
+
+.vertical_spacer {
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	height: $VERTICAL_SPACE;
+
+	&.half {
+		height: $VERTICAL_HALFSPACE;
+	}
+
+	&.double {
+		height: $VERTICAL_DOUBLESPACE;
+	}
+
+	&.quarter {
+		height: $VERTICAL_QUARTERSPACE;
+	}
+}
+
+
+.dark_block {
+	background-color: $COLOR_DARK;
+	@extend .box_shadow_volume_1;
+}
+
+.content_box {
+	@extend .translucent_white;
+	position: relative;
+}
+
+.responsive_img{
+	display: block;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.logo {
+	padding-left: $GRID_GUTTER;
+	padding-right: $GRID_GUTTER;
+	width: 150px;
+}
+
+.button1 {
+	@extend .button_shape_1;
+	@extend .button_shade_1;
+}
+
+.button2 {
+	@extend .button_shape_1;
+	@extend .button_shade_2;
+}
+
+.button3{
+	@extend .button_shape_2;
+	@extend .button_shade_1;
+}
+.button4{
+	@extend .button_shape_2;
+	@extend .button_shade_2;
+}
