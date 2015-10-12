@@ -1,7 +1,6 @@
-var config = {
-	port: 2111	
-};
+console.log('Starting app.js... ');
+var CHASSIS = require('./core/core.js');
 
-var chassis = require('./core/chassis.js')( config );
+var chs = new CHASSIS();
 
-chassis.init();
+chs.init();
