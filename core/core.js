@@ -30,10 +30,10 @@ module.exports = function(){
 		//TODO: find a clever way to do routes
 		_core.app.get('/', function (req, res) {
 
-			var response = req.log + "\n";
-			response += req.auth + "\n";
-			response += req.kernel + "\n";
-			response += req.interface + "\n";
+			var response = req.log + "<br>";
+			response += req.auth + "<br>";
+			response += req.kernel + "<br>";
+			response += req.interface + "<br>";
 
 
 			res.send(response);
