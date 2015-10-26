@@ -1,7 +1,7 @@
 var express = require('express');
 
 var CORE = require('./core.js');
-
+var Router = require('./router.js');
 
 
 //log: CORE.import.middleware('log');
@@ -17,7 +17,7 @@ var middlewares = {
 
 //the value of "module.exports" is returned by the require function
 module.exports = function(){
-	var _core = this;
+	var _core = {};
 
 
 	_core.init = function(){
@@ -28,6 +28,21 @@ module.exports = function(){
 		_core.app.use(middlewares.auth);
 		_core.app.use(middlewares.model);
 		_core.app.use(middlewares.interface_ctrl);
+
+
+		//init static files
+		_core.app.use("/res",express.static( './res' ));
+
+		_core.router = Router( _core.app );
+
+		_core.router.init();
+
+
+
+
+
+
+
 
 		//TODO: find a clever way to do routes
 		_core.app.get('/', function (req, res) {
@@ -48,4 +63,7 @@ module.exports = function(){
 		});
 
 	};
+
+
+	return _core;
 };
