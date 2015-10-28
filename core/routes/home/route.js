@@ -6,7 +6,9 @@ module.exports = [
 
 			var _interface = req.interface_ctrl.get_interface('homepage');
 
-			res.send( _interface.homepage()  );
+			//var data = req.model.get_homepage_data();
+
+			res.send( _interface.homepage('homepage', data)  );
 		}
 	},
 	{

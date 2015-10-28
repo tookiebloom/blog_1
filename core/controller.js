@@ -1,61 +1,38 @@
 var express = require('express');
 
 var CORE = require('./core.js');
-var Router = require('./router.js');
 
 
-//log: CORE.import.middleware('log');
-var middlewares = {
-	log: require('./middlewares/log/log.js'),
-	auth: require('./middlewares/auth/auth.js'),
-	model: require('./middlewares/model/model.js'),
-	interface_ctrl: require('./middlewares/interface_ctrl/interface_ctrl.js')
-};
+console.log("THE CORE OBJECT:",CORE);
+
 
 
 
 
 //the value of "module.exports" is returned by the require function
 module.exports = function(){
-	var _core = {};
+	var _ctrl = {};
 
 
-	_core.init = function(){
+	_ctrl.init = function(){
 
 
-		_core.app = express();
-		_core.app.use(middlewares.log);
-		_core.app.use(middlewares.auth);
-		_core.app.use(middlewares.model);
-		_core.app.use(middlewares.interface_ctrl);
+		_ctrl.app = express();
+		_ctrl.app.use(CORE.middlewares.log);
+		_ctrl.app.use(CORE.middlewares.auth);
+		_ctrl.app.use(CORE.middlewares.model);
+		_ctrl.app.use(CORE.middlewares.interface_ctrl);
 
 
 		//init static files
-		_core.app.use("/res",express.static( './res' ));
+		_ctrl.app.use("/res",express.static( './res' ));
 
-		_core.router = Router( _core.app );
-
-		_core.router.init();
+		CORE.router(_ctrl.app);
 
 
 
 
-
-
-
-
-		//TODO: find a clever way to do routes
-		_core.app.get('/', function (req, res) {
-
-			var response = req.log + "<br>";
-			response += req.auth + "<br>";
-			response += req.model + "<br>";
-			response += req.interface_ctrl + "<br>";
-			res.send(response);
-		});
-
-
-		var server = _core.app.listen(CORE.config.port, function () {
+		var server = _ctrl.app.listen( CORE.config.port, function () {
 		  var host = server.address().address;
 		  var port = server.address().port;
 
@@ -65,5 +42,5 @@ module.exports = function(){
 	};
 
 
-	return _core;
+	return _ctrl;
 };

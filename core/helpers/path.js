@@ -1,6 +1,5 @@
+//PATH HELPER
 module.exports = function(_config){
-
-
 
 
 	return {

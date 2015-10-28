@@ -6,9 +6,15 @@ module.exports = {
 
 
 
+
 	directories : {
-		routes : "./core/routes",
-		interfaces: "./interfaces"
-	}
+		routes : 			"./core/routes",
+		interfaces: 		"./interfaces",
+		helpers: 			"./core/helpers",
+		factories: 			"./core/factories",
+		middlewares: 		"./core/middlewares"
+	},
+
+	root_path_relateive_to_core : "../"
 
 };
