@@ -3,7 +3,7 @@ module.exports = {
 
 
 
-
+	default_interface : "web",
 
 
 

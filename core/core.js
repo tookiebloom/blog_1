@@ -10,25 +10,28 @@ module.exports = (function(){
 
 	//initialize config object
 	var _config = require('./config/config.js');
-
 	CORE.config = _config;
 
 
-	//initialize helpers
-	var helper_files =  fs.readdirSync( _config.directories.helpers );
 
 
-	for( i = 0; i < helper_files.length; i++ ){
+	var _getHelpers = function(){
 
-		//initialize helper
-		var helper_instance = require(  _config.root_path_relateive_to_core + _config.directories.helpers + "/" + helper_files[i]  )(_config);
+		var helper_files =  fs.readdirSync( _config.directories.helpers ),
+			helpers = {},
+			helper_instance, i, helper_name;
 
-		//get helper name from file (remove .js )
-		var last_dot_index = helper_files[i].lastIndexOf('.');
-		var helper_name = helper_files[i].substr(0, last_dot_index);
+		for( i = 0; i < helper_files.length; i++ ){
 
-		CORE[helper_name] = helper_instance;
-	};
+			//initialize helper
+			helper_instance = require(  _config.root_path_relateive_to_core + _config.directories.helpers + "/" + helper_files[i]  )(_config);
+
+			helper_name = helper_files[i].substr(0, helper_files[i].lastIndexOf('.'));  //remove ".js" from file name
+			helpers[helper_name] = helper_instance;
+		};
+
+		return helpers;
+	}
 
 
 	//initialize factory
@@ -40,9 +43,7 @@ module.exports = (function(){
 
 		var factory_function = require(  _config.root_path_relateive_to_core +  _config.directories.factories + "/" + factories_files[i] )(CORE);
 
-		//get factory name from file (remove .js )
-		var last_dot_index = factories_files[i].lastIndexOf('.');
-		var factory_name = factories_files[i].substr(0, last_dot_index);
+		var factory_name = factories_files[i].substr(0, factories_files[i].lastIndexOf('.')); //remove ".js" from file name
 
 		CORE.factories[factory_name] = factory_function;
 	}
@@ -53,25 +54,22 @@ module.exports = (function(){
 
 
 
-	CORE.getInterfaces = function(){
 
-		var interfaces = {};
+	CORE.interfaces = {};
 
-		var interface_directories = fs.readdirSync( _config.directories.interfaces );
+	var interface_directories = fs.readdirSync( _config.directories.interfaces );
 
-		for( i = 0; i < interface_directories.length; i++ ){
+	for( i = 0; i < interface_directories.length; i++ ){
 
-			var interface_instance = require( _config.root_path_relateive_to_core + _config.directories.interfaces + "/" + interface_directories[i] + "/interface.js"  )(CORE);
+		var interface_name = interface_directories[i];
 
-			//get middleware name from file (remove .js )
-			var last_dot_index = interface_directories[i].lastIndexOf('.');
-			var interface_name = interface_directories[i].substr(0, last_dot_index);
+		var interface_instance = require( _config.root_path_relateive_to_core + _config.directories.interfaces + "/" + interface_directories[i] + "/interface.js"  )(CORE);
+		interface_instance.setName(interface_name);
 
-			interfaces[ interface_name ] = interface_instance;
-		}
+		CORE.interfaces[ interface_name ] = interface_instance;
+	}
 
-		return interfaces;
-	};
+
 
 
 
@@ -82,11 +80,9 @@ module.exports = (function(){
 
 	for( i = 0; i < middleware_directories.length; i++ ){
 
-		//initialize middleware
 		var middleware_function = require(  _config.root_path_relateive_to_core  + _config.directories.middlewares + "/" + middleware_directories[i] + "/middleware.js"  )(CORE);
 
 		var middleware_name = middleware_directories[i];
-
 		CORE.middlewares[middleware_name] = middleware_function;
 	}
 
@@ -115,8 +111,8 @@ module.exports = (function(){
 
 
 
-
-
+	CORE.helpers = _getHelpers();
+	//CORE.factories = _getFactories()
 
 
 

@@ -3,10 +3,6 @@ var express = require('express');
 var CORE = require('./core.js');
 
 
-console.log("THE CORE OBJECT:",CORE);
-
-
-
 
 
 //the value of "module.exports" is returned by the require function

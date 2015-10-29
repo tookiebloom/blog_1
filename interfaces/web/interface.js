@@ -1,34 +1,17 @@
 
 module.exports = function(CORE){
 
-
-
-
 	var web_intf = CORE.factories.interface();
 
 
-
-	/*web_intf.init = function(){
-
-
-
-		var dots = require("dot").process({path: "./interfaces/web/views"});
+	web_intf.view('homepage', function(data){
+		return "this is the rendered homepage";
+	});
 
 
-
-		//aici trebuie initializata interfata
-	}*/
-
-
-	web_intf.homepage = function(){
-
-		return "stuff";
-	}
-
-
+	web_intf.view('contact', function(data){
+		return "this is the contact page";
+	});
 
 	return web_intf;
-
-
-
 };
