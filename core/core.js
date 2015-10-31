@@ -33,58 +33,72 @@ module.exports = (function(){
 		return helpers;
 	}
 
-
+var _getFactories=function(){
 	//initialize factory
-	CORE.factories = {};
 
-	var factories_files = fs.readdirSync( _config.directories.factories );
+
+	var factories_files = fs.readdirSync( _config.directories.factories ),
+	factories={},
+	factory_function,i,factory_name;
 
 	for( i = 0; i < factories_files.length; i++ ) {
 
-		var factory_function = require(  _config.root_path_relateive_to_core +  _config.directories.factories + "/" + factories_files[i] )(CORE);
+	 factory_function = require(  _config.root_path_relateive_to_core +  _config.directories.factories + "/" + factories_files[i] )(CORE);
 
-		var factory_name = factories_files[i].substr(0, factories_files[i].lastIndexOf('.')); //remove ".js" from file name
+	 factory_name = factories_files[i].substr(0, factories_files[i].lastIndexOf('.')); //remove ".js" from file name
 
-		CORE.factories[factory_name] = factory_function;
-	}
+	factories[factory_name] = factory_function;
+};
+return factories;
 
-
-
-
-
+}
 
 
 
-	CORE.interfaces = {};
 
-	var interface_directories = fs.readdirSync( _config.directories.interfaces );
+
+
+
+var _getInterfaces=function(){
+	interfaces = {};
+
+	var interface_directories = fs.readdirSync( _config.directories.interfaces ),
+	interface_name,interface_instance,i;
 
 	for( i = 0; i < interface_directories.length; i++ ){
 
-		var interface_name = interface_directories[i];
+	 interface_name = interface_directories[i];
 
-		var interface_instance = require( _config.root_path_relateive_to_core + _config.directories.interfaces + "/" + interface_directories[i] + "/interface.js"  )(CORE);
+		 interface_instance = require( _config.root_path_relateive_to_core + _config.directories.interfaces + "/" + interface_directories[i] + "/interface.js"  )(CORE);
 		interface_instance.setName(interface_name);
 
-		CORE.interfaces[ interface_name ] = interface_instance;
-	}
+	interfaces[ interface_name ] = interface_instance;
+};
+return interfaces;
+}
 
 
 
 
 
 
-	CORE.middlewares = {};
 
-	var middleware_directories = fs.readdirSync( _config.directories.middlewares );
+var _getMiddlewares=function(){
+	middlewares = {};
+
+	var middleware_directories = fs.readdirSync( _config.directories.middlewares ),
+	middleware_function,middleware_name,i;
 
 	for( i = 0; i < middleware_directories.length; i++ ){
 
-		var middleware_function = require(  _config.root_path_relateive_to_core  + _config.directories.middlewares + "/" + middleware_directories[i] + "/middleware.js"  )(CORE);
+		 middleware_function = require(  _config.root_path_relateive_to_core  + _config.directories.middlewares + "/" + middleware_directories[i] + "/middleware.js"  )(CORE);
 
-		var middleware_name = middleware_directories[i];
-		CORE.middlewares[middleware_name] = middleware_function;
-	}
+		 middleware_name = middleware_directories[i];
+		middlewares[middleware_name] = middleware_function;
+	};
+	return middlewares;
+
+}
 
 
 
@@ -113,6 +127,11 @@ module.exports = (function(){
 
 	CORE.helpers = _getHelpers();
 	//CORE.factories = _getFactories()
+	CORE.factories=_getFactories();
+	CORE.interfaces=_getInterfaces();
+	CORE.middlewares=_getMiddlewares();
+
+
 
 
 
