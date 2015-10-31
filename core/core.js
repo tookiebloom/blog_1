@@ -33,11 +33,12 @@ module.exports = (function(){
 		return helpers;
 	}
 
+
+
+
 var _getFactories=function(){
-	//initialize factory
 
-
-	var factories_files = fs.readdirSync( _config.directories.factories ),
+var factories_files = fs.readdirSync( _config.directories.factories ),
 	factories={},
 	factory_function,i,factory_name;
 
@@ -55,14 +56,10 @@ return factories;
 
 
 
-
-
-
-
 var _getInterfaces=function(){
-	interfaces = {};
-
+	
 	var interface_directories = fs.readdirSync( _config.directories.interfaces ),
+	interfaces = {},
 	interface_name,interface_instance,i;
 
 	for( i = 0; i < interface_directories.length; i++ ){
@@ -80,13 +77,10 @@ return interfaces;
 
 
 
-
-
-
 var _getMiddlewares=function(){
-	middlewares = {};
 
 	var middleware_directories = fs.readdirSync( _config.directories.middlewares ),
+	middlewares = {},
 	middleware_function,middleware_name,i;
 
 	for( i = 0; i < middleware_directories.length; i++ ){
@@ -126,7 +120,6 @@ var _getMiddlewares=function(){
 
 
 	CORE.helpers = _getHelpers();
-	//CORE.factories = _getFactories()
 	CORE.factories=_getFactories();
 	CORE.interfaces=_getInterfaces();
 	CORE.middlewares=_getMiddlewares();
