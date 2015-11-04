@@ -1,7 +1,20 @@
 //INTERFACE CONTROLLER
 module.exports = function(CORE){
 
-	var _get_interface = function(interface_name){
+	//TODO: find a way not to execute this function on EACH request
+	var _extendInterfaceObject = function(int_obj, interface_name){
+
+		int_obj.__interface_name = interface_name;
+
+		int_obj.is = function(name){
+			return int_obj.__interface_name === name;
+		}
+
+		return int_obj;
+	};
+
+
+	var _getInterface = function(interface_name){
 
 		interface_name = typeof interface_name === "string" ? interface_name : CORE.config.default_interface;
 
@@ -9,14 +22,14 @@ module.exports = function(CORE){
 			throw new Error("The interface you requested was not found. Please make sure you either specify an defined interface, or you have specified a default interface in the config file.");
 		}
 
-		return CORE.interfaces[interface_name];
+		return _extendInterfaceObject( CORE.interfaces[interface_name], interface_name );
 	}
 
 
 
 	return  function (req, res, next) {
 
-		req.interface = _get_interface( req.query.interface );
+		req.interface = _getInterface( req.query.interface );
 
 		next();
 	};
