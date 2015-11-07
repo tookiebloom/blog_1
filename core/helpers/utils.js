@@ -1,7 +1,15 @@
 //UTILS HELPER
 module.exports = function(_config){
 
-	return {
+	var _splitAndTrim = function(input, separator){
 
+		return input.split(separator).map(function(item){
+			return item.trim();
+		});
+	};
+
+
+	return {
+		splitAndTrim: _splitAndTrim
 	};
 };

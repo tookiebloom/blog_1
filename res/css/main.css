@@ -359,10 +359,46 @@ footer {
         padding-left: 20px; }
 
 /*-----------------------------------------------------------------------
-	admin
+	admin interface
 -------------------------------------------------------------------------*/
-.add_post textarea {
-  height: 300px; }
+html.admin header .logo {
+  width: 100px; }
+html.admin body {
+  background: #aaa; }
+html.admin .notification {
+  background-color: #F8F8F9;
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  border: 1px solid #444444;
+  margin: 10px;
+  border-radius: 10px;
+  font-family: "Roboto", sans-serif;
+  padding: 20px;
+  margin: 0;
+  margin-top: 20px; }
+  html.admin .notification.green {
+    color: #1EBC30;
+    background-color: #E5F9E7;
+    border-color: #1EBC30; }
+  html.admin .notification.orange {
+    color: #F2711C;
+    background-color: #FFEDDE;
+    border-color: #F2711C; }
+  html.admin .notification.red {
+    color: #DB2828;
+    background-color: #FFE8E6;
+    border-color: #DB2828; }
+html.admin input[type="text"], html.admin textarea {
+  border-radius: 2px;
+  border: solid 1px #ddd; }
+html.admin .mce-container.mce-tinymce {
+  margin-top: 20px; }
+html.admin ul.admin-posts {
+  list-style: none;
+  padding: 0; }
+  html.admin ul.admin-posts li {
+    padding-top: 10px;
+    border-bottom: solid 1px #888; }
 
 *, *:after, *:before {
   -webkit-box-sizing: border-box;
@@ -423,6 +459,9 @@ a:hover {
 .centered-m-h {
   margin-left: auto;
   margin-right: auto; }
+
+.float-right {
+  float: right; }
 
 [class*='col-'] {
   float: left; }

@@ -524,9 +524,73 @@ footer {
 
 
 /*-----------------------------------------------------------------------
-	admin
+	admin interface
 -------------------------------------------------------------------------*/
 
-.add_post textarea {
-	height: 300px;
+html.admin {
+
+	header .logo {
+		width: 100px;
+	}
+
+	body {
+		background: #aaa;
+	}
+
+
+	.notification{
+		background-color: #F8F8F9;
+		background-repeat: no-repeat;
+		background-position: 12px center;
+		border: 1px solid #444444;
+		margin: 10px;
+		border-radius: 10px;
+
+		font-family: $FONT_FAMILY_2;
+		padding: 20px;
+		margin: 0;
+		margin-top: 20px;
+
+		&.green {
+			color: #1EBC30;
+			background-color: #E5F9E7;
+			border-color: #1EBC30;
+		}
+
+		&.orange {
+			color: #F2711C;
+			background-color: #FFEDDE;
+			border-color: #F2711C;
+		}
+
+		&.red {
+			color: #DB2828;
+			background-color: #FFE8E6;
+			border-color: #DB2828;
+		}
+
+
+	}
+
+	input[type="text"], textarea {
+		border-radius: 2px;
+		border: solid 1px #ddd;
+	}
+
+	.mce-container.mce-tinymce{
+		margin-top: $VERTICAL_HALFSPACE;
+	}
+
+	ul.admin-posts{
+		list-style: none;
+		padding: 0;
+
+		li{
+		    padding-top: 10px;
+		    border-bottom: solid 1px #888;
+		}
+	}
+
+
+
 }

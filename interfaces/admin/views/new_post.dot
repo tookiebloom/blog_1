@@ -1,0 +1,77 @@
+{{=it.header}}
+
+        <div class="vertical_spacer"></div>
+
+        <section id="content">
+
+            <div class="fullwidth centered-m-h">
+
+                <div class="dark_block">
+                    <div class="vertical_spacer quarter"></div>
+                </div>
+
+                <div class="content_box box_shadow_1">
+
+                    <div class="row padded">
+
+                        <div class="cell col-2-3">
+
+                            <h2>Add new post:</h2>
+
+
+                            <form method="post" action="" >
+
+
+
+                                <input type="text" name="headline" placeholder="Headline" />
+
+                                <input type="text" name="permalink" placeholder="Permalink" />
+
+
+                                <textarea name="body" placeholder="Post body" class="post-body"></textarea>
+
+                                <input type="text" placeholder="tags (CSV)" name="tags" />
+
+                                <a href="/?interface=admin" class="button4" >Go back</a>
+
+                                <input type="submit" class="button3" value="save" />
+
+
+                            </form>
+
+
+
+
+                        </div>
+
+
+                        <div class="cell col-1-3">
+
+                            <h3 >Notifications</h3>
+
+
+                            <div class="notification">
+
+                                some notification tingy happened
+                            </div>
+
+                            <div class="notification green">
+
+                                some notification tingy happened
+                            </div>
+
+                            <div class="notification orange">
+
+                                some notification tingy happened
+                            </div>
+
+                            <div class="notification red">
+
+                                some notification tingy happened
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+{{=it.footer}}

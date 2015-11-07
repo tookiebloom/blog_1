@@ -2,8 +2,8 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
+<!--[if gt IE 8]><!--> <html class="no-js admin"> <!--<![endif]-->
+    <head >
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title></title>
@@ -12,8 +12,8 @@
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <link rel="stylesheet" href="res/css/normalize.css">
-        <link rel="stylesheet" href="res/css/main.css">
+        <link rel="stylesheet" href="/res/css/normalize.css">
+        <link rel="stylesheet" href="/res/css/main.css">
         <script src="res/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
@@ -33,10 +33,13 @@
             			</div>
 
 
-            			<div class="cell col-2-3 main_menu_container">
-            			    <a class="menuitem button1" href="/about/">About</a>
-            			    <a class="menuitem button2" href="/contact/">Contact</a>
-            			</div>
+                        <div class="cell col-2-3 admin-headline">
+
+                            <h2 class="blog_title">Admin Panel</h2>
+                            <span class="blog_author">signed in as: beni</span>
+
+                        </div>
+
             		</div>
 
 

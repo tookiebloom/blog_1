@@ -10,6 +10,14 @@ module.exports = function(CORE){
 	Promise.promisifyAll(collection.prototype);
 	Promise.promisifyAll(mongoClient);
 
+	collection.prototype._find = collection.prototype.find;
+	collection.prototype.find = function() {
+	    var cursor = this._find.apply(this, arguments);
+	    cursor.toArrayAsync = Promise.promisify(cursor.toArray, cursor);
+	    cursor.countAsync = Promise.promisify(cursor.count, cursor);
+	    return cursor;
+	}
+
 
 
 	mongoClient.connectAsync( CORE.config.mongodb_url +"/" + CORE.config.mongodb_db_name )
@@ -33,11 +41,27 @@ module.exports = function(CORE){
 		return _db.collection(collection).insertAsync(doc);
 	};
 
+	var _find = function(opts, collection){
+
+		return new Promise(function(resolve, reject){
+			
+			_db.collection(collection).find(opts).toArray(function(err, posts){
+				if(err)
+					reject("There was an error trying to fetch objects from the database")
+				else
+					resolve(posts);
+			});
+
+		});
+
+	}
+
 
 
 
 	return {
 		cleanup : _cleanup,
-		insert: _insert
+		insert: _insert,
+		find:	_find
 	};
 };

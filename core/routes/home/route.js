@@ -4,7 +4,15 @@ module.exports = [
 		path: '/',
 		handler :  function (req, res) {
 
-			res.send( req.interface.render('homepage')  );
+
+			if( req.interface.is('admin') ){
+				res.send(  req.interface.render('admin_panel') )
+			} else {
+
+				res.send( req.interface.render('homepage') );
+
+			}
+
 
 		}
 	},
@@ -14,18 +22,6 @@ module.exports = [
 		handler : function(req, res) {
 
 
-
-
-
-
-			req.model.addPost(req)
-				.then(function(data){
-
-					res.send( JSON.stringify(data) );
-
-				}).catch(function(){
-					res.send("someething happened;");
-				});
 
 		}
 	}
