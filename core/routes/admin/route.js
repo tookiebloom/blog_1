@@ -10,7 +10,6 @@ module.exports = [
 			} else {
 
 				res.send( req.interface.render('homepage') );
-
 			}
 
 
@@ -25,7 +24,7 @@ module.exports = [
 			req.model.addPost(req)
 				.then(function(data){
 
-					res.send( JSON.stringify(data) );
+					res.redirect('/posts/?interface=admin');
 
 				}).catch(function(){
 					res.send("someething happened;");
@@ -39,19 +38,69 @@ module.exports = [
 		path: "/posts/",
 		handler : function(req, res){
 
-			req.model.getPosts()
-
+			req.model.getPosts({})
 				.then(function(posts){
-
 					res.send( req.interface.render('posts',{
 						posts: posts
 					}));
 				});
+		}
+	},
+	{
+		method: "GET",
+		path: '/delete_post/',
+		handler : function(req, res){
 
 
+			req.model.deletePost( req.query.post_id )
+				.then(function(success){
 
 
+					if( req.interface.is('json') ){
+
+						res.send( JSON.stringify({
+							status: "success",
+							message: "The product was deleted successfuly!"
+						}));
+
+					};
+
+					if(  req.interface.is('admin') ){
+						res.redirect('/posts/?interface=admin');
+					}
+
+				});
 
 		}
+	},
+	{
+		method: "GET",
+		path: "/edit_post/",
+		handler : function(req, res){
+
+			req.model.getPost( req.query.post_id )
+				.then(function(posts){
+					res.send(  req.interface.render('edit_post', posts[0]) );
+				});
+
+		}
+	},
+
+	{
+		method: "POST",
+		path: "/edit_post/",
+		handler : function(req, res){
+
+			req.model.editPost(req, req.body.edit_post_id)
+				.then(function(){
+					res.redirect('/posts/?interface=admin');
+				}).catch(function(){
+					res.send("Something happened");
+				});
+		}
 	}
+
+
+
+
 ];

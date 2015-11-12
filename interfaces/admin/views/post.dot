@@ -19,20 +19,25 @@
                             <h2>Add new post:</h2>
 
 
-                            <form method="post" action="" >
+                            <form method="post" >
 
 
 
-                                <input type="text" name="headline" placeholder="Headline" />
+                                <input type="text" name="headline" placeholder="Headline" value="{{=(it.post? it.post.headline : '')}}" />
 
-                                <input type="text" name="permalink" placeholder="Permalink" />
+                                <input type="text" name="permalink" placeholder="Permalink" value="{{=(it.post? it.post.permalink : '')}}"/>
 
 
-                                <textarea name="body" placeholder="Post body" class="post-body"></textarea>
+                                <textarea name="body" placeholder="Post body" class="post-body">{{=(it.post? it.post.body : '')}}</textarea>
 
-                                <input type="text" placeholder="tags (CSV)" name="tags" />
+                                <input type="text" placeholder="tags (CSV)" name="tags" value="{{=(it.post? it.post.tags : '')}}" />
 
                                 <a href="/?interface=admin" class="button4" >Go back</a>
+
+
+                                {{? it.post }}
+                                    <input type="hidden" name="edit_post_id" value="{{=it.post._id}}" />
+                                {{?}}
 
                                 <input type="submit" class="button3" value="save" />
 

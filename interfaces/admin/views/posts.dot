@@ -26,9 +26,10 @@
                                         <h4>{{= ( post.headline ? post.headline : "" )}}</h4>
 
                                         <p>{{= (post.body  ?   post.body.replace(/<(?:.|\n)*?>/gm, '').substring(0, 150) : "")}}..</p>
+
                                         <p>
-                                            <a href="#" class="button3">Edit</a>
-                                            <a href="#" class="button4">Delete</a>
+                                            <a href="/edit_post/?interface=admin&post_id={{=post._id}}" class="button3">Edit</a>
+                                            <a href="/delete_post/?interface=admin&post_id={{=post._id}}" class="button4">Delete</a>
                                         </p>
 
                                     </li>

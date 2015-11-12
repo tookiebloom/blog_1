@@ -37,24 +37,33 @@ module.exports = function(CORE){
 
 
 
-	var _insert = function(doc, collection){
+	var _insert = function(collection, doc){
 		return _db.collection(collection).insertAsync(doc);
 	};
 
-	var _find = function(opts, collection){
+	var _find = function(collection, opts){
 
 		return new Promise(function(resolve, reject){
-			
+
 			_db.collection(collection).find(opts).toArray(function(err, posts){
 				if(err)
-					reject("There was an error trying to fetch objects from the database")
+					reject("There was an error trying to fetch objects from the database");
 				else
 					resolve(posts);
 			});
-
 		});
+	};
 
-	}
+	var _delete = function(collection, opts){
+		return _db.collection(collection).removeAsync(opts);
+	};
+
+	var _edit = function(collection, opts, new_values){
+
+		return _db.collection(collection).updateAsync(opts, new_values);
+	};
+
+
 
 
 
@@ -62,6 +71,8 @@ module.exports = function(CORE){
 	return {
 		cleanup : _cleanup,
 		insert: _insert,
-		find:	_find
+		find:	_find,
+		delete: _delete,
+		edit : _edit
 	};
 };
