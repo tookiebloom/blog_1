@@ -4,32 +4,39 @@ module.exports = function(CORE){
 	//TODO: find a way not to execute this function on EACH request
 	var _extendInterfaceObject = function(int_obj, interface_name){
 
-		int_obj.__interface_name = interface_name;
-
 		int_obj.is = function(name){
 			return int_obj.__interface_name === name;
 		}
-
 		return int_obj;
 	};
 
 
-	var _getInterface = function(interface_name){
 
-		interface_name = typeof interface_name === "string" ? interface_name : CORE.config.default_interface;
+	var _getInterface = function(req, res){
 
-		if( typeof CORE.interfaces[interface_name] !== "object" ) {
-			throw new Error("The interface you requested was not found. Please make sure you either specify an defined interface, or you have specified a default interface in the config file.");
+		//CASE 1: the interface requested trhough URL query by the user is valid
+		var interface_name = req.query.interface;
+		if( typeof interface_name === "string" && typeof CORE.interfaces[interface_name] === "object" ){
+
+			res.cookie('interface',interface_name, { maxAge: 2 * 24 * 60 * 60 * 1000 , httpOnly: true });
+			return _extendInterfaceObject( CORE.interfaces[interface_name], interface_name );
 		}
 
-		return _extendInterfaceObject( CORE.interfaces[interface_name], interface_name );
+		//CASE 2: the interface requested through cookies is valid
+		var interface_name = req.cookies.interface;
+		if(  typeof interface_name === "string" && typeof CORE.interfaces[ interface_name ] === "object" ){
+			return _extendInterfaceObject( CORE.interfaces[interface_name], interface_name );
+		}
+
+		//CASE 3: both the request variable and the cookie interface are wrong or nonexistent: show default interface
+		return _extendInterfaceObject( CORE.interfaces[ CORE.config.default_interface ], interface_name );
 	}
 
 
 
 	return  function (req, res, next) {
 
-		req.interface = _getInterface( req.query.interface );
+		req.interface = _getInterface( req, res );
 
 		next();
 	};

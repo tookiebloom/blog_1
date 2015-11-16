@@ -66,6 +66,8 @@ module.exports = (function(){
 			interface_instance = require( _config.root_path_relateive_to_core + _config.directories.interfaces + "/" + interface_directories[i] + "/interface.js"  )(CORE);
 
 			interface_name = interface_directories[i];
+			interface_instance.__interface_name = interface_name;
+			
 			interfaces[ interface_name ] = interface_instance;
 		};
 

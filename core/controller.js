@@ -1,5 +1,6 @@
 var express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 
 var CORE = require('./core.js');
 
@@ -42,20 +43,27 @@ module.exports = function(){
 		_processEvents();
 
 		_ctrl.app = express();
+
+
+		// default middlewares
+		_ctrl.app.use( bodyParser.json() );       // to support JSON-encoded bodies
+		_ctrl.app.use( bodyParser.urlencoded({     // to support URL-encoded bodies
+		  extended: true
+		}));
+		_ctrl.app.use(cookieParser());
+
+
+		//custom middlewares
 		_ctrl.app.use(CORE.middlewares.log);
 		_ctrl.app.use(CORE.middlewares.auth);
 		_ctrl.app.use(CORE.middlewares.model);
 		_ctrl.app.use(CORE.middlewares.interface_ctrl);
 
-		_ctrl.app.use( bodyParser.json() );       // to support JSON-encoded bodies
-		_ctrl.app.use( bodyParser.urlencoded({     // to support URL-encoded bodies
-		  extended: true
-		}));
-
 
 		//init static files
 		_ctrl.app.use("/res",express.static( './res' ));
 
+		//initialize router
 		CORE.router(_ctrl.app);
 
 
