@@ -1,0 +1,11 @@
+NOTIFICATION:
+
+_id: ObjectID()
+text: string
+action {
+	description: "",
+	url: string
+}
+type: string,
+created: timestamp
+dismissed: bool

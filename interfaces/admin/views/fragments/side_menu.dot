@@ -1,0 +1,37 @@
+
+<div class="cell unpadded col-{{=it.columns}} admin-side-menu-container">
+
+    <h4>Welcome!</h4>
+
+    <div class="admin-side-menu">
+        <a  href="/"
+            class="dashboard {{=(it.selected == 'dashboard' ? 'selected': '')}} ">
+                <i class="fa fa-sliders"></i> Dashboard
+        </a>
+
+
+        <a  href="/settings/"
+            class="settings {{=(it.selected == 'settings' ? 'selected': '')}}">
+                <i class="fa fa-cogs"></i> Settings
+        </a>
+
+        <a  href="/posts/"
+            class="posts {{=(it.selected == 'posts' ? 'selected': '')}}">
+                <i class="fa fa-file-text"></i> Posts
+        </a>
+
+        <a  href="/new_post/"
+            class="submenu-link {{=(it.selected == 'new_post' ? 'selected': '')}}">
+            <i class="fa fa-plus"></i>Add new post
+        </a>
+
+        <a  class="media">
+            <i class="fa fa-picture-o"></i> Media
+        </a>
+
+        <a  class="users">
+            <i class="fa fa-users"></i> Users
+        </a>
+    </div>
+
+</div>

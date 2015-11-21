@@ -6,7 +6,16 @@ module.exports = [
 
 
 			if( req.interface.is('admin') ){
-				res.send(  req.interface.render('admin_panel') )
+
+
+				req.model.getNotifications()
+					.then(function(notifications){
+						res.send(  req.interface.render('admin_panel', {
+							notifications: notifications
+						}));
+					});
+
+
 			} else {
 
 				res.send( req.interface.render('homepage') );

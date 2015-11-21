@@ -14,12 +14,13 @@
   -webkit-box-shadow: 0 0px 30px -10px rgba(0, 0, 0, 0.2);
   box-shadow: 0 0px 30px -10px rgba(0, 0, 0, 0.2); }
 
-.box_shadow_hover_1, .button_shade_1:hover, .tags a:hover:nth-of-type(even), .button1:hover, .button3:hover, .button_shade_2:hover, .tags a:hover:nth-of-type(odd), .button2:hover, .button4:hover {
+.box_shadow_hover_1, .button_shade_1:hover, .tags a:hover:nth-of-type(even), .button1:hover, .button3:hover, .button_shade_2:hover, .tags a:hover:nth-of-type(odd), .button2:hover, .button4:hover, html.admin .notification {
   -moz-box-shadow: inset 0 0 27px rgba(255, 255, 255, 0.5), 0 2px 7px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: inset 0 0 27px rgba(255, 255, 255, 0.5), 0 2px 7px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 0 27px rgba(255, 255, 255, 0.5), 0 2px 7px rgba(0, 0, 0, 0.2); }
 
-.box_shadow_volume_1, .dark_block {
+.box_shadow_volume_1, html.admin .post-buttons a,
+html.admin .post-buttons select, .dark_block {
   -moz-box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.3), inset 0 -2px 3px rgba(0, 0, 0, 0.3), 0 1px 1px rgba(255, 255, 255, 0.9);
   -webkit-box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.3), inset 0 -2px 3px rgba(0, 0, 0, 0.3), 0 1px 1px rgba(255, 255, 255, 0.9);
   box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.3), inset 0 -2px 3px rgba(0, 0, 0, 0.3), 0 1px 1px rgba(255, 255, 255, 0.9); }
@@ -41,7 +42,8 @@ textarea {
   -webkit-box-shadow: inset 1px 1px 18px -6px rgba(0, 0, 0, 0.25);
   box-shadow: inset 1px 1px 18px -6px rgba(0, 0, 0, 0.25); }
 
-.box_shadow_none, .button_shade_1:active, .tags a:active:nth-of-type(even), .button1:active, .button3:active, .button_shade_2:active, .tags a:active:nth-of-type(odd), .button2:active, .button4:active {
+.box_shadow_none, .button_shade_1:active, .tags a:active:nth-of-type(even), .button1:active, .button3:active, .button_shade_2:active, .tags a:active:nth-of-type(odd), .button2:active, .button4:active, html.admin .post-buttons a:active,
+html.admin .post-buttons select:active {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none; }
@@ -374,13 +376,13 @@ html.admin .notification {
   background-color: #F8F8F9;
   background-repeat: no-repeat;
   background-position: 12px center;
-  border: 1px solid #444444;
-  margin: 10px;
-  border-radius: 10px;
   font-family: "Roboto", sans-serif;
-  padding: 20px;
+  padding: 10px;
   margin: 0;
-  margin-top: 20px; }
+  margin-top: 20px;
+  font-size: 14px;
+  position: relative;
+  padding-right: 50px; }
   html.admin .notification.green {
     color: #1EBC30;
     background-color: #E5F9E7;
@@ -393,6 +395,39 @@ html.admin .notification {
     color: #DB2828;
     background-color: #FFE8E6;
     border-color: #DB2828; }
+  html.admin .notification .dismiss {
+    position: absolute;
+    width: 40px;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    border-left: solid 1px #ddd;
+    color: #222; }
+    html.admin .notification .dismiss:hover {
+      color: #FF200E; }
+    html.admin .notification .dismiss i {
+      position: absolute;
+      top: 50%;
+      margin-top: -7px;
+      left: 50%;
+      margin-left: -5.5px; }
+      html.admin .notification .dismiss i.fa-spinner {
+        animation-name: spin;
+        animation-duration: 500ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear; }
+  html.admin .notification .action-description {
+    color: #aaa;
+    margin-top: 5px;
+    border-top: solid 1px #ddd;
+    padding-top: 5px;
+    font-size: 12px; }
+  html.admin .notification .notification-trigger {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 50px; }
 html.admin input[type="text"], html.admin textarea {
   border-radius: 2px;
   border: solid 1px #ddd; }
@@ -400,7 +435,8 @@ html.admin .mce-container.mce-tinymce {
   margin-top: 20px; }
 html.admin ul.admin-posts {
   list-style: none;
-  padding: 0; }
+  padding: 0;
+  border-top: solid 1px #282828; }
   html.admin ul.admin-posts li {
     padding-top: 10px;
     border-bottom: solid 1px #888; }
@@ -418,8 +454,10 @@ html.admin .admin-side-menu-container {
   html.admin .admin-side-menu-container .admin-side-menu {
     margin: 0;
     padding: 0;
-    list-style: none; }
-    html.admin .admin-side-menu-container .admin-side-menu li {
+    list-style: none;
+    font-family: "Roboto", sans-serif; }
+    html.admin .admin-side-menu-container .admin-side-menu a {
+      display: block;
       height: 40px;
       line-height: 40px;
       font-size: 14px;
@@ -427,12 +465,14 @@ html.admin .admin-side-menu-container {
       padding-left: 15px;
       padding-right: 15px;
       position: relative;
-      cursor: pointer; }
-      html.admin .admin-side-menu-container .admin-side-menu li .fa {
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold; }
+      html.admin .admin-side-menu-container .admin-side-menu a .fa {
         font-size: 20px;
         vertical-align: middle;
         padding-right: 10px; }
-      html.admin .admin-side-menu-container .admin-side-menu li::before {
+      html.admin .admin-side-menu-container .admin-side-menu a::before {
         content: "";
         position: absolute;
         width: 0;
@@ -444,18 +484,76 @@ html.admin .admin-side-menu-container {
         -moz-transition: all 100ms ease;
         -ms-transition: all 100ms ease;
         -o-transition: all 100ms ease;
-        transition: all 100ms ease; }
-      html.admin .admin-side-menu-container .admin-side-menu li:hover:before {
+        transition: all 100ms ease;
+        -webkit-border-top-right-radius: 5px;
+        -webkit-border-bottom-right-radius: 5px;
+        -moz-border-radius-topright: 5px;
+        -moz-border-radius-bottomright: 5px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px; }
+      html.admin .admin-side-menu-container .admin-side-menu a:hover:before {
         width: 100%; }
-      html.admin .admin-side-menu-container .admin-side-menu li.selected {
+      html.admin .admin-side-menu-container .admin-side-menu a.selected {
         -webkit-box-shadow: inset 3px 0 0 0 #CCC;
-        box-shadow: inset 3px 0 0 0 #CCC; }
+        box-shadow: inset 3px 0 0 0 #CCC;
+        background-color: #444;
+        -webkit-border-top-right-radius: 5px;
+        -webkit-border-bottom-right-radius: 5px;
+        -moz-border-radius-topright: 5px;
+        -moz-border-radius-bottomright: 5px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px; }
     html.admin .admin-side-menu-container .admin-side-menu .submenu-link {
       font-size: 12px;
       height: 20px;
       margin-bottom: 20px;
       line-height: 20px;
       padding-left: 40px; }
+html.admin .post-buttons a,
+html.admin .post-buttons select {
+  display: block;
+  background-color: #282828;
+  padding: 5px 10px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  font-family: "Roboto", sans-serif;
+  color: #CCC;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  width: 100%; }
+  html.admin .post-buttons a:before,
+  html.admin .post-buttons select:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.2); }
+  html.admin .post-buttons a:hover:before,
+  html.admin .post-buttons select:hover:before {
+    width: 100%; }
+  html.admin .post-buttons a i,
+  html.admin .post-buttons select i {
+    margin-right: 10px;
+    font-size: 16px;
+    vertical-align: middle; }
+  html.admin .post-buttons a.delete,
+  html.admin .post-buttons select.delete {
+    color: #FF200E; }
+  html.admin .post-buttons a.save,
+  html.admin .post-buttons select.save {
+    color: #64A4FF; }
+html.admin .post-buttons select {
+  background-color: #888;
+  color: #FFF; }
+html.admin .post-buttons.single-post {
+  margin-top: 80px; }
 
 *, *:after, *:before {
   -webkit-box-sizing: border-box;
@@ -509,6 +607,11 @@ a:hover {
   padding-right: 15px;
   width: 150px; }
 
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(360deg); } }
 .fullwidth {
   max-width: 1140px; }
 

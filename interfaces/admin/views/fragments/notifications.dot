@@ -1,0 +1,37 @@
+
+<div class="cell notification-container padded col-{{=it.columns}}">
+
+	<h3 >Notifications</h3>
+
+	{{~it.notifications :notification:index}}
+
+		<div class="notification {{=notification.type}}">
+
+			{{? notification.action && notification.action.url }}
+				<a target="_blank" class="notification-trigger" href="{{=notification.action.url}}" ></a>
+			{{?}}
+
+
+
+	        {{=notification.text}}
+
+
+			{{? notification.action && notification.action.description }}
+				<div class="action-description">{{=notification.action.description}}</div>
+			{{?}}
+
+
+	        <a class="dismiss" data-notif-id="{{=notification._id}}" href="#"> <i class="fa fa-times"></i> </a>
+
+	    </div>
+
+	{{~}}
+
+
+	{{? it.notifications.length == 0 }}
+		<h4> No notifications to show! </h4>
+	{{?}}
+
+
+
+</div>

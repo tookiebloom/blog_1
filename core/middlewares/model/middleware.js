@@ -48,15 +48,44 @@ module.exports = function(CORE){
 	};
 
 
+	var _pushNotification = function(text,type, action){
+
+		return repo.insert("notifications", {
+			text: text,
+			action: action,
+			created: Date.now(),
+			dismissed: false,
+			type: type || ''
+		});
+    };
+
+	var _dismissNotification = function(notif_id){
+		return repo.edit("notifications", {
+			_id: ObjectID(notif_id)
+		},{
+			dismissed: true
+		});
+	};
+
+	var _getNotifications = function(include_dismissed){
+
+		return repo.find("notifications",{
+			dismissed: (!include_dismissed ? false : undefined )
+		});
+	};
+
 
 	return function (req, res, next) {
 
 		req.model = {
-			addPost 	: _addPost,
-			getPosts	: _getPosts,
-			deletePost	: _deletePost,
-			getPost		: _getPost,
-			editPost	: _editPost
+			addPost				: _addPost,
+			getPosts			: _getPosts,
+			deletePost			: _deletePost,
+			getPost				: _getPost,
+			editPost			: _editPost,
+			pushNotification	: _pushNotification,
+			dismissNotification	: _dismissNotification,
+			getNotifications 	: _getNotifications
 		}
 
 		next();

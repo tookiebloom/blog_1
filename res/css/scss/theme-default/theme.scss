@@ -5,6 +5,10 @@ $COLOR_MAIN_COMPL : #F2C923;
 $COLOR_LIGHT: #ECEBBF;
 
 
+$COLOR_RED_DARK_BG : #FF200E;
+$COLOR_BLUE_DARK_BG: #64A4FF;
+
+
 $WHITE_SHADE : rgba(255,255,255,0.85);
 
 
@@ -549,14 +553,17 @@ html.admin {
 		background-color: #F8F8F9;
 		background-repeat: no-repeat;
 		background-position: 12px center;
-		border: 1px solid #444444;
-		margin: 10px;
-		border-radius: 10px;
 
 		font-family: $FONT_FAMILY_2;
-		padding: 20px;
+		padding: 10px;
 		margin: 0;
-		margin-top: 20px;
+		margin-top: $VERTICAL_HALFSPACE;
+		@extend .box_shadow_hover_1 ;
+
+		font-size: 14px;
+
+		position: relative;
+    	padding-right: 50px;
 
 		&.green {
 			color: #1EBC30;
@@ -576,6 +583,53 @@ html.admin {
 			border-color: #DB2828;
 		}
 
+		.dismiss{
+		    position: absolute;
+		    width: 40px;
+		    top: 0;
+		    bottom: 0;
+		    right: 0;
+		    border-left: solid 1px #ddd;
+			color: #222;
+
+			&:hover {
+				color: $COLOR_RED_DARK_BG;
+			}
+
+
+			i {
+				position: absolute;
+				top: 50%;
+				margin-top: -7px;
+				left: 50%;
+				margin-left: -5.5px;
+
+				&.fa-spinner{
+
+					  animation-name: spin;
+					  animation-duration: 500ms;
+					  animation-iteration-count: infinite;
+					  animation-timing-function: linear;
+				}
+
+			}
+		}
+
+		.action-description {
+			color: #aaa;
+			margin-top: 5px;
+			border-top: solid 1px #ddd;
+		    padding-top: 5px;
+		    font-size: 12px;
+		}
+
+		.notification-trigger{
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    bottom: 0;
+		    right: 50px;
+		}
 
 	}
 
@@ -591,6 +645,9 @@ html.admin {
 	ul.admin-posts{
 		list-style: none;
 		padding: 0;
+
+
+		border-top: solid 1px $COLOR_DARKEST;
 
 		li{
 		    padding-top: 10px;
@@ -620,7 +677,10 @@ html.admin {
 			list-style: none;
 
 
-			li{
+			font-family:  $FONT_FAMILY_2;
+
+			a{
+				display: block;
 				height: 40px;
 				line-height: 40px;
 				font-size: 14px;
@@ -631,6 +691,10 @@ html.admin {
 				position: relative;
 
 				cursor: pointer;
+
+
+			    text-decoration: none;
+			    font-weight: bold;
 
 				.fa{
 					font-size: 20px;
@@ -653,6 +717,12 @@ html.admin {
 					-ms-transition: all 100ms ease;
 					-o-transition: all 100ms ease;
 					transition: all 100ms ease;
+				    -webkit-border-top-right-radius: 5px;
+				    -webkit-border-bottom-right-radius: 5px;
+				    -moz-border-radius-topright: 5px;
+				    -moz-border-radius-bottomright: 5px;
+				    border-top-right-radius: 5px;
+				    border-bottom-right-radius: 5px;
 				}
 
 				&:hover:before {
@@ -662,6 +732,13 @@ html.admin {
 				&.selected {
 					-webkit-box-shadow:inset 3px 0 0 0 #CCC;
 					box-shadow:inset 3px 0 0 0 #CCC;
+				    background-color: #444;
+				    -webkit-border-top-right-radius: 5px;
+				    -webkit-border-bottom-right-radius: 5px;
+				    -moz-border-radius-topright: 5px;
+				    -moz-border-radius-bottomright: 5px;
+				    border-top-right-radius: 5px;
+				    border-bottom-right-radius: 5px;
 				}
 
 			}
@@ -676,6 +753,75 @@ html.admin {
 
 		}
 
+	}
+
+
+	.post-buttons a,
+	.post-buttons select{
+		display: block;
+
+		background-color: $COLOR_DARKEST;
+		@extend .box_shadow_volume_1;
+		padding: 5px 10px;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		font-family:  $FONT_FAMILY_2;
+		color: #CCC;
+		margin-bottom: $VERTICAL_QUARTERSPACE;
+
+	    font-size: 14px;
+	    font-weight: bold;
+	    text-align: center;
+		text-decoration: none;
+		position: relative;
+
+		width: 100%;
+
+		&:before {
+			content: "";
+			position: absolute;
+
+			width: 0;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			background: rgba(255,255,255,0.2);
+
+		}
+
+		&:hover:before {
+			width: 100%;
+		}
+
+		&:active{
+				@extend .box_shadow_none;
+		}
+
+
+		i{
+
+		    margin-right: 10px;
+		    font-size: 16px;
+		    vertical-align: middle;
+		}
+
+		&.delete{
+			color: $COLOR_RED_DARK_BG;
+		}
+
+		&.save {
+			color: $COLOR_BLUE_DARK_BG;
+		}
+	}
+
+	.post-buttons select{
+	    background-color: #888;
+	    color: #FFF;
+	}
+
+	.post-buttons.single-post {
+		margin-top: $VERTICAL_DOUBLESPACE;
 	}
 
 

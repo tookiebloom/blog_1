@@ -62,7 +62,6 @@ module.exports = [
 							status: "success",
 							message: "The product was deleted successfuly!"
 						}));
-
 					};
 
 					if(  req.interface.is('admin') ){
@@ -98,7 +97,47 @@ module.exports = [
 					res.send("Something happened");
 				});
 		}
+	},
+
+	{
+		method: "GET",
+		path: "/settings/",
+		handler : function(req, res){
+
+			req.model.getNotifications()
+				.then(function(notifications){
+					res.send(  req.interface.render('settings', {
+						notifications: notifications
+					}));
+				});
+		}
+	},
+
+	{
+		method: "GET",
+		path: "/dismisss_notification/",
+		handler: function(req, res){
+
+			req.model.dismissNotification(req.query.notif_id)
+				.then(function(success){
+
+					res.send( JSON.stringify( {
+						status: "success",
+						message: "The notification was deleted successfuly"
+					}));
+
+
+
+
+				}).catch(function(){
+					console.log("something bad happened");
+				})
+
+
+		}
 	}
+
+
 
 
 

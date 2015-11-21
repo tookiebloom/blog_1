@@ -60,7 +60,7 @@ module.exports = function(CORE){
 
 	var _edit = function(collection, opts, new_values){
 
-		return _db.collection(collection).updateAsync(opts, new_values);
+		return _db.collection(collection).updateAsync(opts, { $set: new_values});
 	};
 
 

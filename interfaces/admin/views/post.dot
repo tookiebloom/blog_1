@@ -1,4 +1,4 @@
-{{=it.header}}
+{{=it.fragments.header()}}
 
         <div class="vertical_spacer"></div>
 
@@ -12,7 +12,16 @@
 
                 <div class="content_box box_shadow_1">
 
-                    <div class="row padded">
+                    <div class="row">
+
+
+
+                        {{=it.fragments.side_menu({
+                            columns: "1-6",
+                            selected: 'new_post'
+                        })}}
+
+
 
                         <div class="cell col-2-3">
 
@@ -32,15 +41,6 @@
 
                                 <input type="text" placeholder="tags (CSV)" name="tags" value="{{=(it.post? it.post.tags : '')}}" />
 
-                                <a href="/?interface=admin" class="button4" >Go back</a>
-
-
-                                {{? it.post }}
-                                    <input type="hidden" name="edit_post_id" value="{{=it.post._id}}" />
-                                {{?}}
-
-                                <input type="submit" class="button3" value="save" />
-
 
                             </form>
 
@@ -49,34 +49,20 @@
 
                         </div>
 
+                        <div class="cell col-1-6 padded post-buttons single-post">
+                            <a href="#" class="delete" ><i class="fa fa-trash-o"></i>Delete</a>
 
-                        <div class="cell col-1-3">
+                            <a href="#" class="save" ><i class="fa fa-floppy-o"></i>Save</a>
 
-                            <h3 >Notifications</h3>
+                            <select >
+                                <option selected="true" value="draft">Draft</option>
+                                <option value="draft">Published</option>
+                            </select>
 
-
-                            <div class="notification">
-
-                                some notification tingy happened
-                            </div>
-
-                            <div class="notification green">
-
-                                some notification tingy happened
-                            </div>
-
-                            <div class="notification orange">
-
-                                some notification tingy happened
-                            </div>
-
-                            <div class="notification red">
-
-                                some notification tingy happened
-                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </section>
-{{=it.footer}}
+{{=it.fragments.footer()}}
