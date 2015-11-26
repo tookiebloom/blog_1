@@ -1,0 +1,10 @@
+<html>
+	<head></head>
+
+	<body>
+		<form action="/system/async_file_upload/" method="post" enctype="multipart/form-data">
+			<input type="file" name="filesToUpload" id="fileToUpload" multiple="" >
+			<input type="submit" value="Upload Image" name="submit">
+		</form>
+	</body>
+</html>

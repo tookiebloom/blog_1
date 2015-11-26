@@ -25,7 +25,8 @@
             <i class="fa fa-plus"></i>Add new post
         </a>
 
-        <a  class="media">
+        <a 	href="/media/"
+			class="media {{=(it.selected == 'media' ? 'selected': '')}}">
             <i class="fa fa-picture-o"></i> Media
         </a>
 

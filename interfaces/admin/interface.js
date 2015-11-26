@@ -58,9 +58,16 @@ module.exports = function(CORE, interface_name){
 	});
 
 
+	/*
+		Edit post page
+	*/
 
+	admin_intf.view('media', function(data){
 
-
+		return admin_intf.dots.media({
+			fragments: admin_intf.fragments
+		});
+	});
 
 
 
@@ -79,6 +86,10 @@ module.exports = function(CORE, interface_name){
 				post: post
 			});
 	});
+
+
+
+
 
 
 	return admin_intf;

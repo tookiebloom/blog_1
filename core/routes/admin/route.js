@@ -135,6 +135,18 @@ module.exports = [
 
 
 		}
+	},
+
+	{
+		method: "GET",
+		path: "/media/",
+		handler: function(req, res){
+
+
+			res.send( req.interface.render('media') );
+
+
+		}
 	}
 
 
