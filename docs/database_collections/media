@@ -1,0 +1,10 @@
+MEDIA:
+
+_id: ObjectID()
+original_name : string
+size : int
+url : string
+alt : string
+type : mime/type
+created : timestamp
+groups : [string]

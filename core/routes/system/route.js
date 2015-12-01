@@ -5,8 +5,22 @@ module.exports = [
 		handler: function(req, res){
 
 
-			res.send(  JSON.stringify( req.files )   );
 
+			req.media.processMediaFiles( req.files )
+
+			.then(function(file_arrays){
+
+				req.model.addMedia(  file_arrays.valid )
+				.then(function(insert_report) {
+
+					//TODO: check insert_report
+					res.send( req.interface.render('upload_report', file_arrays));
+				})
+			})
+
+			.catch( function(err){
+				res.send( " errr, look at the console mofo' ");
+			});
 
 		}
 

@@ -5,6 +5,10 @@ module.exports = function(CORE){
 	var repo = CORE.repos.mongodb;
 
 
+	/**
+		POSTS
+	*/
+
 	var _addPost = function(req){
 
 		return repo.insert("posts", {
@@ -47,6 +51,9 @@ module.exports = function(CORE){
 
 	};
 
+	/**
+		NOTIFICATIONS
+	*/
 
 	var _pushNotification = function(text,type, action){
 
@@ -75,6 +82,20 @@ module.exports = function(CORE){
 	};
 
 
+	/*
+		MEDIA
+	*/
+
+	var _addMedia = function(files){
+		return repo.insert("media",files);
+	};
+
+
+	var _getMedia  = function(){
+		return repo.find("media", {});
+	};
+
+
 	return function (req, res, next) {
 
 		req.model = {
@@ -85,7 +106,9 @@ module.exports = function(CORE){
 			editPost			: _editPost,
 			pushNotification	: _pushNotification,
 			dismissNotification	: _dismissNotification,
-			getNotifications 	: _getNotifications
+			getNotifications 	: _getNotifications,
+			addMedia 			: _addMedia,
+			getMedia			: _getMedia
 		}
 
 		next();

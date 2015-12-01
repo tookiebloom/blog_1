@@ -62,10 +62,11 @@ module.exports = function(CORE, interface_name){
 		Edit post page
 	*/
 
-	admin_intf.view('media', function(data){
+	admin_intf.view('media', function(media_files){
 
 		return admin_intf.dots.media({
-			fragments: admin_intf.fragments
+			fragments		: admin_intf.fragments,
+			media_files		: media_files
 		});
 	});
 
@@ -87,6 +88,16 @@ module.exports = function(CORE, interface_name){
 			});
 	});
 
+
+
+	admin_intf.view('upload_report', function(file_arrays){
+
+		return admin_intf.fragments.upload_file({
+			valid_files: file_arrays.valid,
+			invalid_files: file_arrays.invalid
+		});
+
+	});
 
 
 

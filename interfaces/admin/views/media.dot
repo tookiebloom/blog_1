@@ -24,38 +24,37 @@
 
 							<h2>Upload new media file</h2>
 
-							 <iframe srcdoc='{{=it.fragments.upload_file({})}}'> </iframe>
+							 <iframe class="media-upload" srcdoc='{{=it.fragments.upload_file({})}}'> </iframe>
 
 
 
                             <h2>Media List:</h2>
 
-                            <ul class="admin-posts ">
 
 
-                                <li class="row">
+                            <ul class="media-files ">
 
-                                    <div class="cell col-5-6 ">
-                                        <h3>title</h3>
+								{{~it.media_files :file:index}}
 
-                                        <p>dsadsa</p>
+	                                <li class="row">
 
-
-
-                                    </div>
-
-                                    <div class="cell col-1-6 post-buttons">
-                                        <a href="#" ><i class="fa fa-pencil-square-o"></i>Edit</a>
-                                        <a href="#"  class="delete" ><i class="fa fa-trash-o"></i>Delete</a>
-                                        <select >
-                                            <option selected="true" value="draft">Draft</option>
-                                            <option value="draft">Published</option>
-                                        </select>
-
-                                    </div>
+										<div class="cell col-1-6">
+											<img class="media-thumbnail" src="http://localhost:2111/{{=file.url}}" />
+										</div>
 
 
-                                </li>
+	                                    <div class="cell col-2-3 ">
+	                                        <p>http://localhost:2111/{{=file.url}}</p>
+	                                    </div>
+
+	                                    <div class="cell col-1-6 post-buttons">
+	                                        <a href="#"  class="save"><i class="fa  fa-floppy-o"></i>Edit</a>
+	                                        <a href="#"  class="delete" ><i class="fa fa-trash-o"></i>Delete</a>
+	                                    </div>
+
+
+	                                </li>
+								{{~}}
 
                             </ul>
 

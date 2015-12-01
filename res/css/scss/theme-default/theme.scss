@@ -825,4 +825,37 @@ html.admin {
 	}
 
 
+
+
+
+
+	iframe.media-upload {
+		width: 100%;
+		border: none;
+		height: 100px;
+	}
+
+
+
+	.media-files{
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+
+		padding-bottom: 5px;
+		border-bottom: solid 1px #ccc;
+
+		.media-thumbnail {
+			max-width: 100%;
+		}
+
+
+		li{
+			border-top: solid 1px #ccc;
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+	}
+
+
 }

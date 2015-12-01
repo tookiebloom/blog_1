@@ -1,10 +1,215 @@
 <html>
-	<head></head>
+	<head>
 
-	<body>
-		<form action="/system/async_file_upload/" method="post" enctype="multipart/form-data">
-			<input type="file" name="filesToUpload" id="fileToUpload" multiple="" >
-			<input type="submit" value="Upload Image" name="submit">
+
+		<link rel="stylesheet" href="/res/fonts/font-awesome-4.4.0/css/font-awesome.min.css">
+	</head>
+
+	<body id="the_body">
+
+		<i class="fa fa-spinner"></i>
+
+
+		<form action="/system/async_file_upload/" method="post" enctype="multipart/form-data" id="fileUploadForm">
+
+			<label id="fileToUploadLabel" for="fileToUpload" class="file_upload" > Click here to upload a file </label>
+			<input type="file"  name="filesToUpload" id="fileToUpload" multiple="" />
 		</form>
+
+
+
+
+
+		{{? it.valid_files }}
+			<span class="color-green">Uploaded {{=it.valid_files.length}} successfuly!</span>
+		{{?}}
+
+		{{? it.invalid_files }}
+			<span class="color-red">  Upload failed for {{=it.invalid_files.length}} files!</span>
+		{{?}}
+
+
+		{{~it.valid_files :value:index}}
+			<div class="valid-file">http://localhost:2111/{{=value.url}}</div>
+		{{~}}
+
+		{{~it.invalid_files :files:index}}
+			<div class="invalid-file">
+
+				{{= files.errors.join("<br>")}}
+				<br>
+				{{=files.original_name}}
+			</div>
+		{{~}}
+
+
+
+
+
+
+
+
+
+
+
 	</body>
+
+
+	<style type="text/css">
+
+		form {
+			margin-bottom: 5px;
+		}
+
+		.file_upload {
+			display: inline-block;
+			background-color: #282828;
+			padding: 5px 10px;
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+			font-family: "Roboto", sans-serif;
+			color: #CCC;
+			margin-bottom: 10px;
+			font-size: 14px;
+			font-weight: bold;
+			text-align: center;
+			text-decoration: none;
+			position: relative;
+		}
+
+		#fileToUpload {
+			position: absolute;
+			overflow: hidden;
+			clip: rect(0 0 0 0);
+			height: 1px; width: 1px;
+			margin: -1px; padding: 0; border: 0;
+		}
+
+		i.fa {
+			position: absolute;
+			top: 50%;
+			margin-top: -15px;
+			left: 50%;
+			margin-left: -15px;
+			z-index: 99;
+			display: none;
+
+			font-size: 30px;
+		}
+
+		.fa-spinner{
+
+			  animation-name: spin;
+			  animation-duration: 500ms;
+			  animation-iteration-count: infinite;
+			  animation-timing-function: linear;
+		}
+
+		body.loading i.fa{
+			display: inline-block;
+		}
+
+		body{
+			margin: 0;
+			min-height: 90px;
+		}
+
+		body.loading::after{
+			content: "";
+			position: absolute;
+			background-color: rgba(255,255,255,0.5);
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+
+		.valid-file {
+			background-color: #F8F8F9;
+			background-repeat: no-repeat;
+			background-position: 12px center;
+			font-family: "Roboto", sans-serif;
+		    padding: 5px;
+		    margin: 0;
+		    margin-top: 5px;
+		    font-size: 12px;
+			position: relative;
+			padding-right: 50px;
+
+
+
+		    -moz-box-shadow: inset 0 0 27px rgba(255, 255, 255, 0.5), 0 2px 7px rgba(0, 0, 0, 0.2);
+		    -webkit-box-shadow: inset 0 0 27px rgba(255, 255, 255, 0.5), 0 2px 7px rgba(0, 0, 0, 0.2);
+		    box-shadow: inset 0 0 27px rgba(255, 255, 255, 0.5), 0 2px 7px rgba(0, 0, 0, 0.2);
+
+			color: #1EBC30;
+			background-color: #E5F9E7;
+			border-color: #1EBC30;
+		}
+
+		.color-green {
+			color: #1EBC30;
+		}
+
+
+		.invalid-file {
+			background-color: #F8F8F9;
+			background-repeat: no-repeat;
+			background-position: 12px center;
+			font-family: "Roboto", sans-serif;
+		    padding: 5px;
+		    margin: 0;
+		    margin-top: 5px;
+		    font-size: 12px;
+			position: relative;
+			padding-right: 50px;
+
+
+
+		    -moz-box-shadow: inset 0 0 27px rgba(255, 255, 255, 0.5), 0 2px 7px rgba(0, 0, 0, 0.2);
+		    -webkit-box-shadow: inset 0 0 27px rgba(255, 255, 255, 0.5), 0 2px 7px rgba(0, 0, 0, 0.2);
+		    box-shadow: inset 0 0 27px rgba(255, 255, 255, 0.5), 0 2px 7px rgba(0, 0, 0, 0.2);
+
+
+			color: #DB2828;
+		    background-color: #FFE8E6;
+		    border-color: #DB2828;
+		}
+
+		.color-red {
+			color: #DB2828;
+		}
+
+		@-webkit-keyframes spin {
+		  from {
+		    -webkit-transform:rotate(0deg);
+		  }
+
+		  to {
+		    -webkit-transform:rotate(360deg);
+		  }
+		}
+
+	</style>
+
+
+	<script type="text/javascript">
+
+
+		document.getElementById("fileToUpload").onchange = function(){
+
+			if(  this.value.trim() == "" ){
+				return;
+			} else {
+				document.getElementById("the_body").className = "loading";
+				document.getElementById("fileToUploadLabel").innerHTML = "Uploading " + this.files.length + " files ...";
+				document.getElementById("fileUploadForm").submit();
+			}
+		};
+
+	</script>
+
+
 </html>

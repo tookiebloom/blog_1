@@ -63,6 +63,7 @@ module.exports = function(){
 		_ctrl.app.use(CORE.middlewares.log);
 		_ctrl.app.use(CORE.middlewares.auth);
 		_ctrl.app.use(CORE.middlewares.model);
+		_ctrl.app.use(CORE.middlewares.media);
 		_ctrl.app.use(CORE.middlewares.interface_ctrl);
 
 

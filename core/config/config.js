@@ -15,6 +15,11 @@ module.exports = {
 	root_path_relateive_to_core : "../",
 
 	mongodb_url : "mongodb://localhost:27017/blog",
-	mongodb_db_name : "blog"
+	mongodb_db_name : "blog",
 
+	media_validator: {
+		max_size: 30000000, // 30 MiB
+		allowed_mimetypes : ["image/jpeg","image/jpg", "image/pjpeg", "image/png", "image/bmp", "application/octet-stream", "video/avi", "image/gif"]
+
+	}
 };

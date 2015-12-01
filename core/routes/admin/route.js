@@ -143,9 +143,11 @@ module.exports = [
 		handler: function(req, res){
 
 
-			res.send( req.interface.render('media') );
+			req.model.getMedia()
+				.then(function(meida_files){
 
-
+					res.send( req.interface.render('media', meida_files) );
+				});
 		}
 	}
 
