@@ -8,6 +8,13 @@ tinymce.init({
 
 $(function(){
 
+	$('body').Overlay();
+
+	$('.add-media').MediaSelect({
+		test: 'doizece'
+	});
+
+
 	$('.notification-container .notification .dismiss').on('click', function(evt){
 		evt.preventDefault();
 		evt.stopPropagation();

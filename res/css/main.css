@@ -570,6 +570,30 @@ html.admin .media-files {
     border-top: solid 1px #ccc;
     padding-top: 5px;
     padding-bottom: 5px; }
+html.admin .full-size-overlay {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8); }
+  html.admin .full-size-overlay .content_box {
+    margin: 100px auto;
+    width: 800px;
+    padding: 10px; }
+    html.admin .full-size-overlay .content_box .fa-spinner {
+      animation-name: spin;
+      animation-duration: 500ms;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      margin-left: auto;
+      width: 30px;
+      height: 30px;
+      font-size: 30px;
+      display: block; }
+html.admin .media-file-container img {
+  max-width: 100%; }
 
 *, *:after, *:before {
   -webkit-box-sizing: border-box;
@@ -577,7 +601,8 @@ html.admin .media-files {
   box-sizing: border-box; }
 
 body {
-  background-image: url(../img/random_grey_variations.png); }
+  background-image: url(../img/random_grey_variations.png);
+  position: relative; }
 
 header {
   padding-left: 15px;

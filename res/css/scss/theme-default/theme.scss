@@ -857,5 +857,39 @@ html.admin {
 		}
 	}
 
+	.full-size-overlay {
+		position: absolute;
+		z-index: 100;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(0,0,0,0.8);
+
+		.content_box{
+			margin: 100px auto;
+			width: 800px;
+			padding: 10px;
+
+			.fa-spinner{
+					animation-name: spin;
+					animation-duration: 500ms;
+					animation-iteration-count: infinite;
+					animation-timing-function: linear;
+
+					margin-left: auto;
+					width: 30px;
+					height: 30px;
+					font-size: 30px;
+					display: block;
+			}
+		}
+	}
+
+	.media-file-container img {
+		max-width: 100%;
+	}
+
+
 
 }

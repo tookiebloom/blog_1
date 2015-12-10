@@ -59,6 +59,21 @@
                                 <option value="draft">Published</option>
                             </select>
 
+							<br><br>
+							<div class="media-container">
+
+								<a href="#" class="add-media">Attach Media</a>
+
+								<div class="media-content">
+
+
+								</div>
+							</div>
+
+
+
+
+
                         </div>
 
                     </div>

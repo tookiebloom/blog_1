@@ -8,6 +8,28 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="/res/js/plugins/tinymce/tinymce.min.js"></script>
+<script src="/res/js/plugins/custom.js"></script>
 <script src="/res/js/admin.js"></script>
+
+<script type="text/template" id="media_files_template">
+
+	<h2>Pick which media files to associate with this post!</h2>
+
+	<div class="row media_container">~{media}~</div>
+
+	<br><br>
+	<a href="#" class="button3" >Save! </a>
+	<a href="#" class="button4 hide_overlay" >Cancel</a>
+
+</script>
+
+
+<script type="text/template" id="single_media_file">
+
+	<div class="cell col-1-6 media-file-container">
+		<img src="~{url}~"  />
+	</div>
+
+</script>
 
 </html>

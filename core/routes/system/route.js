@@ -24,5 +24,19 @@ module.exports = [
 
 		}
 
+	},
+
+	{
+		method: "GET",
+		path: "/system/get_media_files",
+
+		handler : function(req, res){
+
+			req.model.getMedia()
+			.then(function(media_files){
+				res.send( JSON.stringify( media_files ) );
+			});
+
+		}
 	}
 ];
