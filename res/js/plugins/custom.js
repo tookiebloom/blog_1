@@ -128,7 +128,7 @@
         var _init = function(){
 			options = $.extend(config, options);
 
-
+			config.post_id = $el.data('postId');
 
 			setEvents();
 
@@ -148,20 +148,63 @@
 					type: "json"
 				}).done(function(data){
 
-					var media_files = JSON.parse(data);
+					var media_files = JSON.parse(data), crt_column, rendered_columns = "";
 
-					var rendered_media_files = "";
+					var rendered_media_columns = ["","","",""];
+
 
 					$.each( media_files, function(i, el){
-						rendered_media_files  += $('#single_media_file').html().replace( '~{url}~', "/"+el.url  );
+						crt_column = i % 4;
+						rendered_media_columns[crt_column]  += 	$('#single_media_file').html()
+																.replace( '~{url}~', "/"+el.url  )
+																.replace("~{id}~",el._id)
 					});
 
-					var rendered_container = $('#media_files_template').html().replace('~{media}~', rendered_media_files );
+					$.each( rendered_media_columns, function(i, crt_column){
+						rendered_columns  += $('#media_file_column').html().replace('~{media_files}~', crt_column );
+					});
 
 
-
+					var rendered_container = $('#media_files_template').html().replace('~{media}~', rendered_columns );
 
 					$('body').trigger('set-content-overlay', rendered_container);
+
+
+					$('.full-size-overlay .img-wrapper').on('click', function(evt){
+						$(this).toggleClass('checked');
+					});
+
+					$('.full-size-overlay .admin-button.save').on('click', function(evt){
+						evt.preventDefault();
+
+
+						var selected_media_ids = [];
+
+						$('.full-size-overlay .img-wrapper').each( function(i, el){
+							if( $(el).hasClass('checked') ){
+								selected_media_ids.push( $(el).data('imageId'));
+							}
+						});
+
+						$('body').trigger('set-content-overlay', '<i class="fa centered-m-h fa-spinner"></i>');
+
+						$.ajax({
+							url: "/system/attach_media_to_post",
+							method : "post",
+							type : "json",
+							data: {
+								post_id : config.post_id,
+								media_ids : selected_media_ids
+							}
+						}).done(function(response){
+
+
+
+						}).always(function(){
+
+						});
+
+					});
 
 
 				});

@@ -81,9 +81,7 @@ module.exports = function(CORE, interface_name){
 	admin_intf.view('edit_post', function(post){
 
 		return admin_intf.dots.post({
-				header: admin_intf.fragments.header({}),
-				footer: admin_intf.fragments.footer({}),
-				name: "Beni",
+				fragments		: admin_intf.fragments,
 				post: post
 			});
 	});

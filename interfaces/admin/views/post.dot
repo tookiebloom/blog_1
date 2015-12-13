@@ -62,7 +62,7 @@
 							<br><br>
 							<div class="media-container">
 
-								<a href="#" class="add-media">Attach Media</a>
+								<a href="#" class="add-media" data-post-id="{{=(it.post? it.post._id : '')}}">Attach Media</a>
 
 								<div class="media-content">
 

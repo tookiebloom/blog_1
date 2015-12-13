@@ -11,25 +11,42 @@
 <script src="/res/js/plugins/custom.js"></script>
 <script src="/res/js/admin.js"></script>
 
+
+
+<!-- TEMPLATE FOR MEDIA FILE CONTAINER -->
 <script type="text/template" id="media_files_template">
+<div class="attach-media-overlay">
 
 	<h2>Pick which media files to associate with this post!</h2>
 
 	<div class="row media_container">~{media}~</div>
 
 	<br><br>
-	<a href="#" class="button3" >Save! </a>
-	<a href="#" class="button4 hide_overlay" >Cancel</a>
+
+	<div class="media-buttons">
+		<a href="#" class="admin-button save" >Save! </a>
+		<a href="#" class="admin-button hide_overlay" >Cancel</a>
+	</div>
+</div>
 
 </script>
 
 
-<script type="text/template" id="single_media_file">
+<!-- TEMPLATE FOR MEDIA FILE COLUMN -->
 
-	<div class="cell col-1-6 media-file-container">
-		<img src="~{url}~"  />
+<script type="text/template" id="media_file_column">
+	<div class="cell col-1-4 media-file-container">
+		~{media_files}~
 	</div>
+</script>
 
+
+<!-- TEMPLATE FOR SINGLE MEDIA FILE -->
+<script type="text/template" id="single_media_file">
+	<div class="img-wrapper"  data-image-id="~{id}~">
+		<img src="~{url}~"  />
+		<i class="fa fa-check-square-o"></i>
+	</div>
 </script>
 
 </html>

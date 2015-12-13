@@ -96,6 +96,15 @@ module.exports = function(CORE){
 	};
 
 
+	var _attachMediaToPost = function(post_id, media_ids){
+		return repo.edit( "posts", {_id: ObjectID(post_id)}, {
+			media: media_ids.map(function(media_id){
+				return ObjectID(media_id);
+			})
+		});
+	}
+
+
 	return function (req, res, next) {
 
 		req.model = {
@@ -108,7 +117,8 @@ module.exports = function(CORE){
 			dismissNotification	: _dismissNotification,
 			getNotifications 	: _getNotifications,
 			addMedia 			: _addMedia,
-			getMedia			: _getMedia
+			getMedia			: _getMedia,
+			attachMediaToPost	: _attachMediaToPost
 		}
 
 		next();

@@ -40,7 +40,7 @@
                                         </div>
 
                                         <div class="cell col-1-6 post-buttons">
-                                            <a href="#" ><i class="fa fa-pencil-square-o"></i>Edit</a>
+                                            <a href="/edit_post/?post_id={{=post._id}}" ><i class="fa fa-pencil-square-o"></i>Edit</a>
                                             <a href="#"  class="delete" ><i class="fa fa-trash-o"></i>Delete</a>
                                             <select >
                                                 <option selected="true" value="draft">Draft</option>
