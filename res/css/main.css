@@ -637,6 +637,12 @@ html.admin .attach-media-overlay .admin-button {
   margin: 0 20px; }
 html.admin .media-buttons {
   text-align: center; }
+html.admin .media-container .media-content .img-wrapper {
+  margin-bottom: 15px; }
+html.admin .media-container .media-content img {
+  max-width: 100%; }
+html.admin .media-container .media-content .fa {
+  display: none; }
 
 *, *:after, *:before {
   -webkit-box-sizing: border-box;

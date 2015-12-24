@@ -950,4 +950,21 @@ html.admin {
 		text-align: center;
 	}
 
+	.media-container {
+
+		.media-content {
+			.img-wrapper {
+				margin-bottom: 15px;
+			}
+
+			img {
+				max-width: 100%;
+			}
+
+			.fa {
+				display: none;
+			}
+		}
+
+	}
 }
