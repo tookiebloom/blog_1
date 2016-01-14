@@ -24,7 +24,8 @@ module.exports = [
 			req.model.addPost(req)
 				.then(function(data){
 
-					res.redirect('/posts/?interface=admin');
+					console.log('add post data:', data);
+					res.redirect('/edit_post/?post_id=' +  data.ops.shift()["_id"]);
 
 				}).catch(function(){
 					res.send("someething happened;");
@@ -62,10 +63,8 @@ module.exports = [
 							status: "success",
 							message: "The product was deleted successfuly!"
 						}));
-					};
-
-					if(  req.interface.is('admin') ){
-						res.redirect('/posts/?interface=admin');
+					} else {
+						res.redirect('/posts/');
 					}
 
 				});
@@ -78,9 +77,17 @@ module.exports = [
 		handler : function(req, res){
 
 			req.model.getPost( req.query.post_id )
-				.then(function(posts){
-					res.send(  req.interface.render('edit_post', posts[0]) );
-				});
+			.then(function(posts){
+				var post = posts.shift();
+
+				req.model.getMedia({ _id : {$in : post.media || []} })
+					.then(function(media){
+						post.media_files = media;
+						res.send( req.interface.render('edit_post', post) );
+					});
+
+
+			});
 
 		}
 	},
@@ -90,12 +97,12 @@ module.exports = [
 		path: "/edit_post/",
 		handler : function(req, res){
 
-			req.model.editPost(req, req.body.edit_post_id)
-				.then(function(){
-					res.redirect('/posts/?interface=admin');
-				}).catch(function(){
-					res.send("Something happened");
-				});
+			req.model.editPost(req, req.query.post_id)
+			.then(function(){
+				res.redirect('/edit_post/?post_id=' +req.query.post_id);
+			}).catch(function(){
+				res.send("Something happened");
+			});
 		}
 	},
 
@@ -105,11 +112,11 @@ module.exports = [
 		handler : function(req, res){
 
 			req.model.getNotifications()
-				.then(function(notifications){
-					res.send(  req.interface.render('settings', {
-						notifications: notifications
-					}));
-				});
+			.then(function(notifications){
+				res.send(  req.interface.render('settings', {
+					notifications: notifications
+				}));
+			});
 		}
 	},
 
@@ -119,19 +126,19 @@ module.exports = [
 		handler: function(req, res){
 
 			req.model.dismissNotification(req.query.notif_id)
-				.then(function(success){
+			.then(function(success){
 
-					res.send( JSON.stringify( {
-						status: "success",
-						message: "The notification was deleted successfuly"
-					}));
-
-
+				res.send( JSON.stringify( {
+					status: "success",
+					message: "The notification was deleted successfuly"
+				}));
 
 
-				}).catch(function(){
-					console.log("something bad happened");
-				})
+
+
+			}).catch(function(){
+				console.log("something bad happened");
+			});
 
 
 		}
@@ -144,12 +151,41 @@ module.exports = [
 
 
 			req.model.getMedia()
-				.then(function(meida_files){
+			.then(function(media_files){
 
-					res.send( req.interface.render('media', meida_files) );
-				});
+				res.send( req.interface.render('media', media_files) );
+			});
+		}
+	},
+
+	{
+		method: "GET",
+		path: "/edit_post_status/",
+
+		handler: function(req, res){
+
+			req.model.editPostStatus( req.query.post_id, req.query.status )
+			.then(function(edit_reponse){
+				console.log(edit_reponse);
+
+				if( edit_reponse.result.ok ){
+
+					res.send( JSON.stringify({
+						status: "success",
+						message: "the post status was successful"
+					}));
+				} else {
+
+					res.send( JSON.stringify({
+						status: "error",
+						message: "Something went wrong :( "
+					}));
+				}
+
+			});
 		}
 	}
+
 
 
 

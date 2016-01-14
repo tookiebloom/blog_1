@@ -43,7 +43,7 @@
 
 <!-- TEMPLATE FOR SINGLE MEDIA FILE -->
 <script type="text/template" id="single_media_file">
-	<div class="img-wrapper"  data-image-id="~{id}~">
+	<div class="img-wrapper ~{additional_classes}~"  data-image-id="~{id}~">
 		<img src="~{url}~"  />
 		<i class="fa fa-check-square-o"></i>
 	</div>

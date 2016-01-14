@@ -17,7 +17,9 @@ module.exports = function(CORE){
 			body		: req.body.body,
 			tags		: CORE.helpers.utils.splitAndTrim(req.body.tags, ","),
 			created		: Date.now(),
-			comments	: []
+			media		: req.body.media ? req.body.media.split(',').map( function(id){ return ObjectID(id); } ) : [],
+			comments	: [],
+			status		: "draft"
 		});
 	};
 
@@ -46,9 +48,16 @@ module.exports = function(CORE){
 			body		: req.body.body,
 			tags		: CORE.helpers.utils.splitAndTrim(req.body.tags, ","),
 			created		: Date.now(),
+			media		: req.body.media ? req.body.media.split(',').map( function(id){ return ObjectID(id); } ) : [],
 			comments	: []
 		});
 
+	};
+
+	var _editPostStatus = function(post_id, post_status){
+		return repo.edit("posts", {_id: ObjectID(post_id)}, {
+			status: post_status
+		});
 	};
 
 	/**
@@ -91,8 +100,8 @@ module.exports = function(CORE){
 	};
 
 
-	var _getMedia  = function(){
-		return repo.find("media", {});
+	var _getMedia  = function(query){
+		return repo.find("media", query || {});
 	};
 
 
@@ -118,7 +127,8 @@ module.exports = function(CORE){
 			getNotifications 	: _getNotifications,
 			addMedia 			: _addMedia,
 			getMedia			: _getMedia,
-			attachMediaToPost	: _attachMediaToPost
+			attachMediaToPost	: _attachMediaToPost,
+			editPostStatus	: _editPostStatus
 		}
 
 		next();

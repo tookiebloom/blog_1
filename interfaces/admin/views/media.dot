@@ -48,8 +48,7 @@
 	                                    </div>
 
 	                                    <div class="cell col-1-6 post-buttons">
-	                                        <a href="#"  class="save"><i class="fa  fa-floppy-o"></i>Edit</a>
-	                                        <a href="#"  class="delete" ><i class="fa fa-trash-o"></i>Delete</a>
+	                                        <a href="#"  class="delete click-confirm" data-confirm-message="Are you sure you whant to file: {{=file.original_name}} ?" ><i class="fa fa-trash-o"></i>Delete</a>
 	                                    </div>
 
 

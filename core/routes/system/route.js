@@ -13,7 +13,6 @@ module.exports = [
 				req.model.addMedia(  file_arrays.valid )
 				.then(function(insert_report) {
 
-					//TODO: check insert_report
 					res.send( req.interface.render('upload_report', file_arrays));
 				})
 			})
@@ -37,30 +36,6 @@ module.exports = [
 				res.send( JSON.stringify( media_files ) );
 			});
 
-		}
-	},
-
-	{
-		method: "POST",
-		path: "/system/attach_media_to_post",
-		handler: function(req, res){
-
-			req.model.attachMediaToPost(req.body.post_id, req.body.media_ids)
-
-			.then(function(edit_response){
-
-				res.send( JSON.stringify({
-					status: "success",
-					edit_response : edit_response
-				}));
-
-			}).catch(function(err){
-				res.send( JSON.stringify({
-					status: "error",
-					error : err
-				}));
-
-			})
 		}
 	}
 ];

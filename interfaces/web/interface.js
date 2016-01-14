@@ -25,5 +25,18 @@ module.exports = function(CORE, interface_name){
 		return "this is the contact page";
 	});
 
+
+	web_intf.view('login', function(data){
+
+		console.log('login interface data:', data);
+
+		return web_intf.dots.login({
+			header: web_intf.fragments.header({}),
+			footer: web_intf.fragments.footer({}),
+			validation_message: data?  data.validation_message: ''
+		});
+	});
+
+
 	return web_intf;
 };
