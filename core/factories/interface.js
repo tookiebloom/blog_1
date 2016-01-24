@@ -36,10 +36,28 @@ module.exports = function(CORE){
 			return _views[view_name].handler( data );
 		};
 
+		var _to = function(interface_name){
+
+			if(interface_name == "default"){
+				return CORE.interfaces[ CORE.config.default_interface ];
+			} else {
+				var requested_interface = CORE.interfaces[ interface_name ];
+
+				if( "undefined" !== typeof requested_interface ){
+					return requested_interface;
+				} else {
+
+					throw new Error("The requested interface: " + interface_name + " is not available");
+					return CORE.interfaces[ CORE.config.default_interface ];
+				}
+			}
+		}
+
 
 		return {
-			view : _addView,
-			render : _renderView
+			view 	: _addView,
+			render 	: _renderView,
+			to		:_to
 		};
 	};
 };

@@ -67,7 +67,7 @@ module.exports = (function(){
 
 			interface_name = interface_directories[i];
 			interface_instance.__interface_name = interface_name;
-			
+
 			interfaces[ interface_name ] = interface_instance;
 		};
 
@@ -131,7 +131,7 @@ module.exports = (function(){
 
 				var _method 	= routes_arr[j].method.toLowerCase();
 				var _path 		= routes_arr[j].path;
-				var _handler 	= routes_arr[j].handler;
+				var _handler 	= CORE.factories.route_handler(routes_arr[j]);
 
 				_app[_method](_path, _handler);
 			}

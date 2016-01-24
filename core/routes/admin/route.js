@@ -1,77 +1,111 @@
 module.exports = [
+
+	/**
+	*	Admin GET "Add new post" page.
+	*/
 	{
+		access : {
+			sockets : ["ADMIN","REGISTERED"],
+			interfaces : ["admin"]
+		},
 		method: 'GET',
 		path: '/new_post/',
 		handler:  function (req, res) {
-
-
-			if( req.interface.is('admin') ){
-				res.send(  req.interface.render('new_post') )
-			} else {
-
-				res.send( req.interface.render('homepage') );
-			}
-
-
+			res.send(  req.interface.render('new_post') );
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
 		}
 	},
 
+	/**
+	*	Admin POST "add new post" form.
+	*/
 	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED"],
+			interfaces: ["admin"]
+		},
 		method: "POST",
 		path: '/new_post/',
 		handler: function(req, res){
 
 			req.model.addPost(req)
-				.then(function(data){
+			.then(function(data){
 
-					console.log('add post data:', data);
-					res.redirect('/edit_post/?post_id=' +  data.ops.shift()["_id"]);
+				res.redirect('/edit_post/?post_id=' +  data.ops.shift()["_id"]);
 
-				}).catch(function(){
-					res.send("someething happened;");
-				});
-
+			}).catch(function(){
+				res.send( req.interface.to("default").render("500", arguments) );
+			});
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
 		}
 	},
 
+	/**
+	*	Admin GET "Post List" Page.
+	*/
 	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED"],
+			interfaces: ["admin"]
+		},
 		method: "GET",
 		path: "/posts/",
 		handler : function(req, res){
 
 			req.model.getPosts({})
-				.then(function(posts){
-					res.send( req.interface.render('posts',{
-						posts: posts
-					}));
-				});
+			.then(function(posts){
+				res.send( req.interface.render('posts',{
+					posts: posts
+				}));
+			});
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
 		}
 	},
+
+
+	/**
+	*	JSON GET "Delete Post".
+	*/
 	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED"],
+			interfaces: ["json"]
+		},
 		method: "GET",
 		path: '/delete_post/',
 		handler : function(req, res){
 
-
 			req.model.deletePost( req.query.post_id )
-				.then(function(success){
+			.then(function(success){
 
+				res.send( JSON.stringify({
+					status: "success",
+					message: "The product was deleted successfuly!"
+				}));
+			}).catch(function(){
+				res.send( req.interface.to("default").render("500", arguments) );
+			});
 
-					if( req.interface.is('json') ){
-
-						res.send( JSON.stringify({
-							status: "success",
-							message: "The product was deleted successfuly!"
-						}));
-					} else {
-						res.redirect('/posts/');
-					}
-
-				});
-
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
 		}
 	},
+
+	/**
+	*	Admin GET "Edit Post" Page.
+	*/
 	{
+		access: {
+			sockets: ["GLOBAL", "REGISTERED"],
+			interfaces: ["admin"]
+		},
 		method: "GET",
 		path: "/edit_post/",
 		handler : function(req, res){
@@ -80,19 +114,31 @@ module.exports = [
 			.then(function(posts){
 				var post = posts.shift();
 
-				req.model.getMedia({ _id : {$in : post.media || []} })
-					.then(function(media){
-						post.media_files = media;
-						res.send( req.interface.render('edit_post', post) );
-					});
+				post && req.model.getMedia({ _id : {$in : post.media || []} })
+				.then(function(media){
+					post.media_files = media;
+					res.send( req.interface.render('edit_post', post) );
+				});
 
-
+				!post && res.send( req.interface.to("default").render("404", {
+					message: "We tried to get the post with the id:"+ req.query.post_id + " and failed miserably"
+				}));
 			});
 
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
 		}
 	},
 
+	/**
+	*	Admin POST "Edit Post" Form.
+	*/
 	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED"],
+			interfaces: ["admin"]
+		},
 		method: "POST",
 		path: "/edit_post/",
 		handler : function(req, res){
@@ -101,12 +147,22 @@ module.exports = [
 			.then(function(){
 				res.redirect('/edit_post/?post_id=' +req.query.post_id);
 			}).catch(function(){
-				res.send("Something happened");
+				res.send( req.interface.to("default").render("500", arguments) );
 			});
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
 		}
 	},
 
+	/**
+	*	Admin GET "Settings" Page.
+	*/
 	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED"],
+			interfaces: ["admin"]
+		},
 		method: "GET",
 		path: "/settings/",
 		handler : function(req, res){
@@ -117,10 +173,20 @@ module.exports = [
 					notifications: notifications
 				}));
 			});
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
 		}
 	},
 
+	/**
+	*	JSON GET "Dismiss notification" Form.
+	*/
 	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED"],
+			interfaces: ["admin"]
+		},
 		method: "GET",
 		path: "/dismisss_notification/",
 		handler: function(req, res){
@@ -133,63 +199,76 @@ module.exports = [
 					message: "The notification was deleted successfuly"
 				}));
 
-
-
-
 			}).catch(function(){
-				console.log("something bad happened");
+				res.send( req.interface.to("default").render("500", arguments) );
 			});
 
 
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
 		}
 	},
 
+
+	/**
+	*	Admin GET "Media List" Page.
+	*/
 	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED"],
+			interfaces: ["admin"]
+		},
 		method: "GET",
 		path: "/media/",
 		handler: function(req, res){
 
-
 			req.model.getMedia()
 			.then(function(media_files){
-
 				res.send( req.interface.render('media', media_files) );
 			});
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
 		}
 	},
 
+	/**
+	*	JSON GET "Edit post status".
+	*/
 	{
+		access: {
+			sockets: ["GLOBAL", "REGISTERED"],
+			interfaces: ["admin"]
+		},
 		method: "GET",
 		path: "/edit_post_status/",
 
 		handler: function(req, res){
 
 			req.model.editPostStatus( req.query.post_id, req.query.status )
+
 			.then(function(edit_reponse){
-				console.log(edit_reponse);
 
-				if( edit_reponse.result.ok ){
-
+				edit_reponse.result.ok &&
 					res.send( JSON.stringify({
 						status: "success",
 						message: "the post status was successful"
 					}));
-				} else {
 
+				!edit_reponse.result.ok &&
 					res.send( JSON.stringify({
 						status: "error",
 						message: "Something went wrong :( "
 					}));
-				}
 
+
+			}).catch(function(){
+				res.send( req.interface.to("default").render("500", arguments) );
 			});
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
 		}
 	}
-
-
-
-
-
-
-
 ];

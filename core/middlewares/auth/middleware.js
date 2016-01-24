@@ -33,21 +33,30 @@ module.exports = function(CORE){
 
 	var _getDefaultLoginJWT = function(user){
 		return jwt.encode({
-			email: user.email
+			email	: user.email,
+			keys	: user.access_keys
 		},  CORE.config.secrets.jwt );
 	};
 
+	var _checkKeys = function(sockets){
 
+		console.log("checking for sockets:", sockets);
+
+		return (sockets.indexOf("PUBLIC") != -1) ||
+			( this.token &&
+			sockets.reduce(function(crt_socket, acc){
+				return acc || (this.token.keys.indexOf(crt_socket) != -1);
+			},false));
+	};
 
 	return function (req, res, next) {
 
-
 	   req.auth = {
-		   validateLogin : _validateLogin,
-		   getDefaultLoginJWT : _getDefaultLoginJWT
+		   token 				: req.cookies.jwt ? jwt.decode(req.cookies.jwt, CORE.config.secrets.jwt) : false,
+		   validateLogin 		: _validateLogin,
+		   getDefaultLoginJWT 	: _getDefaultLoginJWT,
+		   checkKeys 			: _checkKeys
 	   };
-
-
 
 	   next();
    };
