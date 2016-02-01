@@ -5,8 +5,18 @@ module.exports = function(CORE){
 	var _extendInterfaceObject = function(int_obj, interface_name){
 
 		int_obj.is = function(name){
-			return int_obj.__interface_name === name;
+			return this.__interface_name === name;
+		};
+
+		int_obj.isDefault = function(){
+			return (CORE.config.default_interface == this.__interface_name);
 		}
+
+		int_obj.checkAccess = function(arr){
+			return   (this.isDefault() && arr.indexOf("default") != -1) ||
+			 		(arr.indexOf( this.__interface_name ) != -1) ;
+		};
+
 		return int_obj;
 	};
 

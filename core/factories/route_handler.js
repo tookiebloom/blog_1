@@ -20,7 +20,7 @@ module.exports = function(CORE){
 
 	var _proto_handler = function(req, res, next){
 
-		if( req.auth.checkKeys(this.access.sockets) ){
+		if( req.auth.checkKeys(this.access.sockets) && req.interface.checkAccess( this.access.interfaces ) ){
 			this.handler( req, res, next );
 		} else {
 			this.access_violation(req, res, next);

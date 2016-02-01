@@ -36,7 +36,7 @@ module.exports = [
 				res.redirect('/edit_post/?post_id=' +  data.ops.shift()["_id"]);
 
 			}).catch(function(){
-				res.send( req.interface.to("default").render("500", arguments) );
+				res.send( req.interface.to("default").render("500",  {err_object: arguments}) );
 			});
 		},
 		access_violation : function(req, res){
@@ -89,7 +89,7 @@ module.exports = [
 					message: "The product was deleted successfuly!"
 				}));
 			}).catch(function(){
-				res.send( req.interface.to("default").render("500", arguments) );
+				res.send( req.interface.to("default").render("500",  {err_object: arguments}) );
 			});
 
 		},
@@ -147,7 +147,7 @@ module.exports = [
 			.then(function(){
 				res.redirect('/edit_post/?post_id=' +req.query.post_id);
 			}).catch(function(){
-				res.send( req.interface.to("default").render("500", arguments) );
+				res.send( req.interface.to("default").render("500",  {err_object: arguments}) );
 			});
 		},
 		access_violation : function(req, res){
@@ -200,7 +200,7 @@ module.exports = [
 				}));
 
 			}).catch(function(){
-				res.send( req.interface.to("default").render("500", arguments) );
+				res.send( req.interface.to("default").render("500",  {err_object: arguments}) );
 			});
 
 
@@ -264,7 +264,7 @@ module.exports = [
 
 
 			}).catch(function(){
-				res.send( req.interface.to("default").render("500", arguments) );
+				res.send( req.interface.to("default").render("500",  {err_object: arguments}) );
 			});
 		},
 		access_violation : function(req, res){

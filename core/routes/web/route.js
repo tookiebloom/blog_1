@@ -18,8 +18,8 @@ module.exports = [
 					res.send(  req.interface.render('admin_panel', {
 						notifications: notifications
 					}));
-				}).catch(function(){
-					res.send( req.interface.to("default").render("500", arguments) );
+				},function(){
+					res.send( req.interface.to("default").render("500",  {err_object: arguments}) );
 				});
 
 			req.interface.is("web") &&
@@ -78,9 +78,9 @@ module.exports = [
 					}));
 				}
 
-			}).catch(function(){
-				res.send( req.interface.to("default").render("500", arguments) );
-			})
+			},function(){
+				res.send( req.interface.to("default").render("500", {err_object: arguments}) );
+			});
 
 		},
 		access_violation : function(req, res){

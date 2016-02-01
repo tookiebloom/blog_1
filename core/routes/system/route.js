@@ -24,7 +24,7 @@ module.exports = [
 			})
 
 			.catch( function(err){
-				res.send( req.interface.to("default").render("500", arguments) );
+				res.send( req.interface.to("default").render("500",  {err_object: arguments}) );
 			});
 
 		},
@@ -64,6 +64,47 @@ module.exports = [
 			res.send( JSON.stringify({
 				status: "error",
 				message: "Access violation"
+			}));
+		}
+	},
+
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			interfaces: ["admin", "web"]
+		},
+		method: "GET",
+		path: "/test/404",
+		handler: function(req,res){
+			res.send( req.interface.to("default").render("404") );
+		}
+	},
+
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			interfaces: ["admin", "web"]
+		},
+		method: "GET",
+		path: "/test/403",
+		handler: function(req,res){
+			res.send( req.interface.to("default").render("403") );
+		}
+	},
+
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			interfaces: ["admin", "web"]
+		},
+		method: "GET",
+		path: "/test/500",
+		handler: function(req,res){
+			res.send( req.interface.to("default").render("500", {
+				objkey : "This is the object value as a string",
+				second_key : 432432,
+				third_key : {foo:"bar", tar:321},
+				fourth_key : ["te","st", 210]
 			}));
 		}
 	}
