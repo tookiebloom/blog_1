@@ -14,6 +14,7 @@ $(function(){
 		test: 'doizece'
 	});
 
+	$('.tag-picker').TagPicker();
 
 	$('.notification-container .notification .dismiss').on('click', function(evt){
 		evt.preventDefault();

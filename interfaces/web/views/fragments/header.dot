@@ -36,6 +36,9 @@
             			<div class="cell col-2-3 main_menu_container">
             			    <a class="menuitem button1" href="/login/">Login</a>
             			    <a class="menuitem button2" href="/contact/">Contact</a>
+							{{?it.user_token}}
+            			    <a class="menuitem button1" href="/?setinterface=admin">Admin</a>
+							{{?}}
             			</div>
             		</div>
 

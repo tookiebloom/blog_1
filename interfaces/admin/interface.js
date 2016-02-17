@@ -73,7 +73,8 @@ module.exports = function(CORE, interface_name){
 	*/
 	admin_intf.view('new_post', function(data){
 		return admin_intf.dots.post({
-			fragments: admin_intf.fragments
+			fragments: admin_intf.fragments,
+			tags: data.tags
 		});
 	});
 
@@ -98,11 +99,12 @@ module.exports = function(CORE, interface_name){
 		Edit post page
 	*/
 
-	admin_intf.view('edit_post', function(post){
+	admin_intf.view('edit_post', function(data){
 
 		return admin_intf.dots.post({
-				fragments		: admin_intf.fragments,
-				post: post
+				fragments	: admin_intf.fragments,
+				post		: data.post,
+				tags		: data.tags
 			});
 	});
 

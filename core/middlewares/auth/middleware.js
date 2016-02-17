@@ -11,7 +11,6 @@ module.exports = function(CORE){
 
 	var _validateLogin =  function (email, password){
 		return new Promise(function(resolve, reject){
-			console.log('trying to validate for', email, password);
 
 			repo.find('users', {email: email, password: password})
 			.done(function(find_result){
@@ -39,8 +38,6 @@ module.exports = function(CORE){
 	};
 
 	var _checkKeys = function(sockets){
-
-		console.log("checking for sockets:", sockets);
 
 		return (sockets.indexOf("PUBLIC") != -1) ||
 			( this.token &&

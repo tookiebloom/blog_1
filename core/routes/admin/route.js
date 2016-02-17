@@ -1,3 +1,5 @@
+var Promise = require('bluebird');
+
 module.exports = [
 
 	/**
@@ -11,7 +13,13 @@ module.exports = [
 		method: 'GET',
 		path: '/new_post/',
 		handler:  function (req, res) {
-			res.send(  req.interface.render('new_post') );
+
+			req.model.getTags()
+			.then(function(tags){
+				res.send(  req.interface.render('new_post', {
+					tags: tags
+				}));
+			});
 		},
 		access_violation : function(req, res){
 			res.send( req.interface.to("default").render("403") );
@@ -110,20 +118,31 @@ module.exports = [
 		path: "/edit_post/",
 		handler : function(req, res){
 
-			req.model.getPost( req.query.post_id )
-			.then(function(posts){
-				var post = posts.shift();
+			Promise.all([
+				req.model.getPost( req.query.post_id ),
+				req.model.getTags()
+
+			]).then(function(results){
+				var post = results[0].shift();
+				var tags = results[1];
 
 				post && req.model.getMedia({ _id : {$in : post.media || []} })
 				.then(function(media){
 					post.media_files = media;
-					res.send( req.interface.render('edit_post', post) );
+					res.send( req.interface.render('edit_post', {
+						post: post,
+						tags: tags
+					}) );
 				});
 
 				!post && res.send( req.interface.to("default").render("404", {
 					message: "We tried to get the post with the id:"+ req.query.post_id + " and failed miserably"
 				}));
 			});
+
+
+
+
 
 		},
 		access_violation : function(req, res){

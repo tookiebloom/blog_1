@@ -41,11 +41,11 @@ module.exports = function(CORE){
 		return _db.collection(collection).insertAsync(doc);
 	};
 
-	var _find = function(collection, opts){
+	var _find = function(collection, opts, projection){
 
 		return new Promise(function(resolve, reject){
 
-			_db.collection(collection).find(opts).toArray(function(err, posts){
+			_db.collection(collection).find(opts, projection).toArray(function(err, posts){
 				if(err)
 					reject("There was an error trying to fetch objects from the database");
 				else

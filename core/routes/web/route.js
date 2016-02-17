@@ -12,6 +12,7 @@ module.exports = [
 		path: '/',
 		handler :  function (req, res) {
 
+
 			req.interface.is('admin') &&
 				req.model.getNotifications()
 				.then(function(notifications){
@@ -23,7 +24,9 @@ module.exports = [
 				});
 
 			req.interface.is("web") &&
-				res.send( req.interface.render('homepage') );
+				res.send( req.interface.render('homepage', {
+					user_token : req.auth.token
+				}) );
 
 		},
 		access_violation : function(req, res){
@@ -71,7 +74,7 @@ module.exports = [
 
 					res.cookie('jwt', req.auth.getDefaultLoginJWT(validation_result.user) , { maxAge: 2 * 24 * 60 * 60 * 1000 , httpOnly: true });
 
-					res.redirect('/');
+					res.redirect('/?setinterface=admin');
 				} else {
 					res.send(req.interface.render('login',{
 						validation_message : "The login failed, sad pusheen :("

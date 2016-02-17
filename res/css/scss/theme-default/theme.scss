@@ -967,4 +967,25 @@ html.admin {
 		}
 
 	}
+
+	.tp-tags-container {
+	    position: absolute;
+	    background: #fff;
+	    padding: 5px;
+    	list-style: none;
+		@extend .box_shadow_1;
+    	max-height: 150px;
+		overflow: auto;
+		padding: 0;
+	}
+
+	.tp-tags-container li{
+	    padding: 10px 5px;
+	    font-size: 13px;
+		cursor: pointer;
+	}
+
+	.tp-tags-container li:hover {
+		background-color: #eee;
+	}
 }

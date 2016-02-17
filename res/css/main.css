@@ -4,7 +4,7 @@
 /*-----------------------------------------------------------------------
 	SHADES
 -------------------------------------------------------------------------*/
-.box_shadow_1, .button_shade_1, .tags a:nth-of-type(even), .button1, .button3, .button_shade_2, .tags a:nth-of-type(odd), .button2, .button4, .blog_article img.teaser_img {
+.box_shadow_1, .button_shade_1, .tags a:nth-of-type(even), .button1, .button3, .button_shade_2, .tags a:nth-of-type(odd), .button2, .button4, .blog_article img.teaser_img, html.admin .tp-tags-container {
   -moz-box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2); }
@@ -643,6 +643,20 @@ html.admin .media-container .media-content img {
   max-width: 100%; }
 html.admin .media-container .media-content .fa {
   display: none; }
+html.admin .tp-tags-container {
+  position: absolute;
+  background: #fff;
+  padding: 5px;
+  list-style: none;
+  max-height: 150px;
+  overflow: auto;
+  padding: 0; }
+html.admin .tp-tags-container li {
+  padding: 10px 5px;
+  font-size: 13px;
+  cursor: pointer; }
+html.admin .tp-tags-container li:hover {
+  background-color: #eee; }
 
 *, *:after, *:before {
   -webkit-box-sizing: border-box;
