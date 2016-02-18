@@ -178,10 +178,6 @@
 			return selected_media_ids;
 		};
 
-
-
-
-
 		var setLayerEvents = function(){
 
 			$('.full-size-overlay .img-wrapper').on('click', function(evt){
@@ -219,9 +215,6 @@
 					method: "get",
 					type: "json"
 				}).done(function(data){
-
-					config.media_files = JSON.parse(data);
-
 
 
 					$('body').trigger('set-content-overlay', renderImages(config.media_files) );
@@ -272,6 +265,115 @@
         // has plugin instantiated ?
         if ( typeof plugin === "undefined") {
             plugin = new MediaSelect(this, options);
+            this.data(dataKey, plugin);
+        }
+        return plugin;
+    };
+
+}(jQuery, window, document));
+
+
+
+
+/**
+	Tag Picker
+*/
+;(function ($, window, document, undefined) {
+
+    var pluginName = "TagPicker",
+        dataKey = "plugin_" + pluginName;
+
+
+    var TagPicker = function (el, options) {
+        var $el = $(el);
+
+        var config = {
+            max_options: 5
+        };
+
+        var _init = function(){
+			options = $.extend(config, options);
+
+			$el.data('tp-tags', $el.data('tags').split(',')  );
+			$('body').append( $('<ul class="tp-tags-container"></ul>'));
+
+			setEvents();
+
+		};
+
+
+
+		var match_string_array = function(str, arr){
+			var new_arr = [];
+			str = str.toLowerCase().trim();
+
+			for( i = 0; i < arr.length; i++ ){
+				var arr_value = arr[i].toLowerCase().trim();
+				if( arr_value.indexOf(str) > 0 ){
+					new_arr.push(arr[i]);
+				}
+			}
+
+
+			return new_arr;
+		};
+
+
+		var resetContainer = function($el){
+			$('.tp-tags-container').html('');
+
+			$('.tp-tags-container').css('top', $el.offset().top );
+			$('.tp-tags-container').css('left', $el.offset().left );
+			$('.tp-tags-container').css('margin-top', $el.outerHeight() );
+			$('.tp-tags-container').css('width', $el.outerWidth() );
+
+			$('.tp-tags-container').show();
+
+		};
+
+		var setEvents = function(){
+			$('body').on('click', function(){
+				$('.tp-tags-container').hide();
+			});
+
+			$('.tp-tags-container').on('click','li', function(evt){
+				var str_before_last_comma =  $el.val().substring(0, $el.val().lastIndexOf(',')+1 );
+				$el.val(str_before_last_comma + " "+ $(this).html() +"," );
+			});
+
+
+
+			$el.on('keyup', function(evt){
+				var $el = $(this);
+
+				var matching_value = $el.val().substring($el.val().lastIndexOf(',')+1 );
+
+				var matching_tags = match_string_array(matching_value ,  $el.data('tp-tags')  );
+
+				resetContainer($el);
+
+				if( matching_tags.length > 0 ){
+
+					for( var i = 0; i < matching_tags.length; i++  ){
+
+						var $new_opt = $('<li>'+ matching_tags[i] +'</li>');
+						$('.tp-tags-container').append( $new_opt );
+					}
+				}
+			});
+		};
+
+		_init();
+    };
+
+
+
+    $.fn[pluginName] = function (options) {
+        var plugin = this.data(dataKey);
+
+        // has plugin instantiated ?
+        if ( typeof plugin === "undefined") {
+            plugin = new TagPicker(this, options);
             this.data(dataKey, plugin);
         }
         return plugin;

@@ -39,7 +39,7 @@
 
                                 <textarea name="body" placeholder="Post body" class="post-body">{{=(it.post? it.post.body : '')}}</textarea>
 
-                                <input type="text" placeholder="tags (CSV)" name="tags" value="{{=(it.post? it.post.tags : '')}}" />
+                                <input type="text" autocomplete="off" class="tag-picker" placeholder="tags (CSV)" {{=(it.tags? 'data-tags="'+ it.tags.join(',') +'"':'')}} name="tags" value="{{=(it.post? it.post.tags : '')}}" />
 
 								<input type="hidden" name="media" value="{{=(it.post && it.post.media?  it.post.media.join(',') : '')}}">
                             </form>

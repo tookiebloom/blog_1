@@ -11,11 +11,17 @@ module.exports = function(CORE){
 
 	var _addPost = function(req){
 
+		var tags = CORE.helpers.utils.removeEmptyStringsArray(
+			CORE.helpers.utils.uniqueArray(
+				CORE.helpers.utils.splitAndTrim(req.body.tags, ",")
+			)
+		);
+
 		return repo.insert("posts", {
 			headline	: req.body.headline,
 			permalink	: req.body.permalink,
 			body		: req.body.body,
-			tags		: CORE.helpers.utils.splitAndTrim(req.body.tags, ","),
+			tags		: tags,
 			created		: Date.now(),
 			media		: req.body.media ? req.body.media.split(',').map( function(id){ return ObjectID(id); } ) : [],
 			comments	: [],
@@ -41,12 +47,17 @@ module.exports = function(CORE){
 	}
 
 	var _editPost = function(req, post_id){
+		var tags = CORE.helpers.utils.removeEmptyStringsArray(
+			CORE.helpers.utils.uniqueArray(
+				CORE.helpers.utils.splitAndTrim(req.body.tags, ",")
+			)
+		);
 
 		return repo.edit("posts", {_id: ObjectID(post_id)}, {
 			headline	: req.body.headline,
 			permalink	: req.body.permalink,
 			body		: req.body.body,
-			tags		: CORE.helpers.utils.splitAndTrim(req.body.tags, ","),
+			tags		: tags,
 			created		: Date.now(),
 			media		: req.body.media ? req.body.media.split(',').map( function(id){ return ObjectID(id); } ) : [],
 			comments	: []
@@ -111,7 +122,27 @@ module.exports = function(CORE){
 				return ObjectID(media_id);
 			})
 		});
-	}
+	};
+
+
+	var _getTags = function(){
+		var flags = {};
+
+		return new Promise(function(resolve, reject){
+			repo.find("posts",{}, {
+				tags : true
+			}).then(function(tag_arrays){
+
+				resolve(CORE.helpers.utils.uniqueArray(
+					CORE.helpers.utils.flatArray(
+						tag_arrays.map(function(item){return item.tags;	}
+					))
+				));
+			}, reject);
+		});
+
+
+	};
 
 
 	return function (req, res, next) {
@@ -128,7 +159,8 @@ module.exports = function(CORE){
 			addMedia 			: _addMedia,
 			getMedia			: _getMedia,
 			attachMediaToPost	: _attachMediaToPost,
-			editPostStatus	: _editPostStatus
+			editPostStatus		: _editPostStatus,
+			getTags 			: _getTags
 		}
 
 		next();

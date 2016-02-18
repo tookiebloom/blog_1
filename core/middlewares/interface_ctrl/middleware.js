@@ -21,24 +21,32 @@ module.exports = function(CORE){
 	};
 
 
+	//TODO: Optimize this function such that it's not called every request
 
 	var _getInterface = function(req, res){
 
-		//CASE 1: the interface requested trhough URL query by the user is valid
-		var interface_name = req.query.interface;
+		//CASE 1: the interface needs to be saved in the cookies
+		var interface_name = req.query.setinterface;
 		if( typeof interface_name === "string" && typeof CORE.interfaces[interface_name] === "object" ){
 
 			res.cookie('interface',interface_name, { maxAge: 2 * 24 * 60 * 60 * 1000 , httpOnly: true });
 			return _extendInterfaceObject( CORE.interfaces[interface_name], interface_name );
 		}
 
-		//CASE 2: the interface requested through cookies is valid
+		//CASE 2: the interface war requested only for this particular request.
+		var interface_name = req.query.useinterface;
+		if( typeof interface_name === "string" && typeof CORE.interfaces[interface_name] === "object" ){
+			return _extendInterfaceObject( CORE.interfaces[interface_name], interface_name );
+		}
+
+
+		//CASE 3: the interface requested through cookies is valid
 		var interface_name = req.cookies.interface;
 		if(  typeof interface_name === "string" && typeof CORE.interfaces[ interface_name ] === "object" ){
 			return _extendInterfaceObject( CORE.interfaces[interface_name], interface_name );
 		}
 
-		//CASE 3: both the request variable and the cookie interface are wrong or nonexistent: show default interface
+		//CASE 4: both the request variable and the cookie interface are wrong or nonexistent: show default interface
 		return _extendInterfaceObject( CORE.interfaces[ CORE.config.default_interface ], interface_name );
 	}
 

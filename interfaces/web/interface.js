@@ -14,7 +14,9 @@ module.exports = function(CORE, interface_name){
 	web_intf.view('homepage', function(data){
 
 		return web_intf.dots.homepage({
-			header: web_intf.fragments.header({}),
+			header: web_intf.fragments.header({
+				user_token : data.user_token
+			}),
 			footer: web_intf.fragments.footer({}),
 			name: "Beni"
 		});
