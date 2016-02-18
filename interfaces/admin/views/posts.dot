@@ -31,7 +31,7 @@
                                     <li class="row">
 
                                         <div class="cell col-5-6 ">
-                                            <h3>{{= ( post.headline ? post.headline : "" )}}</h3>
+                                            <h3><a href="/edit_post/?post_id={{=post._id}}">{{= ( post.headline ? post.headline : "" )}}</a></h3>
 
                                             <p>{{= (post.body  ?   post.body.replace(/<(?:.|\n)*?>/gm, '').substring(0, 150) : "")}}..</p>
 
@@ -41,10 +41,10 @@
 
                                         <div class="cell col-1-6 post-buttons">
                                             <a href="/edit_post/?post_id={{=post._id}}" ><i class="fa fa-pencil-square-o"></i>Edit</a>
-                                            <a href="#"  class="delete" ><i class="fa fa-trash-o"></i>Delete</a>
-                                            <select >
-                                                <option selected="true" value="draft">Draft</option>
-                                                <option value="draft">Published</option>
+                                            <a href="/delete_post/?post_id={{=post._id}}"  class="delete click-confirm" data-confirm-message="Are you sure you whant to delete the post: {{=post.headline}} ?" ><i class="fa fa-trash-o"></i>Delete</a>
+                                            <select class="post-status-update" >
+                                                <option {{=(post.status != "published"? 'selected="selected"' : '')}} data-update-url="/edit_post_status/?post_id={{=post._id}}&status=draft" selected="true" value="draft">Draft</option>
+                                                <option {{=(post.status == "published"? 'selected="selected"' : '')}} data-update-url="/edit_post_status/?post_id={{=post._id}}&status=published"  value="published">Published</option>
                                             </select>
 
                                         </div>

@@ -144,12 +144,15 @@
 
 		var renderImages = function(media_files){
 			var rendered_media_columns = ["","","",""], crt_column, rendered_columns = "";
+			var post_media = $('input[type="hidden"][name="media"]').val().split(',');
+			console.log('post media',post_media);
 
 			$.each( media_files, function(i, el){
 				crt_column = i % 4;
 				rendered_media_columns[crt_column]  += 	$('#single_media_file').html()
 														.replace( '~{url}~', "/"+el.url  )
-														.replace("~{id}~",el._id);
+														.replace("~{id}~",el._id)
+														.replace("~{additional_classes}~", (   post_media.indexOf(el._id) != -1 ? 'checked' :''));
 			});
 
 			$.each( rendered_media_columns, function(i, crt_column){
@@ -193,30 +196,12 @@
 
 
 				$('body').trigger('set-content-overlay', '<i class="fa centered-m-h fa-spinner"></i>');
+				$('body').trigger('attached-media-to-post',  {media_ids: selected_media_ids });
+
+				$form  = $('#single_post_form');
 
 
-				$.ajax({
-					url: "/system/attach_media_to_post",
-					method : "post",
-					type : "json",
-					data: {
-						post_id : config.post_id,
-						media_ids : selected_media_ids
-					}
-				}).done(function(response){
-					response = JSON.parse(response);
-
-					if(response.status == "success") {
-
-						console.log('before event trigger',selected_media_ids);
-
-						$('body').trigger('attached-media-to-post',  {media_ids: selected_media_ids });
-						$('body').trigger('hide-overlay');
-					} else {
-						alert('error whatever');
-					}
-
-				});
+				$('body').trigger('hide-overlay');
 
 			});
 
@@ -260,15 +245,16 @@
 				$.each(selected_media, function(i, el){
 					rendered_images  += 	$('#single_media_file').html()
 											.replace( '~{url}~', "/"+el.url  )
-											.replace("~{id}~",el._id);
+											.replace("~{id}~",el._id)
+											.replace("~{additional_classes}~",'');
 				});
+
+				$('input[type="hidden"][name="media"]').val(  media.media_ids.join(',')  );
 
 
 				$('.media-content').html( rendered_images );
 
 				$('.media-content .img-wrapper').on('click', function(e){
-
-
 					$('body').trigger('show-overlay', $(this).find('img').attr('src'));
 				});
 

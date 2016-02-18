@@ -28,7 +28,7 @@
                             <h2>Add new post:</h2>
 
 
-                            <form method="post" >
+                            <form method="post" id="single_post_form" action="{{=(it.post? '/edit_post?post_id=' + it.post._id : '/new_post' )}}">
 
 
 
@@ -41,7 +41,7 @@
 
                                 <input type="text" placeholder="tags (CSV)" name="tags" value="{{=(it.post? it.post.tags : '')}}" />
 
-
+								<input type="hidden" name="media" value="{{=(it.post && it.post.media?  it.post.media.join(',') : '')}}">
                             </form>
 
 
@@ -50,14 +50,19 @@
                         </div>
 
                         <div class="cell col-1-6 padded post-buttons single-post">
-                            <a href="#" class="delete" ><i class="fa fa-trash-o"></i>Delete</a>
 
-                            <a href="#" class="save" ><i class="fa fa-floppy-o"></i>Save</a>
+							<a href="#" data-form-submit="#single_post_form" class="save" ><i class="fa fa-floppy-o"></i>Save</a>
 
-                            <select >
-                                <option selected="true" value="draft">Draft</option>
-                                <option value="draft">Published</option>
-                            </select>
+							{{? it.post}}
+                            	<a href="/delete_post/?post_id={{=it.post._id}}" class="delete click-confirm" data-confirm-message="Are you sure you whant to delete the post: {{=it.post.headline}} ?" ><i class="fa fa-trash-o"></i>Delete</a>
+
+								<select  class="post-status-update"  >
+	                                <option {{=(it.post.status != "published"? 'selected="selected"' : '')}} data-update-url="/edit_post_status/?post_id={{=it.post._id}}&status=draft"  value="draft">Draft</option>
+	                                <option {{=(it.post.status == "published"? 'selected="selected"' : '')}} data-update-url="/edit_post_status/?post_id={{=it.post._id}}&status=published"  value="published">Published</option>
+	                            </select>
+							{{?}}
+
+
 
 							<br><br>
 							<div class="media-container">
@@ -66,7 +71,19 @@
 
 								<div class="media-content">
 
-									
+
+
+								{{? it.post && it.post.media_files }}
+
+									{{~it.post.media_files :media_file:index}}
+										<div class="img-wrapper "  data-image-id="{{=media_file._id}}">
+											<img src="/{{=media_file.url}}"  />
+											<i class="fa fa-check-square-o"></i>
+										</div>
+									{{~}}
+
+								{{?}}
+
 
 								</div>
 							</div>

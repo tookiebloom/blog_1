@@ -36,11 +36,54 @@ $(function(){
 
 			data = JSON.parse(data);
 
-			console.log(data);
 
 			if( data.status=="success" ){
 				$notif.removeClass('green').removeClass('red').removeClass('orange').addClass('green').html( data.message );
 
+			}
+
+		});
+
+	});
+
+
+
+	$('[data-form-submit]').on('click', function(evt){
+		evt.preventDefault();
+		var selector = $(this).attr('data-form-submit');
+		$(selector).submit();
+	});
+
+
+	$('.media-content .img-wrapper').on('click', function(e){
+		$('body').trigger('show-overlay', $(this).find('img').attr('src'));
+	});
+
+	$('.click-confirm').on('click', function(evt){
+		var confirm_message = $(this).attr('data-confirm-message') || 'Are you sure?';
+		var result = confirm( confirm_message );
+
+		if(!result){
+			evt.preventDefault();
+		}
+	});
+
+
+	$('.post-status-update').on('change', function(evt){
+		var selected_option = $("option:selected", this);
+
+		$('body').trigger('show-overlay', '<i class="fa centered-m-h fa-spinner"></i>');
+
+		$.ajax({
+			url: selected_option.attr('data-update-url')
+		}).done(function( data ) {
+
+			data = JSON.parse(data);
+
+			if( data.status=="success" ){
+				$('body').trigger('hide-overlay');
+			} else {
+				$('body').trigger('set-content-overlay', data.message);
 			}
 
 		});
