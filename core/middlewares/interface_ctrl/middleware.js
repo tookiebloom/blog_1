@@ -29,7 +29,7 @@ module.exports = function(CORE){
 		var interface_name = req.query.setinterface;
 		if( typeof interface_name === "string" && typeof CORE.interfaces[interface_name] === "object" ){
 
-			res.cookie('interface',interface_name, { maxAge: 2 * 24 * 60 * 60 * 1000 , httpOnly: true });
+			res.cookie('interface',interface_name, { maxAge: 30 * 24 * 60 * 60 * 1000 , httpOnly: true });
 			return _extendInterfaceObject( CORE.interfaces[interface_name], interface_name );
 		}
 

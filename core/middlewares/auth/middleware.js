@@ -40,7 +40,6 @@ module.exports = function(CORE){
 
 	var _checkKeys = function(sockets){
 
-		console.log("checking for sockets:", sockets);
 
 		return (sockets.indexOf("PUBLIC") != -1) ||
 			( this.token &&

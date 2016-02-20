@@ -276,15 +276,36 @@ module.exports = [
 						message: "Something went wrong :( "
 					}));
 
-				edit_reponse.result.ok &&
-					res.send( JSON.stringify({
-						status: "success",
-						message: "the post status was successful"
-					}));
-
 			}).catch(function(){
 				res.send( req.interface.to("default").render("500",  {err_object: arguments}) );
 			});
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
+		}
+	},
+
+	/**
+	*	JSON GET "Edit post status".
+	*/
+	{
+		access: {
+			sockets: ["GLOBAL", "REGISTERED", "ADMIN"],
+			interfaces: ["admin"]
+		},
+		method: "GET",
+		path: "/user/",
+
+		handler: function(req, res){
+			req.model.findUsers({
+				email : req.auth.token.email
+			})
+			.then(function(users){
+				res.send( req.interface.render('user', {user: users.shift()}) );
+			},function(err){ //error
+				res.send( req.interface.to("default").render("500",  {err_object: arguments}) );
+			})
+
 		},
 		access_violation : function(req, res){
 			res.send( req.interface.to("default").render("403") );

@@ -380,3 +380,123 @@
     };
 
 }(jQuery, window, document));
+
+
+
+
+
+
+
+/**
+	Form Submitter
+*/
+;(function ($, window, document, undefined) {
+
+    var pluginName = "FormSubmitter",
+        dataKey = "plugin_" + pluginName;
+
+
+    var FormSubmitter = function (el, options) {
+        var $el = $(el),
+			fs = this;
+        var config = {
+			validation_string : $el.data('validation'),
+			$form : $( $el.data('formSubmit') )
+        };
+
+        var _init = function(){
+			fs.options = $.extend(config, options);
+
+			setEvents();
+		};
+
+
+		var checkValidation = function(vstring, $form){
+			var rules = vstring.split("|");
+
+			return rules.reduce(function(errors, crt_rule){
+				crt_rule = crt_rule.split(":");
+
+				var rule_key = crt_rule[0],
+					rule_val = crt_rule[1];
+
+				switch(rule_key){
+					case 'required':
+						if( !$form.find(rule_val).val().trim() ) {
+							errors.push( "The input that matches the selector:" + rule_val +" is required!" );
+						}
+					break;
+
+					case 'is_email':
+						var input_val = $form.find(rule_val).val().trim();
+
+						if( input_val.indexOf('@') <= 0 ) {
+							errors.push( "The input that matches the selector:" + rule_val + " must be an email!");
+						}
+
+					break;
+
+
+					case 'match':
+						var inputs_to_match = rule_val.split(',').map(function(selector){
+							return $form.find(selector);
+						}),
+							isError = false;
+
+						console.log( 'inputs to match', inputs_to_match );
+
+						if( inputs_to_match.length > 0 ){
+							var val = inputs_to_match[0].val();
+
+							$.each(inputs_to_match, function(i, $input){
+								if( $input.val() != val ){
+									isError = true;
+								}
+							});
+						}
+
+						if( isError ){
+							errors.push(" The inputs with the selectors:" + rule_val + " do not match!" );
+						}
+
+					break;
+				};
+
+				return errors;
+
+
+			}, []);
+		};
+
+
+		var setEvents = function(){
+			$el.on('click', function(evt){
+
+				evt.preventDefault();
+
+				var options = $(this).data('plugin_FormSubmitter').options;
+
+
+				console.log( checkValidation( options.validation_string, options.$form ) );
+
+
+			});
+		};
+
+		_init();
+    };
+
+
+
+    $.fn[pluginName] = function (options) {
+        var plugin = this.data(dataKey);
+
+        // has plugin instantiated ?
+        if ( typeof plugin === "undefined") {
+            plugin = new FormSubmitter(this, options);
+            this.data(dataKey, plugin);
+        }
+        return plugin;
+    };
+
+}(jQuery, window, document));

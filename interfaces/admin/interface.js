@@ -120,7 +120,14 @@ module.exports = function(CORE, interface_name){
 	});
 
 
+	admin_intf.view('user', function(data){
 
+		return  admin_intf.dots.user({
+			fragments	: admin_intf.fragments,
+			user		: data.user
+		});
+
+	});
 
 
 	return admin_intf;

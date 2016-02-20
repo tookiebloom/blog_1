@@ -30,8 +30,14 @@
             <i class="fa fa-picture-o"></i> Media
         </a>
 
-        <a  class="users">
-            <i class="fa fa-users"></i> Users
+        <a  href="/user/"
+			class="user {{=(it.selected == 'user' ? 'selected': '')}}">
+            <i class="fa fa-user"></i> User account
+        </a>
+
+
+        <a  href="/?setinterface=web" class="users">
+            <i class="fa fa-exchange"></i> Switch to web
         </a>
     </div>
 

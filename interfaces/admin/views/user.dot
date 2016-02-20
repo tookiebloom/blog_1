@@ -1,0 +1,65 @@
+{{=it.fragments.header()}}
+
+        <div class="vertical_spacer"></div>
+
+        <section id="content">
+
+            <div class="fullwidth centered-m-h">
+
+                <div class="dark_block">
+                    <div class="vertical_spacer quarter"></div>
+                </div>
+
+                <div class="content_box box_shadow_1">
+
+                    <div class="row">
+
+
+
+                        {{=it.fragments.side_menu({
+                            columns: "1-6",
+                            selected: 'user'
+                        })}}
+
+
+
+                        <div class="cell col-2-3">
+
+                            <h2>User:</h2>
+
+
+                            <form class="admin-form" method="post" id="single_user_form" action="{{=(it.user? '/user?user_id=' + it.user._id : '/new_user' )}}">
+
+
+								<label for="user_name">Name</label>
+                                <input type="text" id="user_name" name="name" placeholder="Name" value="{{=(it.user? it.user.name : '')}}" />
+
+								<label for="user_email">Email</label>
+                                <input type="text" name="email" id="user_email" placeholder="Email" value="{{=(it.user? it.user.email : '')}}"/>
+
+								<label for="user_password">Password</label>
+								<input type="password" name="password" id="user_password" placeholder="Password" />
+
+								<label for="confirm_password">Confirm Password</label>
+								<input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" />
+
+                            </form>
+
+
+                        </div>
+
+                        <div class="cell col-1-6 padded post-buttons single-post">
+
+							<a href="#" data-form-submit="#single_user_form"
+										data-validation="match:#user_password,#confirm_password|required:#user_name|required:#user_email|is_email:#user_email"
+										class="save" >
+								<i class="fa fa-floppy-o"></i>Save
+							</a>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+{{=it.fragments.footer()}}

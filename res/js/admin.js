@@ -49,11 +49,7 @@ $(function(){
 
 
 
-	$('[data-form-submit]').on('click', function(evt){
-		evt.preventDefault();
-		var selector = $(this).attr('data-form-submit');
-		$(selector).submit();
-	});
+	$('[data-form-submit]').FormSubmitter();
 
 
 	$('.media-content .img-wrapper').on('click', function(e){

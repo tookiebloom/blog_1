@@ -145,6 +145,11 @@ module.exports = function(CORE){
 	};
 
 
+	var _findUsers = function(query){
+		return repo.find('users', query);
+	}
+
+
 	return function (req, res, next) {
 
 		req.model = {
@@ -160,7 +165,8 @@ module.exports = function(CORE){
 			getMedia			: _getMedia,
 			attachMediaToPost	: _attachMediaToPost,
 			editPostStatus		: _editPostStatus,
-			getTags 			: _getTags
+			getTags 			: _getTags,
+			findUsers			: _findUsers
 		}
 
 		next();

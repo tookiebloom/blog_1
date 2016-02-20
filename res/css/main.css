@@ -430,7 +430,7 @@ html.admin .notification {
     left: 0;
     bottom: 0;
     right: 50px; }
-html.admin input[type="text"], html.admin textarea {
+html.admin input[type="text"], html.admin input[type="password"], html.admin textarea {
   border-radius: 2px;
   border: solid 1px #ddd; }
 html.admin .mce-container.mce-tinymce {
@@ -657,6 +657,22 @@ html.admin .tp-tags-container li {
   cursor: pointer; }
 html.admin .tp-tags-container li:hover {
   background-color: #eee; }
+html.admin .admin-button.header {
+  display: inline-block;
+  width: auto;
+  padding: 2px 5px;
+  font-size: 12px;
+  color: #fff;
+  margin: 0 10px; }
+html.admin .admin-form input {
+  margin-top: 0;
+  margin-bottom: 15px;
+  height: 30px;
+  font-size: 12px; }
+html.admin .admin-form label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #666; }
 
 *, *:after, *:before {
   -webkit-box-sizing: border-box;
