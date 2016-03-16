@@ -1,6 +1,7 @@
 console.log('Starting app.js... ');
 
+var config = require('./config.js');
 
-var App = require('./core/controller.js');
-var myapp = App();
+
+var myapp = require('./server/server.js')(config);
 myapp.init();
