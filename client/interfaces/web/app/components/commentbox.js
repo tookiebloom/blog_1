@@ -1,15 +1,30 @@
+
+
+
+
+
+
 var CommentBox = React.createClass({
 
+	getInitialState: function(){
+		return {variablePassed: this.props.passedValue};
+	},
 
 
-  render: function() {
-    return (
+	componentWillReceiveProps: function(nextProps) {
+		  console.log(nextProps);
 
-      <div className="commentBox">
-        Hello, world! test modific automat I am a CommentBox in a different file!. test modificat
-      </div>
-    );
-  }
+		  this.setState({ variablePassed:nextProps.passedValue})
+	},
+
+	render: function() {
+		return (
+
+			<div className="commentBox">
+				Hello, world! test modific automat I am a CommentBox in a different file!. test modificat {this.state.variablePassed }
+			</div>
+		);
+	}
 
 });
 

@@ -6,6 +6,9 @@ var reactify = require('reactify');
 var concat = require('gulp-concat');
 var rename = require("gulp-rename");
 
+
+var scss = require('gulp-scss');
+
 gulp.task('browserify', function() {
 
     var bundler = browserify({
@@ -22,6 +25,9 @@ gulp.task('browserify', function() {
 		var updateStart = Date.now();
 		console.log('Updating!');
 		watcher.bundle() // Create new bundle that uses the cache for high performance
+		.on('error', function(err){
+			console.log(err);
+		})
 		.pipe(source('app.js'))
 	// This is where you add uglifying etc.
 		.pipe(rename('bundle.js'))
@@ -37,13 +43,18 @@ gulp.task('browserify', function() {
 });
 
 // I added this so that you see how to run two watch tasks
-gulp.task('css', function () {
-    gulp.watch('styles/**/*.css', function () {
-        return gulp.src('styles/**/*.css')
-        .pipe(concat('main.css'))
-        .pipe(gulp.dest('build/'));
-    });
+gulp.task('scss', function () {
+  return gulp.src('./client/interfaces/web/app/app.scss')
+    .pipe(scss().on('error', function(err){
+		console.log(err);
+	}))
+	.pipe(rename('main.css'))
+    .pipe(gulp.dest('./client/res/web'));
+});
+
+gulp.task('scss:watch', function () {
+  gulp.watch('./client/interfaces/web/app/**/*.scss', ['scss']);
 });
 
 // Just running the two tasks
-gulp.task('default', ['browserify']);
+gulp.task('default', ['browserify','scss:watch']);
