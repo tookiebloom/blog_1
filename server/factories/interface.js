@@ -25,9 +25,6 @@ module.exports = function(CORE){
 
 		var _renderView = function( view_name, data ){
 
-			console.log('rendering', arguments);
-			console.log('views', _views);
-
 			if( typeof _views[view_name] !== "object" ) {
 				throw new Error("The view: '" + view_name + "' could not be rendered. The view is missing from the interface");
 			}

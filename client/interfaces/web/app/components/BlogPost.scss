@@ -1,0 +1,162 @@
+.post-list > .row:first-child article.blog-post {
+	margin-top: 0;
+}
+
+article.blog-post {
+	padding: 15px 15px 20px;
+
+
+	margin-top: 20px;
+	background: #ebebeb;
+
+	h2 {
+		color: #2f88a7;
+		margin: 0;
+		font-size: 20px;
+	}
+
+	.post-meta {
+		font-size: 11px;
+		font-weight: bold;
+		color: #626f7a;
+	}
+
+
+	.post-content {
+		margin-top: 20px;
+		font-size: 12px;
+	}
+
+	.post-details {
+		height: 180px;
+		overflow: hidden;
+	}
+
+
+	figure {
+		margin-top: 20px;
+		text-align: center;
+		line-height: 240px;
+		img {
+			max-width: 100%;
+			max-height: 240px;
+		}
+	}
+
+	.post-buttons {
+		margin-top: 0px;
+		margin-left: -10px;
+
+		a {
+			display: inline-block;
+			margin-left: 10px;
+			margin-top: 20px;
+			padding: 6px 10px;
+			background: #2f88a7;
+			color: #fff;
+
+			font-size: 13px;
+
+			&:hover,
+			&:active {
+				text-decoration: none;
+				background: lighten(#2f88a7, 10%);
+			}
+
+			.fa {
+				padding-right: 5px;
+				font-size: 12px;
+			}
+		}
+	}
+
+
+
+	.post-tags {
+		margin-top: 10px;
+		margin-left: -10px;
+		a {
+			margin-left: 10px;
+			font-weight: bold;
+			font-size: 10px;
+			color: #2980b9;
+			display: inline-block;
+			position: relative;
+			padding-left: 13px;
+
+			&:hover,
+			&:active{
+				color: lighten( #2980b9, 10%  );
+				border-color: lighten( #2980b9, 10%  );
+				text-decoration: none;
+			}
+
+			&:before {
+				content: "";
+				position: absolute;
+				width: 8px;
+				height: 8px;
+				left: 0;
+				top: 3px;
+				background: #29475f;
+			}
+
+
+			&.color-blue {
+				&:before{
+					background: #2980b9;
+				}
+			}
+
+			&.color-red {
+				color: #e74c3c;
+				&:hover,
+				&:active{
+					color: lighten( #e74c3c, 10%);
+				}
+
+				&:before {
+					background: #c0392b;
+				}
+			}
+
+			&.color-green {
+				color: #1abc9c;
+				&:hover,
+				&:active{
+					color: lighten( #1abc9c, 10%);
+				}
+				&:before {
+					background: #16a085;
+				}
+			}
+		}
+	}
+}
+
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+
+	article.blog-post {
+		padding: 30px;
+
+
+		h2 {
+    		font-size: 30px;
+		}
+		.post-content {
+			font-size: 14px;
+			margin-top: 30px;
+		}
+
+		.post-meta {
+			font-size: 12px;
+		}
+
+
+		.post-tags {
+			float: right;
+		}
+	}
+}

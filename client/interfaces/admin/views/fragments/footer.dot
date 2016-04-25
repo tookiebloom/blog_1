@@ -7,10 +7,10 @@
 
 
 <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script-->
-<script src="/res/js/vendor/jquery-1.10.2.min.js"></script>
-<script src="/res/js/plugins/tinymce/tinymce.min.js"></script>
-<script src="/res/js/plugins/custom.js"></script>
-<script src="/res/js/admin.js"></script>
+<script src="/res/admin/js/vendor/jquery-1.10.2.min.js"></script>
+<script src="/res/admin/js/plugins/tinymce/tinymce.min.js"></script>
+<script src="/res/admin/js/plugins/custom.js"></script>
+<script src="/res/admin/js/admin.js"></script>
 
 
 
@@ -49,5 +49,31 @@
 		<i class="fa fa-check-square-o"></i>
 	</div>
 </script>
+
+
+<!-- TEMPLATE FOR DISPLAYING IMAGE INFO -->
+<script type="text/template" id="single_media_info">
+	<div class="img-info-wrapper">
+		<img src="~{src}~"  />
+
+		<h4>Image SRC:</h4>
+		<div class="img-info-src">~{src}~</div>
+
+		<a class="admin-button ~{button_class}~" data-media-id="~{id}~", data-media-src="~{src}~">~{button_label}~</a>
+	</div>
+</script>
+
+
+
+<!-- TEMPLATE FOR DISPLAYING IMAGE INFO -->
+<script type="text/template" id="tag_color_picker_options">
+	<ul>
+		<li>No&nbsp;Color</li>
+		<li class="color-red">Red</li>
+		<li class="color-blue">Blue</li>
+		<li class="color-green">Green</li>
+	</ul>
+</script>
+
 
 </html>

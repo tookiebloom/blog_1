@@ -41,11 +41,15 @@ module.exports = function(CORE){
 		return _db.collection(collection).insertAsync(doc);
 	};
 
-	var _find = function(collection, opts, projection){
+	var _find = function(collection, query, projection, opts){
+		
+		opts = opts || {};
+		opts.skip = opts.skip || 0;
+		opts.limit = opts.limit || 0;
 
 		return new Promise(function(resolve, reject){
 
-			_db.collection(collection).find(opts, projection).toArray(function(err, posts){
+			_db.collection(collection).find(query, projection).skip(opts.skip).limit(opts.limit).toArray(function(err, posts){
 				if(err)
 					reject("There was an error trying to fetch objects from the database");
 				else
@@ -54,16 +58,18 @@ module.exports = function(CORE){
 		});
 	};
 
-	var _delete = function(collection, opts){
-		return _db.collection(collection).removeAsync(opts);
+	var _delete = function(collection, query){
+		return _db.collection(collection).removeAsync(query);
 	};
 
-	var _edit = function(collection, opts, new_values){
-
-		return _db.collection(collection).updateAsync(opts, { $set: new_values});
+	var _edit = function(collection, query, new_values, projection){
+		return _db.collection(collection).updateAsync(query, { $set: new_values}, projection);
 	};
 
 
+	var _findOne = function(collection, query, projection){
+		return _db.collection(collection).findOneAsync(query, projection);
+	};
 
 
 
@@ -73,6 +79,7 @@ module.exports = function(CORE){
 		insert: _insert,
 		find:	_find,
 		delete: _delete,
-		edit : _edit
+		edit : _edit,
+		findOne: _findOne
 	};
 };

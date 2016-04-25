@@ -1,3 +1,90 @@
+
+@import url(http://fonts.googleapis.com/css?family=Roboto:500,400italic,700italic,700,400);
+
+@import url(http://fonts.googleapis.com/css?family=Rambla:400,700,400italic,700italic);
+
+
 body {
-	background: green;
+	background: url(./img/bg.jpg);
+	font-family: "Roboto", sans-serif;
+
+	.main-container {
+		background: #c9c7c6;
+		border-top: solid 5px #29475f;
+		margin-top: 30px;
+
+
+		.main-title {
+			color: #29475f;
+			font-family: 'Rambla', sans-serif;
+			font-size: 26px;
+			margin-top: 15px;
+			font-weight: bold;
+		}
+	}
+
+	.footer {
+		margin-top: 30px;
+		margin-bottom: 30px;
+		color: #fff;
+	}
 }
+
+
+
+
+
+/*==========  Mobile First Method  ==========*/
+
+/* Custom, iPhone Retina */
+@media only screen and (min-width : 320px) {
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+	body {
+		padding-top: 30px;
+	}
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+	body {
+		padding-top: 60px;
+
+		.main-container {
+			border-width: 10px;
+			margin-top: 60px;
+
+			.main-title {
+				font-size: 36px;
+				margin-top: 30px;
+			}
+		}
+
+		.footer {
+			margin-top: 60px;
+			margin-bottom: 60px;
+		}
+	}
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+
+}
+
+
+
+
+@import 'components/Header.scss';
+@import 'components/Suggestions.scss';
+@import 'components/BlogRoll.scss';
+@import 'components/BlogPost.scss';

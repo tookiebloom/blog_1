@@ -1,0 +1,30 @@
+.suggestions {
+
+	border-left: solid 1px #29475f;
+	padding-left: 10px;
+	margin-top: 30px;
+
+	h3{
+		margin-top: 0;
+	}
+	h2, h3, h4 {
+		font-family: 'Rambla', sans-serif;
+		color: #29475f;
+		font-weight: bold;
+	}
+
+	a {
+		display: block;
+	}
+}
+
+
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+
+	.suggestions {
+		border-left: none;
+		padding-left: 0;
+	}
+}

@@ -1,11 +1,10 @@
-var CommentBox = require('../components/commentbox.js');
 
 var variablePassed = 0;
 
 
 
 var Contact = React.createClass({
-	getInitialState: function(){
+	getInitialState: function() {
 		return {variablePassed: 1};
 	},
 
@@ -27,7 +26,6 @@ var Contact = React.createClass({
       <div className="Contact"> dsadsa
         Hello, world! This is the contact page, next is the comment box:
 
-		<CommentBox passedValue={this.state.variablePassed} />
       </div>
     );
   }

@@ -23,29 +23,64 @@
 
                             <h2>Blog settings.</h2>
 
-                            <h3>General Settings</h3>
+
+							<form id="submit_settings" method="post" action="/settings/" >
+
+
+								<h4>General Settings</h4>
+
+	                            <input type="text" name="main_title"  value="{{=it.settings.main_title || ''}}"  placeholder="Blog Title" />
 
 
 
-                            <input type="text" placeholder="Blog Title" />
+								<h5 >Page size: <input type="number" name="page_size" value="{{=it.settings.page_size || 10}}" min="0" max="100"/></h5>
+	                            <h4>Homepage Settings</h4>
+
+	                            <input type="text" name="homepage_tagline" value="{{=it.settings.homepage_tagline || ''}}" placeholder="Homepage Tagline" />
+	                            <input type="text" name="homepage_subtext" value="{{=it.settings.homepage_subtext || ''}}" placeholder="Homepage subtext" />
 
 
+								<hr />
 
-                            <h3>Homepage Settings</h3>
+								<h4>Tags:</h4>
+
+								<h5>Colors</h5>
+								<div class="tag_colors">
+									<input type="hidden" name="tag_colors" value="{{=it.settings.tag_colors || ''}}" />
+									{{~it.tags :tag}}
+										<span data-tag-key="{{=tag}}" data-tag-value="{{=it.tag_color_map[tag] || ''}}" >{{=tag}}</span>
+									{{~}}
+								</div>
+
+								<h5>Pinned Prio (0 prio = unpinned)</h5>
+								<div class="tag_prio">
+									<input type="hidden" name="tag_prio" value="{{=it.settings.tag_prio || ''}}" />
+									{{~it.tags :tag}}
+										<span data-tag-key="{{=tag}}">{{=tag}} <input type="number" min="0" max="1000" value="{{=it.tag_prio_map[tag] || 0}}" /></span>
+									{{~}}
+								</div>
+							</form>
 
 
-                            <input type="text" placeholder="Homepage Tagline" />
-                            <input type="text" placeholder="Homepage subtext" />
+							<div class="row">
+								<br />
+								<div class="cell col-1-2">
+									<a href="#" data-form-submit="#submit_settings" class="admin-button" ><i class="fa fa-floppy-o"></i>Save</a>
+								</div>
 
+								<div class="cell col-1-2">
+
+								</div>
+							</div>
 
                         </div>
-
-
 
 						{{=it.fragments.notifications({
 							notifications: it.notifications,
 							columns : '1-3'
 						})}}
+
+
 
 
                     </div>

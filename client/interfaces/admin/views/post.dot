@@ -34,10 +34,19 @@
 
                                 <input type="text" name="headline" placeholder="Headline" value="{{=(it.post? it.post.headline : '')}}" />
 
+
                                 <input type="text" name="permalink" placeholder="Permalink" value="{{=(it.post? it.post.permalink : '')}}"/>
 
 
-                                <textarea name="body" placeholder="Post body" class="post-body">{{=(it.post? it.post.body : '')}}</textarea>
+								<input type="hidden" name="primary_image_id" value="{{=(it.post && it.post.primary_image_id ? it.post.primary_image_id : '')}}"/>
+
+								<div class="primary-image-container">
+									{{? it.post && it.post.primary_image_id}}
+										<img src="/{{=it.post.primary_image.url}}">
+									{{?}}
+								</div>
+
+								<textarea name="body" placeholder="Post body" class="post-body">{{=(it.post? it.post.body : '')}}</textarea>
 
                                 <input type="text" autocomplete="off" class="tag-picker" placeholder="tags (CSV)" {{=(it.tags? 'data-tags="'+ it.tags.join(',') +'"':'')}} name="tags" value="{{=(it.post? it.post.tags : '')}}" />
 
@@ -76,7 +85,7 @@
 								{{? it.post && it.post.media_files }}
 
 									{{~it.post.media_files :media_file:index}}
-										<div class="img-wrapper "  data-image-id="{{=media_file._id}}">
+										<div class="img-wrapper {{=it.post.primary_image_id == media_file._id ? 'primary-image' : ''}}"  data-image-id="{{=media_file._id}}">
 											<img src="/{{=media_file.url}}"  />
 											<i class="fa fa-check-square-o"></i>
 										</div>
@@ -87,10 +96,6 @@
 
 								</div>
 							</div>
-
-
-
-
 
                         </div>
 

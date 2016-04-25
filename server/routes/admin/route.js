@@ -7,7 +7,7 @@ module.exports = [
 	*/
 	{
 		access : {
-			sockets : ["ADMIN","REGISTERED"],
+			sockets : ["ADMIN","REGISTERED","PUBLIC"],
 			interfaces : ["admin"]
 		},
 		method: 'GET',
@@ -31,7 +31,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED"],
+			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
 			interfaces: ["admin"]
 		},
 		method: "POST",
@@ -57,7 +57,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED"],
+			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -82,7 +82,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED"],
+			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
 			interfaces: ["json"]
 		},
 		method: "GET",
@@ -111,7 +111,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["GLOBAL", "REGISTERED"],
+			sockets: ["GLOBAL", "REGISTERED","PUBLIC"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -128,6 +128,11 @@ module.exports = [
 				post && req.model.getMedia({ _id : {$in : post.media || []} })
 				.then(function(media){
 					post.media_files = media;
+
+					post.primary_image = media.reduce(function(acc, crt){
+						return post.primary_image_id == crt._id ? crt : acc;
+					}, false);
+
 					res.send( req.interface.render('edit_post', {
 						post: post,
 						tags: tags
@@ -151,7 +156,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED"],
+			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
 			interfaces: ["admin"]
 		},
 		method: "POST",
@@ -175,18 +180,52 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED"],
+			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
 		path: "/settings/",
 		handler : function(req, res){
 
-			req.model.getNotifications()
-			.then(function(notifications){
+
+			Promise.all([
+				req.model.getNotifications(),
+				req.model.getSettings(),
+				req.model.getTags()
+			]).then(function(results){
 				res.send(  req.interface.render('settings', {
-					notifications: notifications
+					notifications: results[0],
+					settings: results[1],
+					tags : results[2]
 				}));
+			});
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
+		}
+	},
+
+	/**
+	*	Admin POST "Settings" Page.
+	*/
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			interfaces: ["admin"]
+		},
+		method: "POST",
+		path: "/settings/",
+		handler : function(req, res){
+
+			req.model.updateSettings(req)
+			.then(function(updateResult){
+
+				if( updateResult.nUpserted != 0 || updateResult.nModified != 0 ) {
+					req.model.pushNotification( "Settings updated successfully!", 'green', {
+						description: (new Date()).toGMTString()
+					});
+				}
+				res.redirect('/settings/');
 			});
 		},
 		access_violation : function(req, res){
@@ -199,7 +238,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED"],
+			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -231,7 +270,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED"],
+			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -252,7 +291,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["GLOBAL", "REGISTERED"],
+			sockets: ["GLOBAL", "REGISTERED","PUBLIC"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -290,7 +329,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["GLOBAL", "REGISTERED", "ADMIN"],
+			sockets: ["GLOBAL", "REGISTERED", "ADMIN","PUBLIC"],
 			interfaces: ["admin"]
 		},
 		method: "GET",

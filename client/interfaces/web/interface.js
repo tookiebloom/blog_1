@@ -10,7 +10,7 @@ module.exports = function(CORE, interface_name){
 	web_intf.view('homepage', function(data){
 
 		return web_intf.dots.react_base({
-
+			pageData : data
 		});
 
 	});

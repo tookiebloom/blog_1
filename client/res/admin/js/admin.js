@@ -16,6 +16,9 @@ $(function(){
 
 	$('.tag-picker').TagPicker();
 
+	$('.tag_colors').TagColorPicker();
+	$('.tag_prio').TagPrioPicker();
+
 	$('.notification-container .notification .dismiss').on('click', function(evt){
 		evt.preventDefault();
 		evt.stopPropagation();
@@ -52,18 +55,37 @@ $(function(){
 	$('[data-form-submit]').FormSubmitter();
 
 
-	$('.media-content .img-wrapper').on('click', function(e){
-		$('body').trigger('show-overlay', $(this).find('img').attr('src'));
-	});
 
 	$('.click-confirm').on('click', function(evt){
+		evt.preventDefault();
 		var confirm_message = $(this).attr('data-confirm-message') || 'Are you sure?';
 		var result = confirm( confirm_message );
 
-		if(!result){
-			evt.preventDefault();
+		if(result){
+
+			//TODO: FIX THIS!!!!!!!!!!!!!
+
+
+			$('body').trigger('show-overlay', '<i class="fa centered-m-h fa-spinner"></i>');
+
+			$.ajax({
+				url: $(this).attr('href')
+			}).done(function( data ) {
+
+				data = JSON.parse(data);
+
+				if( data.status=="success" ){
+					window.location.reload();
+				} else {
+					$('body').trigger('set-content-overlay', data.message);
+				}
+
+			});
+
 		}
 	});
+
+
 
 
 	$('.post-status-update').on('change', function(evt){

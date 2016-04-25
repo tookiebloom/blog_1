@@ -16,5 +16,5 @@ var browserHistory = ReactRouter.browserHistory;
 
 	      <Route path="*" component={IndexPage}></Route>
 	    </Router>,
-  document.getElementById('content')
+  document.getElementById('react-app')
 );

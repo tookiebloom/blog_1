@@ -5,7 +5,7 @@ module.exports = [
 
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED"],
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
 			interfaces: ["admin"]
 		},
 		method: "POST",
@@ -18,7 +18,7 @@ module.exports = [
 
 				req.model.addMedia(  file_arrays.valid )
 				.then(function(insert_report) {
-
+					
 					res.send( req.interface.render('upload_report', file_arrays));
 				})
 			})
@@ -39,8 +39,8 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED"],
-			interfaces: ["admin"]
+			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			interfaces: ["admin", "web"]
 		},
 		method: "GET",
 		path: "/system/get_media_files",

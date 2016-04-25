@@ -31,8 +31,6 @@
 
 
 			$('body').on('click','.full-size-overlay', function(e){
-				console.log(e);
-
 				if( e.target == this )
 					$('body').trigger('hide-overlay');
 			});
@@ -62,7 +60,6 @@
 					$overlay.fadeOut(300,function(){
 						$overlay.remove();
 					});
-
 				}
 			});
 
@@ -145,7 +142,6 @@
 		var renderImages = function(media_files){
 			var rendered_media_columns = ["","","",""], crt_column, rendered_columns = "";
 			var post_media = $('input[type="hidden"][name="media"]').val().split(',');
-			console.log('post media',post_media);
 
 			$.each( media_files, function(i, el){
 				crt_column = i % 4;
@@ -215,15 +211,55 @@
 					method: "get",
 					type: "json"
 				}).done(function(data){
-
-
+					config.media_files = JSON.parse(data);
 					$('body').trigger('set-content-overlay', renderImages(config.media_files) );
 					setLayerEvents();
 				});
 			});
 
 
+			$('.media-content').on('click', '.img-wrapper', function(e){
 
+				var button_class = $(this).hasClass('primary-image') ? 'remove-primary' : 'set-as-primary';
+				var button_label = $(this).hasClass('primary-image') ? 'Remove Primary' : 'Set as primary';
+				var rendered_info  = 	$('#single_media_info').html()
+										.replace( /~{src}~/g, $(this).find('img').attr('src')  )
+										.replace( /~{id}~/g, $(this).attr('data-image-id')  )
+										.replace( /~{button_class}~/g, button_class  )
+										.replace( /~{button_label}~/g, button_label  );
+
+				$('body').trigger('show-overlay', rendered_info);
+
+				$('.full-size-overlay').on('click','.set-as-primary', function(evt){
+					evt.preventDefault();
+
+					var $form = $('#single_post_form')
+						media_id = $(this).attr('data-media-id'),
+						media_src = $(this).attr('data-media-src');
+
+					$form.find('[name="primary_image_id"]').val(media_id);
+					$form.find('.primary-image-container').html(
+						$('<img >').attr('src', media_src)
+					);
+
+					$('.post-buttons.single-post  .media-content .img-wrapper').removeClass('primary-image');
+					$('.post-buttons.single-post  .media-content').find('[data-image-id="'+media_id+'"]').addClass('primary-image');
+					$('body').trigger('hide-overlay');
+				});
+
+				$('.full-size-overlay').on('click','.remove-primary', function(evt){
+					evt.preventDefault();
+
+					var $form = $('#single_post_form')
+
+					$form.find('[name="primary_image_id"]').val('');
+					$form.find('.primary-image-container').html('');
+
+					$('.post-buttons.single-post  .media-content .img-wrapper').removeClass('primary-image');
+					$('body').trigger('hide-overlay');
+				});
+
+			});
 
 			$('body').on('attached-media-to-post', function(evt, media){
 
@@ -247,9 +283,6 @@
 
 				$('.media-content').html( rendered_images );
 
-				$('.media-content .img-wrapper').on('click', function(e){
-					$('body').trigger('show-overlay', $(this).find('img').attr('src'));
-				});
 
 			});
 		};
@@ -412,6 +445,8 @@
 
 
 		var checkValidation = function(vstring, $form){
+			if(!vstring) return []; //no errors
+
 			var rules = vstring.split("|");
 
 			return rules.reduce(function(errors, crt_rule){
@@ -476,10 +511,9 @@
 
 				var options = $(this).data('plugin_FormSubmitter').options;
 
-
-				console.log( checkValidation( options.validation_string, options.$form ) );
-
-
+				if( checkValidation( options.validation_string, options.$form ).length == 0 ) {
+					options.$form.submit();
+				}
 			});
 		};
 
@@ -494,6 +528,164 @@
         // has plugin instantiated ?
         if ( typeof plugin === "undefined") {
             plugin = new FormSubmitter(this, options);
+            this.data(dataKey, plugin);
+        }
+        return plugin;
+    };
+
+}(jQuery, window, document));
+
+
+
+
+
+
+/**
+	Tag Color Picker
+*/
+;(function ($, window, document, undefined) {
+
+    var pluginName = "TagColorPicker",
+        dataKey = "plugin_" + pluginName;
+
+
+    var TagColorPicker = function (el, options) {
+        var $el = $(el),
+			fs = this;
+        var config = {
+
+        };
+
+        var _init = function(){
+			fs.options = $.extend(config, options);
+
+			setEvents();
+		};
+
+		var updateTagColorInput = function(){
+			var tags = [];
+
+			$el.find('span').each(function(i, el){
+				tags.push( $(el).attr('data-tag-key') + "~" + ( $(el).attr('data-tag-value') || '' )   );
+			});
+
+			$el.find('input[type="hidden"]').val( tags.join("<|>") );
+		};
+
+
+
+		var setEvents = function(){
+			$el.on('click','span', function(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+
+				if($(this).find('ul').length > 0 ) return;
+
+				$tag_colors = $('#tag_color_picker_options').html();
+				$(this).append($tag_colors);
+
+				if( $(this).attr('data-pinned') ) {
+					$(this).find('.pin').html('Unpin');
+				} else {
+					$(this).find('.pin').html('Pin');
+				}
+			});
+
+			$el.on('click', 'span ul li', function(evt){
+				evt.preventDefault();
+				evt.stopPropagation();
+
+				var $tag = $(this).closest('span');
+
+				if( $(this).hasClass('pin') ) {
+
+					if( $tag.attr('data-pinned') ) {
+						$tag.removeAttr('data-pinned');
+					} else {
+						$tag.attr('data-pinned', true);
+					}
+
+				} else { //clicked a color
+					$tag.attr('data-tag-value', ($(this).attr('class') || '')  );
+				}
+
+				$(this).closest('ul').remove();
+				updateTagColorInput();
+			});
+
+
+			$('body').on('click', function(){
+				$el.find('ul').remove();
+			});
+		};
+
+		_init();
+    };
+
+
+
+    $.fn[pluginName] = function (options) {
+        var plugin = this.data(dataKey);
+
+        // has plugin instantiated ?
+        if ( typeof plugin === "undefined") {
+            plugin = new TagColorPicker(this, options);
+            this.data(dataKey, plugin);
+        }
+        return plugin;
+    };
+
+}(jQuery, window, document));
+
+
+
+
+
+/**
+	Tag Prio Picker
+*/
+;(function ($, window, document, undefined) {
+
+    var pluginName = "TagPrioPicker",
+        dataKey = "plugin_" + pluginName;
+
+
+    var TagPrioPicker = function (el, options) {
+        var $el = $(el),
+			fs = this;
+        var config = {
+
+        };
+
+        var _init = function(){
+			fs.options = $.extend(config, options);
+			setEvents();
+		};
+
+		var setEvents = function(){
+
+			$el.on('change', 'input[type="number"]', function(evt){
+				var prios = [];
+
+				$el.find('input[type="number"]').each(function(i, el){
+					prios.push( $(el).parent().attr('data-tag-key') + "~" + ( $(el).val() || '0' )   );
+				});
+
+				$el.find('input[type="hidden"]').val( prios.join("<|>") );
+			});
+		};
+
+		_init();
+    };
+
+
+
+    $.fn[pluginName] = function (options) {
+        var plugin = this.data(dataKey);
+
+        // has plugin instantiated ?
+        if ( typeof plugin === "undefined") {
+            plugin = new TagPrioPicker(this, options);
             this.data(dataKey, plugin);
         }
         return plugin;
