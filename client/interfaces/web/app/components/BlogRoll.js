@@ -6,6 +6,8 @@ var Col = ReactBootstrap.Col;
 
 var BlogPost = require('./BlogPost.js');
 
+var BlogActions = require('../actions/BlogActions.js');
+
 
 var BlogRoll = React.createClass({
 
@@ -61,7 +63,7 @@ var BlogRoll = React.createClass({
 					</div>
 
 					<div className="load-more">
-						<a href="#" className="load-more-button ">
+						<a href="" onClick={this._loadMore} className="load-more-button ">
 							<i className="fa  fa-refresh"></i>
 							<span className="active-label">Loading...</span>
 							<span className="passive-label">Load more</span>
@@ -73,8 +75,15 @@ var BlogRoll = React.createClass({
 				</Col>
 			</Row>
 		);
-	}
+	},
 
+
+	_loadMore : function(evt){
+		evt.preventDefault();
+		console.log('doing action');
+
+		BlogActions.doAction("passed text from blogRoll");
+	}
 });
 
 

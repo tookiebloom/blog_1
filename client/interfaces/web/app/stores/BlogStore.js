@@ -1,5 +1,7 @@
 const Events = require('events');
 var assign = require('object-assign');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+
 
 
 var BlogStore = function(){
@@ -91,6 +93,13 @@ var BlogStore = function(){
 		getHomeContext	: _getHomeContext
 	};
 };
+
+
+AppDispatcher.register(function(action) {
+
+	console.log('dispatcher dispatched:', action);
+
+});
 
 
 module.exports = BlogStore;
