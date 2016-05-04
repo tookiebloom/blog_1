@@ -29,8 +29,11 @@ var BlogRoll = React.createClass({
 
 	getInitialState : function(){
 		return {
-			posts	: this.props.posts,
-			tags	: this.props.tags
+			posts		: this.props.posts,
+			tags		: this.props.tags,
+			isLoading 	: false,
+			pageIndex 	: 0,
+			pendingPage	: false
 		}
 	},
 
@@ -49,7 +52,7 @@ var BlogRoll = React.createClass({
 
 					<div className="tags">
 						<h5>Main tags:</h5>
-						<div className="tags-wrapper">
+						<div className="tags-wrapper" >
 							{tags.map(function(tag, i){
 								return <a className={"tag-button " + (context.tag_color_map[tag.name] || '')}  href="#" key={i}>{tag.name}</a>
 							})}
@@ -63,14 +66,12 @@ var BlogRoll = React.createClass({
 					</div>
 
 					<div className="load-more">
-						<a href="" onClick={this._loadMore} className="load-more-button ">
+						<a href="" onClick={this._loadMore} className={"load-more-button" + (this.state.isLoading ? ' active' : '')}>
 							<i className="fa  fa-refresh"></i>
 							<span className="active-label">Loading...</span>
 							<span className="passive-label">Load more</span>
 						</a>
 					</div>
-
-
 
 				</Col>
 			</Row>
@@ -80,9 +81,13 @@ var BlogRoll = React.createClass({
 
 	_loadMore : function(evt){
 		evt.preventDefault();
-		console.log('doing action');
 
-		BlogActions.doAction("passed text from blogRoll");
+		var _state = this.state;
+		_state.isLoading = true;
+		_state.pendingPage = _state.pageIndex + 1;
+
+		this.setState(_state);
+		BlogActions.requestMorePosts(_state.pendingPage);
 	}
 });
 

@@ -11,10 +11,10 @@ var Footer = require('../components/Footer.js');
 
 
 /*Stores*/
-var blog_store = require('../stores/BlogStore.js')();
+var BlogStore = require('../stores/BlogStore.js')();
 
 /*context*/
-var root_context = blog_store.getHomeContext();
+var root_context = BlogStore.getHomeContext();
 
 
 var Index = React.createClass({
@@ -32,8 +32,8 @@ var Index = React.createClass({
 
 	getInitialState : function(){
 		return {
-			posts: blog_store.getPosts(),
-			tags : blog_store.getTags()
+			posts: BlogStore.getPosts(),
+			tags : BlogStore.getTags()
 		}
 	},
 
@@ -61,6 +61,18 @@ var Index = React.createClass({
 				<Footer />
 			</Grid>
 		);
+	},
+
+	componentDidMount: function() {
+	  BlogStore.addActionCompletedListener(this._onActionCompleted);
+	},
+
+	componentWillUnmount: function() {
+	  BlogStore.removeActionCompletedListener(this._onActionCompleted);
+	},
+
+	_onActionCompleted : function(action, data) {
+		console.log('action completed arguments', arguments);
 	}
 
 });

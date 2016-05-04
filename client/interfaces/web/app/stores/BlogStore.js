@@ -2,12 +2,17 @@ const Events = require('events');
 var assign = require('object-assign');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 
+var Actions = require('../constants/Actions.js');
+var BlogApi = require('../api/BlogApi.js');
+
+var _event_bus = new Events.EventEmitter();
+
 
 
 var BlogStore = function(){
 
-	var _event_bus = assign({},Events.eventEmitter),
-		_posts, _media, _prio_tags, _tag_color_map, _settings ;
+
+	var	_posts, _media, _prio_tags, _tag_color_map, _settings ;
 
 	var _init = function(){
 		//do init
@@ -16,17 +21,17 @@ var BlogStore = function(){
 		_posts 		= pageData.posts || [];
 		_settings 	= pageData.settings || {};
 
-		pageData.media 			&& _initMedia();
+		pageData.media 			&& _pushMediaArray(pageData.media);
 		_settings.tag_prio 		&& _initTags();
 		_settings.tag_colors 	&& _initTagColorMap();
 	};
 
-	var _initMedia = function(){
+	var _pushMediaArray = function(media){
 		// map all the media files into media.id, for ease of extraction
-		_media = (pageData.media || []).reduce(function(acc, crt){
+		_media = (media || []).reduce(function(acc, crt){
 			acc[ crt._id ] = crt;
 			return acc;
-		}, {});
+		},_media || {});
 	};
 
 
@@ -68,7 +73,7 @@ var BlogStore = function(){
 		return {
 			media 			: _media,
 			tag_color_map 	: _tag_color_map,
-			texts 			: {
+			texts : {
 				home : {
 					tagline : _settings.homepage_tagline
 				}
@@ -76,28 +81,68 @@ var BlogStore = function(){
 		};
 	};
 
-	_getPosts = function(){
+	var _getPosts = function(){
 		return _posts;
 	};
 
-	_getTags = function(){
+	var _getTags = function(){
 		return _prio_tags;
+	}
+
+	var _addActionCompletedListener = function(callback){
+    	_event_bus.on(Actions.BLOG.ACTION_COMPLETED, callback);
+	}
+
+	var _removeActionCompletedListener = function(callback){
+    	_event_bus.removeListener(Actions.BLOG.ACTION_COMPLETED, callback);
 	}
 
 
 	_init();
 
+	_event_bus.on(Actions.SERVER.MORE_POSTS_PROVIDED, function(response){
+
+		if( response.status == "success" ) {
+			_posts.concat(response.posts);
+			_pushMediaArray(response.media);
+		}
+
+		_event_bus.emit(Actions.BLOG.ACTION_COMPLETED,Actions.BLOG.MORE_POSTS_REQUESTED, response);
+	});
+
+
 	return {
-		getPosts 		: _getPosts,
-		getTags 		: _getTags,
-		getHomeContext	: _getHomeContext
+		getPosts 						: _getPosts,
+		getTags 						: _getTags,
+		getHomeContext					: _getHomeContext,
+		addActionCompletedListener 		: _addActionCompletedListener,
+		removeActionCompletedListener 	: _removeActionCompletedListener
 	};
+
+
+
 };
 
 
 AppDispatcher.register(function(action) {
 
-	console.log('dispatcher dispatched:', action);
+	switch(action.actionType) {
+
+		case Actions.BLOG.MORE_POSTS_REQUESTED:
+
+			BlogApi.getPostsPage(action.pageIndex)
+			.then(function(response){
+				_event_bus.emit(Actions.SERVER.MORE_POSTS_PROVIDED, response );
+
+			}, function(err){
+				console.log('api failed for action', action, err);
+				_event_bus.emit(Actions.SERVER.MORE_POSTS_PROVIDED, err);
+			});
+		break;
+
+		default:
+		// no op
+	}
 
 });
 

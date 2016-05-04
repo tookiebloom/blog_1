@@ -42,7 +42,7 @@ module.exports = function(CORE){
 	};
 
 	var _find = function(collection, query, projection, opts){
-		
+
 		opts = opts || {};
 		opts.skip = opts.skip || 0;
 		opts.limit = opts.limit || 0;

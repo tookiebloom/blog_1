@@ -45,6 +45,10 @@ var BlogPost = React.createClass({
 		texts			: React.PropTypes.object
 	},
 
+	shouldComponentUpdate: function(nextProps, nextState) {
+		return false;
+	},
+
 	getInitialState : function(){
 
 		return {

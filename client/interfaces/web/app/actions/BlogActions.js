@@ -1,21 +1,15 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher.js');
-
+var Actions = require('../constants/Actions.js');
 
 var BlogActions = {
 
 
-	doAction: function(text) {
-
+	requestMorePosts : function(pageIndex) {
 		AppDispatcher.dispatch({
-		  actionType: "SOME_ACTION_TYPE",
-		  text: text
+			actionType: Actions.BLOG.MORE_POSTS_REQUESTED,
+			pageIndex: pageIndex
 		});
-	},
-
-
+	}
 }
-
-
-
 
 module.exports = BlogActions;
