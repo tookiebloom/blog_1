@@ -3,6 +3,7 @@ var Grid = ReactBootstrap.Grid;
 var Row = ReactBootstrap.Row;
 var Col = ReactBootstrap.Col;
 
+var DateFormat = require('dateformat');
 
 var sanitizePostContent = function(state){
 	var content = state.content;
@@ -27,15 +28,22 @@ var sanitizePostContent = function(state){
 
 		if( content.length > 300 ) {
 			content = content.substr(0,300);
-			content += ' <a href="#">[read more]</a>';
+			content += ' <a href="/p/'+state.permalink+'">[read more]</a>';
 		}
 	}
 
 	return {
 		__html : content
 	}
-}
+};
 
+
+var getMeta = function (created) {
+	if( !created ) return "";
+
+	var _date = new Date( created/1000 );
+	return DateFormat(_date, "dddd, mmmm dS, yyyy, h:MM:ss TT");
+};
 
 
 var BlogPost = React.createClass({
@@ -53,11 +61,13 @@ var BlogPost = React.createClass({
 
 		return {
 			title : this.props.postData.headline || '',
-			meta : this.props.postData.created || '',
+			meta : getMeta(this.props.postData.created),
 			content: this.props.postData.body || '',
 			tags: this.props.postData.tags || [],
 			primary_image : this.props.postData.primary_image_id ? this.context.media[ this.props.postData.primary_image_id  ] : false,
-			isTeaser: this.props.isTeaser
+			isTeaser: this.props.isTeaser,
+			created: new Date(this.props.postData.created/1000),
+			permalink: this.props.postData.permalink
 		}
 	},
 
@@ -67,10 +77,12 @@ var BlogPost = React.createClass({
 
 		return (
 
-			<article className="blog-post">
+			<article className="blog-post clearfix">
 
-
-				<h2>{this.state.title}</h2>
+				{ this.state.isTeaser ?
+					(<a href={"/p/" + this.state.permalink} ><h2>{this.state.title}</h2></a>):
+					<h2>{this.state.title}</h2>
+				}
 				<div className="post-meta">{this.state.meta}</div>
 
 				{ this.state.primary_image ?
@@ -83,8 +95,8 @@ var BlogPost = React.createClass({
 
 				<div className="post-content" dangerouslySetInnerHTML={sanitizePostContent( this.state )} />
 
-				<div className="post-buttons">
-					<a className="full-post" href="#">
+				{ this.state.isTeaser ? <div className="post-buttons">
+					<a className="full-post" href={"/p/" + this.state.permalink + "?useinterface=web"}>
 						<i className="fa fa-align-justify"></i>
 						View full article
 					</a>
@@ -92,7 +104,7 @@ var BlogPost = React.createClass({
 						<i className="fa fa-comments-o"></i>
 						See comments
 					</a>
-				</div>
+				</div>: null}
 
 				<div className="post-tags">
 					{this.state.tags.map(function(tag, i){

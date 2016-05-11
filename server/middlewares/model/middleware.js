@@ -4,7 +4,7 @@ module.exports = function(CORE){
 
 	var repo = CORE.repos.mongodb;
 	var settings_cache = {
-		page_size : 10
+		page_size : CORE.config.settings.default_page_size
 	};
 
 
@@ -46,8 +46,12 @@ module.exports = function(CORE){
 
 
 
-	var _getPost = function(post_id) {
-		return repo.find("posts",{_id: ObjectID(post_id)});
+	var _getPost = function(query) {
+		var query_obj = {};
+		query.post_id && (query_obj._id = ObjectID(query.post_id));
+		query.permalink && (query_obj.permalink = query.permalink);
+
+		return repo.find("posts",query_obj);
 	}
 
 	var _editPost = function(req, post_id){

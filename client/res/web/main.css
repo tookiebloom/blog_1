@@ -6,7 +6,11 @@ body {
   body .main-container {
     background: #c9c7c6;
     border-top: solid 5px #29475f;
-    margin-top: 30px; }
+    margin-top: 30px;
+    padding-bottom: 30px;
+    -webkit-box-shadow: 7px 5px 53px 6px rgba(0, 0, 0, 0.23);
+    -moz-box-shadow: 7px 5px 53px 6px rgba(0, 0, 0, 0.23);
+    box-shadow: 7px 5px 53px 6px rgba(0, 0, 0, 0.23); }
     body .main-container .main-title {
       color: #29475f;
       font-family: 'Rambla', sans-serif;
@@ -16,7 +20,28 @@ body {
   body .footer {
     margin-top: 30px;
     margin-bottom: 30px;
-    color: #fff; }
+    color: #fff;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#29475f+0,29475f+90,386283+100 */
+    background: #29475f;
+    /* Old browsers */
+    background: -moz-linear-gradient(top, #29475f 0%, #29475f 90%, #386283 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #29475f 0%, #29475f 90%, #386283 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #29475f 0%, #29475f 90%, #386283 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#29475f', endColorstr='#386283',GradientType=0 );
+    /* IE6-9 */
+    -moz-box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2); }
+    body .footer .content span, body .footer .content a {
+      padding: 5px 20px;
+      margin-left: 20px;
+      margin-top: 20px;
+      color: #aaa; }
 
 /*==========  Mobile First Method  ==========*/
 /* Custom, iPhone Retina */
@@ -31,7 +56,8 @@ body {
     padding-top: 60px; }
     body .main-container {
       border-width: 10px;
-      margin-top: 60px; }
+      margin-top: 60px;
+      padding-bottom: 20; }
       body .main-container .main-title {
         font-size: 36px;
         margin-top: 30px; }
@@ -41,7 +67,8 @@ body {
 /* Large Devices, Wide Screens */
 .header {
   background: #dfdedd;
-  padding: 10px 0; }
+  padding: 10px 0;
+  border-top: solid 5px #29475f; }
   .header .logo-wrapper {
     padding-left: 16px; }
     .header .logo-wrapper img {
@@ -75,7 +102,8 @@ body {
 /* Medium Devices, Desktops */
 @media only screen and (min-width: 992px) {
   .header {
-    padding: 20px 0; }
+    padding: 20px 0;
+    border-top: solid 10px #29475f; }
     .header .logo-wrapper img {
       max-width: none;
       margin-top: 12px; }
@@ -104,94 +132,97 @@ body {
   .suggestions {
     border-left: none;
     padding-left: 0; } }
-.blog-roll .tags h5 {
-  color: #29475f;
-  font-size: 16px; }
-.blog-roll .tags .tag-button {
-  padding: 3px 10px 3px 7px;
-  border-left: solid 3px #29475f;
-  background: #ebebeb;
-  display: inline-block;
-  color: #2f88a7;
-  margin-left: 10px;
-  margin-top: 10px;
-  font-size: 12px;
-  font-weight: bold; }
-  .blog-roll .tags .tag-button:hover, .blog-roll .tags .tag-button:active {
-    text-decoration: none;
-    background: white; }
-  .blog-roll .tags .tag-button.color-blue {
-    background: #3498db;
-    border-color: #2980b9;
-    color: #fff; }
-    .blog-roll .tags .tag-button.color-blue:hover, .blog-roll .tags .tag-button.color-blue:active {
-      background: #5faee3; }
-  .blog-roll .tags .tag-button.color-red {
-    background: #e74c3c;
-    border-color: #c0392b;
-    color: #fff; }
-    .blog-roll .tags .tag-button.color-red:hover, .blog-roll .tags .tag-button.color-red:active {
-      background: #ed7669; }
-  .blog-roll .tags .tag-button.color-green {
-    background: #1abc9c;
-    border-color: #16a085;
-    color: #fff; }
-    .blog-roll .tags .tag-button.color-green:hover, .blog-roll .tags .tag-button.color-green:active {
-      background: #28e1bd; }
-.blog-roll .tags .tags-wrapper {
-  margin-left: -10px;
-  margin-top: -10px; }
-.blog-roll .post-list {
-  margin-top: 20px; }
-.blog-roll .load-more {
-  text-align: center;
-  margin: 20px 0; }
-  .blog-roll .load-more .load-more-button {
+.blog-roll {
+  margin-bottom: 10px; }
+  .blog-roll .tags h5 {
     color: #29475f;
-    font-size: 16px;
-    font-weight: bold;
-    position: relative;
-    display: inline-block; }
-    .blog-roll .load-more .load-more-button .fa {
-      font-size: 22px;
-      vertical-align: middle; }
-    .blog-roll .load-more .load-more-button span {
-      display: inline-block;
-      -webkit-transition: opacity 200ms ease;
-      -moz-transition: opacity 200ms ease;
-      -ms-transition: opacity 200ms ease;
-      -o-transition: opacity 200ms ease;
-      transition: opacity 200ms ease;
-      padding-left: 10px; }
-      .blog-roll .load-more .load-more-button span.active-label {
-        position: absolute;
+    font-size: 16px; }
+  .blog-roll .tags .tag-button {
+    padding: 3px 10px 3px 7px;
+    border-left: solid 3px #29475f;
+    background: #ebebeb;
+    display: inline-block;
+    color: #2f88a7;
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: bold; }
+    .blog-roll .tags .tag-button:hover, .blog-roll .tags .tag-button:active {
+      text-decoration: none;
+      background: white; }
+    .blog-roll .tags .tag-button.color-blue {
+      background: #3498db;
+      border-color: #2980b9;
+      color: #fff; }
+      .blog-roll .tags .tag-button.color-blue:hover, .blog-roll .tags .tag-button.color-blue:active {
+        background: #5faee3; }
+    .blog-roll .tags .tag-button.color-red {
+      background: #e74c3c;
+      border-color: #c0392b;
+      color: #fff; }
+      .blog-roll .tags .tag-button.color-red:hover, .blog-roll .tags .tag-button.color-red:active {
+        background: #ed7669; }
+    .blog-roll .tags .tag-button.color-green {
+      background: #1abc9c;
+      border-color: #16a085;
+      color: #fff; }
+      .blog-roll .tags .tag-button.color-green:hover, .blog-roll .tags .tag-button.color-green:active {
+        background: #28e1bd; }
+  .blog-roll .tags .tags-wrapper {
+    margin-left: -10px;
+    margin-top: -10px; }
+  .blog-roll .post-list {
+    margin-top: 20px; }
+  .blog-roll .load-more {
+    text-align: center;
+    margin-top: 20px; }
+    .blog-roll .load-more .load-more-button {
+      color: #29475f;
+      font-size: 16px;
+      font-weight: bold;
+      position: relative;
+      display: inline-block; }
+      .blog-roll .load-more .load-more-button .fa {
+        font-size: 22px;
+        vertical-align: middle; }
+      .blog-roll .load-more .load-more-button span {
+        display: inline-block;
+        -webkit-transition: opacity 200ms ease;
+        -moz-transition: opacity 200ms ease;
+        -ms-transition: opacity 200ms ease;
+        -o-transition: opacity 200ms ease;
+        transition: opacity 200ms ease;
+        padding-left: 10px; }
+        .blog-roll .load-more .load-more-button span.active-label {
+          position: absolute;
+          opacity: 0; }
+      .blog-roll .load-more .load-more-button.active span.active-label {
+        opacity: 1; }
+      .blog-roll .load-more .load-more-button.active span.passive-label {
         opacity: 0; }
-    .blog-roll .load-more .load-more-button.active span.active-label {
-      opacity: 1; }
-    .blog-roll .load-more .load-more-button.active span.passive-label {
-      opacity: 0; }
-    .blog-roll .load-more .load-more-button.active .fa {
-      -webkit-animation-name: spin;
-      -webkit-animation-duration: 1200ms;
-      -webkit-animation-iteration-count: infinite;
-      -webkit-animation-timing-function: linear;
-      -moz-animation-name: spin;
-      -moz-animation-duration: 1200ms;
-      -moz-animation-iteration-count: infinite;
-      -moz-animation-timing-function: linear;
-      -ms-animation-name: spin;
-      -ms-animation-duration: 1200ms;
-      -ms-animation-iteration-count: infinite;
-      -ms-animation-timing-function: linear;
-      animation-name: spin;
-      animation-duration: 1200ms;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear; }
+      .blog-roll .load-more .load-more-button.active .fa {
+        -webkit-animation-name: spin;
+        -webkit-animation-duration: 1200ms;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+        -moz-animation-name: spin;
+        -moz-animation-duration: 1200ms;
+        -moz-animation-iteration-count: infinite;
+        -moz-animation-timing-function: linear;
+        -ms-animation-name: spin;
+        -ms-animation-duration: 1200ms;
+        -ms-animation-iteration-count: infinite;
+        -ms-animation-timing-function: linear;
+        animation-name: spin;
+        animation-duration: 1200ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear; }
 
 /* Medium Devices, Desktops */
 @media only screen and (min-width: 992px) {
   .blog-roll {
-    margin-top: 20px; }
+    margin-top: 20px;
+    margin-bottom: 20px; }
     .blog-roll .post-list {
       margin-top: 40px; }
     .blog-roll .tags .tags-wrapper {
@@ -229,12 +260,15 @@ body {
 
 article.blog-post {
   padding: 15px 15px 20px;
+  -moz-box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
   margin-top: 20px;
   background: #ebebeb; }
   article.blog-post h2 {
     color: #2f88a7;
     margin: 0;
-    font-size: 20px; }
+    font-size: 25px; }
   article.blog-post .post-meta {
     font-size: 11px;
     font-weight: bold;
@@ -242,6 +276,15 @@ article.blog-post {
   article.blog-post .post-content {
     margin-top: 20px;
     font-size: 12px; }
+    article.blog-post .post-content span, article.blog-post .post-content strong {
+      font-size: 15px !important;
+      line-height: 28px !important; }
+    article.blog-post .post-content > * {
+      float: none; }
+    article.blog-post .post-content img {
+      float: none !important;
+      margin: 40px auto;
+      display: block; }
   article.blog-post .post-details {
     height: 180px;
     overflow: hidden; }
@@ -254,7 +297,8 @@ article.blog-post {
       max-height: 240px; }
   article.blog-post .post-buttons {
     margin-top: 0px;
-    margin-left: -10px; }
+    margin-left: -10px;
+    clear: both; }
     article.blog-post .post-buttons a {
       display: inline-block;
       margin-left: 10px;
@@ -316,6 +360,16 @@ article.blog-post {
     article.blog-post .post-content {
       font-size: 14px;
       margin-top: 30px; }
+      article.blog-post .post-content img[alt="left"] {
+        margin-right: 40px;
+        margin-bottom: 40px;
+        float: left !important; }
+      article.blog-post .post-content img[alt="right"] {
+        margin-left: 40px;
+        margin-bottom: 40px;
+        float: left !important; }
+      article.blog-post .post-content img {
+        display: inline-block; }
     article.blog-post .post-meta {
       font-size: 12px; }
     article.blog-post .post-tags {

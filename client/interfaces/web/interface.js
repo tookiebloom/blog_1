@@ -12,7 +12,6 @@ module.exports = function(CORE, interface_name){
 		return web_intf.dots.react_base({
 			pageData : data
 		});
-
 	});
 
 
@@ -30,6 +29,14 @@ module.exports = function(CORE, interface_name){
 
 	});
 
+
+
+	web_intf.view('post', function(data){
+
+		return web_intf.dots.react_base({
+			pageData : data
+		});
+	});
 
 	web_intf.view('404', function(data){
 

@@ -12,7 +12,7 @@ var _event_bus = new Events.EventEmitter();
 var BlogStore = function(){
 
 
-	var	_posts, _media, _prio_tags, _tag_color_map, _settings ;
+	var	_posts, _media, _prio_tags, _tag_color_map, _settings, _post ;
 
 	var _init = function(){
 		//do init
@@ -20,10 +20,11 @@ var BlogStore = function(){
 
 		_posts 		= pageData.posts || [];
 		_settings 	= pageData.settings || {};
+		_post 		= pageData.post || {};
 
-		pageData.media 			&& _pushMediaArray(pageData.media);
-		_settings.tag_prio 		&& _initTags();
-		_settings.tag_colors 	&& _initTagColorMap();
+		pageData.media 								&& _pushMediaArray(pageData.media);
+		_settings.tag_prio && pageData.tags			&& _initTags();
+		_settings.tag_colors 						&& _initTagColorMap();
 	};
 
 	var _pushMediaArray = function(media){
@@ -81,21 +82,37 @@ var BlogStore = function(){
 		};
 	};
 
+
+	var _getPostContext = function(){
+		return {
+			media 			: _media,
+			tag_color_map 	: _tag_color_map,
+			texts : {
+				post : {
+
+				}
+			}
+		};
+	};
 	var _getPosts = function(){
 		return _posts;
 	};
 
+	var _getPost = function(){
+		return _post;
+	}
+
 	var _getTags = function(){
 		return _prio_tags;
-	}
+	};
 
 	var _addActionCompletedListener = function(callback){
     	_event_bus.on(Actions.BLOG.ACTION_COMPLETED, callback);
-	}
+	};
 
 	var _removeActionCompletedListener = function(callback){
     	_event_bus.removeListener(Actions.BLOG.ACTION_COMPLETED, callback);
-	}
+	};
 
 
 	_init();
@@ -103,7 +120,7 @@ var BlogStore = function(){
 	_event_bus.on(Actions.SERVER.MORE_POSTS_PROVIDED, function(response){
 
 		if( response.status == "success" ) {
-			_posts.concat(response.posts);
+			_posts = _posts.concat(response.posts);
 			_pushMediaArray(response.media);
 		}
 
@@ -114,9 +131,12 @@ var BlogStore = function(){
 	return {
 		getPosts 						: _getPosts,
 		getTags 						: _getTags,
-		getHomeContext					: _getHomeContext,
 		addActionCompletedListener 		: _addActionCompletedListener,
-		removeActionCompletedListener 	: _removeActionCompletedListener
+		removeActionCompletedListener 	: _removeActionCompletedListener,
+		getPost							: _getPost,
+
+		getHomeContext					: _getHomeContext,
+		getPostContext					: _getPostContext
 	};
 
 

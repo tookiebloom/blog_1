@@ -6,7 +6,11 @@ var Col = ReactBootstrap.Col;
 
 var BlogPost = require('./BlogPost.js');
 
-var BlogActions = require('../actions/BlogActions.js');
+var BlogActions = require('../../actions/BlogActions.js');
+
+
+/*constants*/
+var Actions = require('.././constants/Actions.js');
 
 
 var BlogRoll = React.createClass({
@@ -29,12 +33,44 @@ var BlogRoll = React.createClass({
 
 	getInitialState : function(){
 		return {
-			posts		: this.props.posts,
-			tags		: this.props.tags,
-			isLoading 	: false,
-			pageIndex 	: 0,
-			pendingPage	: false
+			posts			: this.props.posts,
+			tags			: this.props.tags,
+			isLoading 		: false,
+			pageIndex 		: 0,
+			pendingPage		: false,
+			preventLoadMore : false
 		}
+	},
+
+
+	componentWillReceiveProps: function(nextProps) {
+
+		var _isLoading 	 		= 	this.state.pendingPage &&
+					 	  			nextProps.flags.action_completed == Actions.BLOG.MORE_POSTS_REQUESTED ?
+						  				false : this.state.isLoading,
+
+			_pendingPage 		= 	this.state.pendingPage &&
+						 			nextProps.flags.action_completed == Actions.BLOG.MORE_POSTS_REQUESTED ?
+							 			false : this.state.isLoading,
+
+			_pageIndex	 		= 	this.state.pendingPage &&
+						 			nextProps.flags.action_completed == Actions.BLOG.MORE_POSTS_REQUESTED ?
+										this.state.pendingPage : this.state.pageIndex,
+
+			_preventLoadMore 	= 	this.state.pendingPage &&
+						 			nextProps.flags.action_completed == Actions.BLOG.MORE_POSTS_REQUESTED &&
+									this.state.posts.length == nextProps.posts.length ?
+										true : this.state.preventLoadMore;
+
+
+		this.setState({
+			posts			: nextProps.posts,
+			tags			: nextProps.tags,
+			isLoading 		: _isLoading,
+			pageIndex 		: _pageIndex,
+			pendingPage		: _pendingPage,
+			preventLoadMore	: _preventLoadMore
+		});
 	},
 
 	render: function() {
@@ -65,7 +101,7 @@ var BlogRoll = React.createClass({
 						})}
 					</div>
 
-					<div className="load-more">
+					<div className={"load-more" + (this.state.preventLoadMore ? ' hidden' : '')}>
 						<a href="" onClick={this._loadMore} className={"load-more-button" + (this.state.isLoading ? ' active' : '')}>
 							<i className="fa  fa-refresh"></i>
 							<span className="active-label">Loading...</span>
@@ -77,6 +113,9 @@ var BlogRoll = React.createClass({
 			</Row>
 		);
 	},
+
+
+
 
 
 	_loadMore : function(evt){

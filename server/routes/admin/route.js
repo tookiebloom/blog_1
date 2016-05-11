@@ -118,7 +118,7 @@ module.exports = [
 		path: "/edit_post/",
 		handler : function(req, res){
 			Promise.all([
-				req.model.getPost( req.query.post_id ),
+				req.model.getPost({ post_id: req.query.post_id }),
 				req.model.getTags()
 
 			]).then(function(results){

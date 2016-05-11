@@ -1,12 +1,19 @@
 var http = require('http');
 var Promise = require('bluebird');
+var ApiConstants = require('../constants/Api.js');
+
 
 module.exports = {
 
 	getPostsPage : function(pageIndex) {
+
+
+
 		return new Promise(function(resolve, reject){
 
-			http.get({ path : '/system/get_blog_page?pageIndex=0&useinterface=json' }, function (res) {
+			http.get({
+				path : ApiConstants.PATH_TEMPLATES.GET_BLOG_PAGE.replace('<~page_index~>',pageIndex)
+			}, function (res) {
 			    var _buff = "";
 
 			    res.on('data', function (buff) {

@@ -4,7 +4,7 @@ var Row = ReactBootstrap.Row;
 var Col = ReactBootstrap.Col;
 
 
-var Footer = React.createClass({
+var CommentRoll = React.createClass({
 
 	render: function() {
 		return (

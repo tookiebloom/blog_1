@@ -148,5 +148,47 @@ module.exports = [
 		access_violation : function(req, res){
 			res.send( req.interface.to("default").render("403") );
 		}
+	},
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			interfaces: ["web"]
+		},
+		method: 'GET',
+		path: '/p/:permalink',
+		handler : function(req, res) {
+
+			req.model.getPost({
+				permalink: req.params.permalink
+			}).then(function(posts){
+				if (posts.length != 0){
+					var post = posts[0];
+
+					req.model.getMedia({ _id : {$in : post.media } })
+
+					Promise.all([
+						req.model.getMedia({ _id : {$in : post.media } }),
+						req.model.getSettings()
+					])
+					.then(function(results){
+						res.send( req.interface.render('post', {
+							post		: post,
+							media		: results[0],
+							settings	: results[1]
+						}));
+					}, function(){
+						res.send( req.interface.to("default").render("500", {err_object: arguments}) );
+					})
+
+				} else {
+					res.send( req.interface.to("default").render("404") );
+				}
+			})
+
+		},
+		access_violation : function(req, res) {
+			res.send( req.interface.to("default").render("403") );
+		}
+
 	}
 ];

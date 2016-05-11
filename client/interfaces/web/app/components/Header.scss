@@ -2,6 +2,9 @@
 	background: #dfdedd;
 	padding: 10px 0;
 
+
+	border-top: solid 5px #29475f;
+
 	.logo-wrapper {
 		padding-left: 16px;
 		img {
@@ -57,10 +60,15 @@
 
 	.header  {
 		padding: 20px 0;
+		border-top: solid 10px #29475f;
+
 		.logo-wrapper img{
 			max-width: none;
     		margin-top: 12px;
 		}
+
+
+
 
 
 		.header-button.contact {

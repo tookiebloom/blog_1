@@ -86,7 +86,7 @@ module.exports = [
 
 			req.model.getPosts({
 				limit: req.model.getSettingsCache().page_size,
-				skip: page_index * req.model.getSettingsCache().page_size
+				skip: req.model.getSettingsCache().page_size* page_index
 			})
 			.then(function(posts) {
 
@@ -98,12 +98,13 @@ module.exports = [
 
 				req.model.getMedia({ _id : {$in : primary_ids} })
 				.then(function(media){
-
-					res.send({
-						status		: "success",
-						posts		: posts,
-						media		: media
-					});
+					setTimeout(function(){
+						res.send({
+							status		: "success",
+							posts		: posts,
+							media		: media
+						});
+					}, 1000);
 				},function(err){
 					res.send({
 						status: "error",

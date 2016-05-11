@@ -12,6 +12,11 @@ body {
 		background: #c9c7c6;
 		border-top: solid 5px #29475f;
 		margin-top: 30px;
+		padding-bottom: 30px;
+
+		-webkit-box-shadow: 7px 5px 53px 6px rgba(0,0,0,0.23);
+		-moz-box-shadow: 7px 5px 53px 6px rgba(0,0,0,0.23);
+		box-shadow: 7px 5px 53px 6px rgba(0,0,0,0.23);
 
 
 		.main-title {
@@ -27,6 +32,32 @@ body {
 		margin-top: 30px;
 		margin-bottom: 30px;
 		color: #fff;
+
+		padding-top: 40px;
+		padding-bottom: 40px;
+
+		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#29475f+0,29475f+90,386283+100 */
+		background: #29475f; /* Old browsers */
+		background: -moz-linear-gradient(top,  #29475f 0%, #29475f 90%, #386283 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(top,  #29475f 0%,#29475f 90%,#386283 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to bottom,  #29475f 0%,#29475f 90%,#386283 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#29475f', endColorstr='#386283',GradientType=0 ); /* IE6-9 */
+
+
+		-moz-box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
+		-webkit-box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
+
+		.content {
+
+			span, a {
+				padding: 5px 20px;
+				margin-left: 20px;
+				margin-top: 20px;
+
+				color: #aaa;
+			}
+		}
 	}
 }
 
@@ -62,6 +93,7 @@ body {
 		.main-container {
 			border-width: 10px;
 			margin-top: 60px;
+			padding-bottom: 20;
 
 			.main-title {
 				font-size: 36px;
@@ -72,6 +104,9 @@ body {
 		.footer {
 			margin-top: 60px;
 			margin-bottom: 60px;
+
+
+
 		}
 	}
 }

@@ -5,8 +5,9 @@ var Col = ReactBootstrap.Col;
 
 /*Components*/
 var Header = require('../components/Header.js');
-var BlogRoll = require('../components/blog/BlogRoll.js');
-var Suggestions = require('../components/suggestions/Suggestions.js');
+var Suggestions = require('../components/Suggestions.js');
+
+var BlogPost = require('../components/blog/BlogPost.js');
 var Footer = require('../components/Footer.js');
 
 
@@ -14,12 +15,12 @@ var Footer = require('../components/Footer.js');
 var BlogStore = require('../stores/BlogStore.js')();
 
 /*context*/
-var root_context = BlogStore.getHomeContext();
+var root_context = BlogStore.getPostContext();
 
 /*constants*/
 var Actions = require('../constants/Actions.js');
 
-var Index = React.createClass({
+var PostPage = React.createClass({
 
 	childContextTypes : {
     	media			: React.PropTypes.object,
@@ -34,8 +35,7 @@ var Index = React.createClass({
 
 	getInitialState : function(){
 		return {
-			posts: BlogStore.getPosts(),
-			tags : BlogStore.getTags(),
+			post : BlogStore.getPost(),
 			blog_flags : {
 				action_completed : false
 			}
@@ -50,11 +50,11 @@ var Index = React.createClass({
 
 				<Row className="main-container">
 					<Col xs={12} >
-						<h1 className="main-title">{root_context.texts.home.tagline}</h1>
+						<h1 className="main-title">Post page</h1>
 					</Col>
 
 					<Col xs={12} md={9} >
-						<BlogRoll flags={this.state.blog_flags} tags={this.state.tags} posts={this.state.posts} />
+						<BlogPost  key={this.state.post._id} postData={this.state.post} isTeaser={false} />
 					</Col>
 
 					<Col xs={12} md={3} >
@@ -96,4 +96,4 @@ var Index = React.createClass({
 	}
 
 });
-module.exports = Index;
+module.exports = PostPage;

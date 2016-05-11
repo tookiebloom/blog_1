@@ -25,5 +25,9 @@ module.exports = {
 
 	secrets : {
 		jwt : "Thisisareallybigandimportantsecret;shhhh!"
+	},
+
+	settings : {
+		default_page_size : 3
 	}
 };
