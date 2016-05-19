@@ -5,10 +5,11 @@ var Col = ReactBootstrap.Col;
 
 /*Components*/
 var Header = require('../components/Header.js');
-var Suggestions = require('../components/Suggestions.js');
+var Suggestions = require('../components/suggestions/Suggestions.js');
 
 var BlogPost = require('../components/blog/BlogPost.js');
 var Footer = require('../components/Footer.js');
+var CommentRoll = require('../components/comments/CommentRoll.js');
 
 
 /*Stores*/
@@ -60,6 +61,9 @@ var PostPage = React.createClass({
 					<Col xs={12} md={3} >
 						<Suggestions />
 					</Col>
+
+
+					<CommentRoll />
 
 				</Row>
 

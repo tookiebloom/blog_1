@@ -10,7 +10,7 @@ var BlogActions = require('../../actions/BlogActions.js');
 
 
 /*constants*/
-var Actions = require('.././constants/Actions.js');
+var Actions = require('../../constants/Actions.js');
 
 
 var BlogRoll = React.createClass({

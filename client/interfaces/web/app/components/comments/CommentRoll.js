@@ -3,21 +3,41 @@ var Grid = ReactBootstrap.Grid;
 var Row = ReactBootstrap.Row;
 var Col = ReactBootstrap.Col;
 
+var Comment = require('./Comment.js');
+var CommentForm = require('./CommentForm.js');
+
 
 var CommentRoll = React.createClass({
 
 	render: function() {
 		return (
-			<Row className="footer">
-				<div className="content">
-					<span>Copyright &copy; @beni</span>
-					<a href="#">some link!</a>
+			<Col xs={12} md={9}>
+
+
+
+				<div className="comment-list">
+
+					<h3>Comments:</h3>
+
+					<Comment />
+					<Comment />
+					<Comment />
+					<Comment />
+					<Comment />
 				</div>
-			</Row>
+
+
+				<CommentForm />
+
+			</Col>
+
+
+
+
 		);
 	}
 
 });
 
 
-module.exports = Footer;
+module.exports = CommentRoll;

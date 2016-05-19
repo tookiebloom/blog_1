@@ -120,6 +120,7 @@ body {
 
 
 @import 'components/Header.scss';
-@import 'components/Suggestions.scss';
-@import 'components/BlogRoll.scss';
-@import 'components/BlogPost.scss';
+@import 'components/suggestions/Suggestions.scss';
+@import 'components/blog/BlogRoll.scss';
+@import 'components/blog/BlogPost.scss';
+@import 'components/comments/CommentRoll.scss'; 
