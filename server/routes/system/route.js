@@ -1,4 +1,5 @@
 var ObjectID = require('mongodb').ObjectID;
+var ShortId  =  require('shortid');
 
 module.exports = [
 	/**
@@ -126,5 +127,50 @@ module.exports = [
 				message: "Access violation"
 			});
 		}
+	},
+
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			interfaces: ["json", "web"]
+		},
+		method: "POST",
+		path: "/system/submit_comment/",
+		handler: function(req, res){
+
+			var errs =  req.helpers.validator.validateCommentSubmit(req.body);
+
+			if ( errs.length == 0 ) {
+				req.cleanCommentComponents = req.helpers.cleaner.cleanCommentSubmit( req.body );
+				req.cleanCommentComponents.id = ShortId.generate();
+
+				req.model.addComment(
+					req.cleanCommentComponents
+				).then(function(addResult){
+
+					if( addResult.result.n == 1 ) {
+						res.send({
+							status: "success",
+							commentComponents: req.cleanCommentComponents
+						});
+					} else {
+						res.send({
+							status: "error",
+							message: "Something went wrong. Most likely the Id was was corrupted."
+						});
+					}
+				});
+			} else {
+				res.send({
+					status: "error",
+					message: errs.join("<|>")
+				});
+			}
+
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
+		}
+
 	}
 ];

@@ -418,57 +418,56 @@ article.blog-post {
       content: "";
       position: absolute;
       bottom: 0;
-      height: 2px;
+      height: 1px;
       left: 0;
       right: 0;
-      background-color: #aaa;
-      border-bottom: solid 1px #fff; }
+      background-color: #aaa; }
     .comment-list .comment[data-level]:before {
       content: "";
       position: absolute;
       left: 0;
       top: 10px;
       bottom: 10px;
-      width: 10px;
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAABCAYAAADn9T9+AAAAFElEQVQIW2NkIAD+////f+HChQwAH+EF4dbL+14AAAAASUVORK5CYII=) repeat; }
+      width: 1px;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAABCAYAAADn9T9+AAAAFElEQVQIW2NctWrV/7CwMEYGAgAAlkYEAi4VcUYAAAAASUVORK5CYII=) repeat; }
     .comment-list .comment[data-level="1"] {
-      padding-left: 20px; }
+      padding-left: 11px; }
     .comment-list .comment[data-level="1"]:before {
       width: 10px; }
     .comment-list .comment[data-level="2"] {
-      padding-left: 30px; }
+      padding-left: 21px; }
     .comment-list .comment[data-level="2"]:before {
       width: 20px; }
     .comment-list .comment[data-level="3"] {
-      padding-left: 40px; }
+      padding-left: 31px; }
     .comment-list .comment[data-level="3"]:before {
       width: 30px; }
     .comment-list .comment[data-level="4"] {
-      padding-left: 50px; }
+      padding-left: 41px; }
     .comment-list .comment[data-level="4"]:before {
       width: 40px; }
     .comment-list .comment[data-level="5"] {
-      padding-left: 60px; }
+      padding-left: 51px; }
     .comment-list .comment[data-level="5"]:before {
       width: 50px; }
     .comment-list .comment[data-level="6"] {
-      padding-left: 70px; }
+      padding-left: 61px; }
     .comment-list .comment[data-level="6"]:before {
       width: 60px; }
     .comment-list .comment[data-level="7"] {
-      padding-left: 80px; }
+      padding-left: 71px; }
     .comment-list .comment[data-level="7"]:before {
       width: 70px; }
     .comment-list .comment[data-level="8"] {
-      padding-left: 90px; }
+      padding-left: 81px; }
     .comment-list .comment[data-level="8"]:before {
       width: 80px; }
     .comment-list .comment[data-level="9"] {
-      padding-left: 100px; }
+      padding-left: 91px; }
     .comment-list .comment[data-level="9"]:before {
       width: 90px; }
     .comment-list .comment[data-level="10"] {
-      padding-left: 110px; }
+      padding-left: 101px; }
     .comment-list .comment[data-level="10"]:before {
       width: 100px; }
 
@@ -501,7 +500,8 @@ article.blog-post {
   .comment-form input[type="number"] {
     display: inline-block;
     margin-left: 10px;
-    width: 75px; }
+    width: 75px;
+    padding-right: 0; }
   .comment-form textarea {
     resize: vertical;
     height: 100px;
@@ -510,6 +510,17 @@ article.blog-post {
     padding-bottom: 5px; }
   .comment-form form {
     margin-bottom: 0; }
+  .comment-form .textarea-subtext {
+    display: block;
+    color: #aaa;
+    font-size: 12px;
+    margin-top: 5px; }
+  .comment-form .submit-errors {
+    color: #c0392b; }
+    .comment-form .submit-errors span {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold; }
   .comment-form .submit-comment-button {
     display: inline-block;
     margin-top: 20px;
@@ -517,11 +528,20 @@ article.blog-post {
     background: #3cb878;
     color: #fff;
     font-size: 13px;
+    cursor: pointer;
     text-decoration: none; }
     .comment-form .submit-comment-button .fa {
       font-size: 12px; }
       .comment-form .submit-comment-button .fa.fa-commenting-o {
         padding-right: 5px; }
+      .comment-form .submit-comment-button .fa.fa-cog {
+        display: none; }
+    .comment-form .submit-comment-button.submitting {
+      background: #83d7ac; }
+      .comment-form .submit-comment-button.submitting .fa-commenting-o {
+        display: none; }
+      .comment-form .submit-comment-button.submitting .fa-cog {
+        display: inline-block; }
 
 /* Medium Devices, Desktops */
 @media only screen and (min-width: 992px) {

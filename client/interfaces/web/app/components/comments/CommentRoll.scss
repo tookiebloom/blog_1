@@ -64,11 +64,10 @@
 			content: "";
 			position: absolute;
 			bottom: 0;
-			height: 2px;
+			height: 1px;
 			left: 0;
 			right: 0;
 			background-color: #aaa;
-			border-bottom: solid 1px #fff;
 		}
 
 		&[data-level]:before {
@@ -77,13 +76,13 @@
 			left: 0;
 			top: 10px;
 			bottom: 10px;
-			width: 10px;
-			background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAABCAYAAADn9T9+AAAAFElEQVQIW2NkIAD+////f+HChQwAH+EF4dbL+14AAAAASUVORK5CYII=) repeat;
+			width: 1px;
+			background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAABCAYAAADn9T9+AAAAFElEQVQIW2NctWrV/7CwMEYGAgAAlkYEAi4VcUYAAAAASUVORK5CYII=) repeat;
 		}
 
 		@for $i from 1 through 10 {
 			&[data-level="#{$i}"] {
-				padding-left: 10px + $i*10;
+				padding-left: 1px + $i*10;
 			}
 
 			&[data-level="#{$i}"]:before {
@@ -138,6 +137,7 @@
 		display: inline-block;
 		margin-left: 10px;
 		width: 75px;
+		padding-right: 0;
 	}
 
 	textarea {
@@ -152,6 +152,23 @@
 		margin-bottom: 0;
 	}
 
+	.textarea-subtext {
+		display: block;
+		color: #aaa;
+		font-size: 12px;
+		margin-top: 5px;
+	}
+
+	.submit-errors {
+		color: #c0392b;
+
+		span {
+			display: block;
+		    margin-top: 10px;
+		    font-weight: bold;
+		}
+	}
+
 	.submit-comment-button {
 		display: inline-block;
 		margin-top: 20px;
@@ -159,7 +176,7 @@
 		background: #3cb878;
 		color: #fff;
 		font-size: 13px;
-
+		cursor: pointer;
 		text-decoration: none;
 
 		.fa {
@@ -169,6 +186,20 @@
 				padding-right: 5px;
 			}
 
+			&.fa-cog {
+				display: none;
+			}
+		}
+
+		&.submitting {
+			background: lighten(#3cb878, 20%);
+			.fa-commenting-o {
+				display: none;
+			}
+
+			.fa-cog {
+				display: inline-block;
+			}
 		}
 	}
 }
@@ -179,7 +210,5 @@
 
 	.comment-list, .comment-form {
 		padding: 30px;
-
-
 	}
 }

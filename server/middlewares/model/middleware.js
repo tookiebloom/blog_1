@@ -197,6 +197,21 @@ module.exports = function(CORE){
 	};
 
 
+	var _addComment = function(commentComponents){
+		return repo.looselyEdit("posts",{_id: ObjectID(commentComponents.post_id)},{
+			$push: {
+				comments : {
+					name		: commentComponents.name,
+					body		: commentComponents.body,
+					answer_to 	: commentComponents.answer_to,
+					timestamp 	: commentComponents.timestamp,
+					id 			: commentComponents.id
+				}
+			}
+		});
+	}
+
+
 	return function (req, res, next) {
 
 		req.model = {
@@ -216,7 +231,8 @@ module.exports = function(CORE){
 			findUsers			: _findUsers,
 			updateSettings 		: _updateSettings,
 			getSettings			: _getSettings,
-			getSettingsCache	: _getSettingsCache
+			getSettingsCache	: _getSettingsCache,
+			addComment			: _addComment
 		}
 
 		next();

@@ -12,12 +12,6 @@ var Footer = require('../components/Footer.js');
 var CommentRoll = require('../components/comments/CommentRoll.js');
 
 
-/*Stores*/
-var BlogStore = require('../stores/BlogStore.js')();
-
-/*context*/
-var root_context = BlogStore.getPostContext();
-
 /*constants*/
 var Actions = require('../constants/Actions.js');
 
@@ -30,16 +24,22 @@ var PostPage = React.createClass({
     },
 
 	getChildContext : function(){
-		return root_context;
+		return this.childContext;
 	},
 
 
 	getInitialState : function(){
+
+		this.BlogStore = require('../stores/BlogStore.js')();
+		this.childContext = this.BlogStore.getPostContext();
+
+
 		return {
-			post : BlogStore.getPost(),
+			post : this.BlogStore.getPost(),
 			blog_flags : {
 				action_completed : false
-			}
+			},
+			commentSubmitErrors : []
 		}
 	},
 
@@ -63,7 +63,7 @@ var PostPage = React.createClass({
 					</Col>
 
 
-					<CommentRoll />
+					<CommentRoll commentSubmitErrors={this.state.commentSubmitErrors} flags={this.state.blog_flags} post={this.state.post} />
 
 				</Row>
 
@@ -73,24 +73,36 @@ var PostPage = React.createClass({
 	},
 
 	componentDidMount: function() {
-	  BlogStore.addActionCompletedListener(this._onActionCompleted);
+		this.BlogStore.addActionCompletedListener(this._onActionCompleted);
 	},
 
 	componentWillUnmount: function() {
-	  BlogStore.removeActionCompletedListener(this._onActionCompleted);
+		this.BlogStore.removeActionCompletedListener(this._onActionCompleted);
 	},
 
-	_onActionCompleted : function(action) {
+	_onActionCompleted : function(action, response) {
 
 		switch ( action ) {
-			case Actions.BLOG.MORE_POSTS_REQUESTED :
-				this.setState({
-					posts: BlogStore.getPosts(),
-					tags : this.state.tags,
-					blog_flags : {
-						action_completed : Actions.BLOG.MORE_POSTS_REQUESTED
-					}
-				})
+			case Actions.BLOG.COMMENT_SUBMITTED :
+
+				if(response.status == "success") {
+					this.setState({
+						post : this.BlogStore.getPost(),
+						blog_flags : {
+							action_completed : Actions.BLOG.COMMENT_SUBMITTED
+						},
+						commentSubmitErrors : []
+					});
+				} else {
+					this.setState({
+						post : this.state.post,
+						blog_flags : {
+							action_completed : Actions.BLOG.COMMENT_SUBMITTED
+						},
+						commentSubmitErrors : response.message.split("<|>")
+					});
+				}
+
 			break;
 
 			default:

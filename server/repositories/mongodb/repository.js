@@ -71,6 +71,10 @@ module.exports = function(CORE){
 		return _db.collection(collection).findOneAsync(query, projection);
 	};
 
+	var _looselyEdit = function(collection, query, update_rules, projection){
+		return _db.collection(collection).updateAsync( query, update_rules, projection );
+	};
+
 
 
 
@@ -80,6 +84,7 @@ module.exports = function(CORE){
 		find:	_find,
 		delete: _delete,
 		edit : _edit,
+		looselyEdit : _looselyEdit,
 		findOne: _findOne
 	};
 };

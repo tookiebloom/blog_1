@@ -6,8 +6,16 @@ var BlogActions = {
 
 	requestMorePosts : function(pageIndex) {
 		AppDispatcher.dispatch({
-			actionType: Actions.BLOG.MORE_POSTS_REQUESTED,
-			pageIndex: pageIndex
+			actionType	: Actions.BLOG.MORE_POSTS_REQUESTED,
+			pageIndex	: pageIndex
+		});
+	},
+
+	submitComment : function(postId, commentComponents) {
+		AppDispatcher.dispatch({
+			actionType 			: Actions.BLOG.COMMENT_SUBMITTED,
+			postId 				: postId,
+			commentComponents	: commentComponents
 		});
 	}
 }

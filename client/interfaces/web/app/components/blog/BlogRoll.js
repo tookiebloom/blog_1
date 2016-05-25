@@ -51,7 +51,7 @@ var BlogRoll = React.createClass({
 
 			_pendingPage 		= 	this.state.pendingPage &&
 						 			nextProps.flags.action_completed == Actions.BLOG.MORE_POSTS_REQUESTED ?
-							 			false : this.state.isLoading,
+							 			false : this.state.pendingPage,
 
 			_pageIndex	 		= 	this.state.pendingPage &&
 						 			nextProps.flags.action_completed == Actions.BLOG.MORE_POSTS_REQUESTED ?

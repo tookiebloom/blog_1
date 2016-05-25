@@ -57,6 +57,9 @@ module.exports = function(config){
 		_ctrl.app.use(cookieParser());
 
 		//we manually set each middleware because the order is very important
+		//attach helpers to
+
+		_ctrl.app.use(CORE.middlewares.helpers);
 		_ctrl.app.use(CORE.middlewares.model);
 		_ctrl.app.use(CORE.middlewares.auth);
 		_ctrl.app.use(CORE.middlewares.media);

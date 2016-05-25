@@ -9,13 +9,6 @@ var BlogRoll = require('../components/blog/BlogRoll.js');
 var Suggestions = require('../components/suggestions/Suggestions.js');
 var Footer = require('../components/Footer.js');
 
-
-/*Stores*/
-var BlogStore = require('../stores/BlogStore.js')();
-
-/*context*/
-var root_context = BlogStore.getHomeContext();
-
 /*constants*/
 var Actions = require('../constants/Actions.js');
 
@@ -28,14 +21,16 @@ var Index = React.createClass({
     },
 
 	getChildContext : function(){
-		return root_context;
+		return this.childContext;
 	},
 
 
 	getInitialState : function(){
+		this.BlogStore = require('../stores/BlogStore.js')();
+		this.childContext = this.BlogStore.getHomeContext();
 		return {
-			posts: BlogStore.getPosts(),
-			tags : BlogStore.getTags(),
+			posts: this.BlogStore.getPosts(),
+			tags : this.BlogStore.getTags(),
 			blog_flags : {
 				action_completed : false
 			}
@@ -44,13 +39,14 @@ var Index = React.createClass({
 
 	render: function() {
 
+
 		return (
 			<Grid>
 				<Header />
 
 				<Row className="main-container">
 					<Col xs={12} >
-						<h1 className="main-title">{root_context.texts.home.tagline}</h1>
+						<h1 className="main-title">{this.childContext.texts.home.tagline}</h1>
 					</Col>
 
 					<Col xs={12} md={9} >
@@ -69,11 +65,11 @@ var Index = React.createClass({
 	},
 
 	componentDidMount: function() {
-	  BlogStore.addActionCompletedListener(this._onActionCompleted);
+		this.BlogStore.addActionCompletedListener(this._onActionCompleted);
 	},
 
 	componentWillUnmount: function() {
-	  BlogStore.removeActionCompletedListener(this._onActionCompleted);
+		this.BlogStore.removeActionCompletedListener(this._onActionCompleted);
 	},
 
 	_onActionCompleted : function(action) {
@@ -81,7 +77,7 @@ var Index = React.createClass({
 		switch ( action ) {
 			case Actions.BLOG.MORE_POSTS_REQUESTED :
 				this.setState({
-					posts: BlogStore.getPosts(),
+					posts: this.BlogStore.getPosts(),
 					tags : this.state.tags,
 					blog_flags : {
 						action_completed : Actions.BLOG.MORE_POSTS_REQUESTED

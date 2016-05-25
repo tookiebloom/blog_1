@@ -115,7 +115,6 @@ var BlogStore = function(){
 	};
 
 
-	_init();
 
 	_event_bus.on(Actions.SERVER.MORE_POSTS_PROVIDED, function(response){
 
@@ -123,10 +122,30 @@ var BlogStore = function(){
 			_posts = _posts.concat(response.posts);
 			_pushMediaArray(response.media);
 		}
-
 		_event_bus.emit(Actions.BLOG.ACTION_COMPLETED,Actions.BLOG.MORE_POSTS_REQUESTED, response);
 	});
 
+
+
+
+	_event_bus.on(Actions.SERVER.NEW_COMMENT_ADDED, function(response){
+
+		if( response.status == "success" ) {
+			_post.comments.push({
+				name : response.commentComponents.name,
+				body : response.commentComponents.body,
+				answer_to : response.commentComponents.answer_to,
+				timestamp : response.commentComponents.timestamp
+			});
+		}
+
+
+		_event_bus.emit(Actions.BLOG.ACTION_COMPLETED,Actions.BLOG.COMMENT_SUBMITTED, response);
+	});
+
+
+
+	_init();
 
 	return {
 		getPosts 						: _getPosts,
@@ -154,11 +173,32 @@ AppDispatcher.register(function(action) {
 			.then(function(response){
 				_event_bus.emit(Actions.SERVER.MORE_POSTS_PROVIDED, response );
 
-			}, function(err){
+			}, function(err) {
 				console.log('api failed for action', action, err);
-				_event_bus.emit(Actions.SERVER.MORE_POSTS_PROVIDED, err);
+				_event_bus.emit(Actions.SERVER.MORE_POSTS_PROVIDED, {
+					status: "error",
+					message: err.message
+				});
 			});
 		break;
+
+		case Actions.BLOG.COMMENT_SUBMITTED:
+
+			console.log('comment submitted', action);
+
+			BlogApi.submitComment(action.postId, action.commentComponents )
+			.then(function(response){
+				_event_bus.emit(Actions.SERVER.NEW_COMMENT_ADDED, response );
+			}, function(err) {
+				console.log('%c Event emit failed state ', 'background: #222; color: #f00');
+				_event_bus.emit(Actions.SERVER.NEW_COMMENT_ADDED, {
+					status: "error",
+					message: err.message
+				});
+			});
+
+		break;
+
 
 		default:
 		// no op
