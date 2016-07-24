@@ -1,4 +1,4 @@
-{{=it.fragments.header()}}
+bl{{=it.fragments.header()}}
 
         <div class="vertical_spacer"></div>
 
@@ -52,6 +52,63 @@
 
 								<input type="hidden" name="media" value="{{=(it.post && it.post.media?  it.post.media.join(',') : '')}}">
                             </form>
+
+
+							{{? it.post}}
+								<h3>Comments</h3>
+								<div class="comment-list" data-post-id="{{=it.post._id}}">
+									{{~it.post.comments :comment:index}}
+
+										<div class="comment" >
+
+											<div class="row">
+												<div class="cell col-1-1">
+													<input type="checkbox" class="comment-check" data-comment-id="{{=comment.id}}" >
+													<span class="comment-id">#{{=comment.id}}</span>
+													<span class="comment-name"><span>by</span>{{=comment.name}}</span>
+													{{? comment.answer_to}}
+														<span class="comment-answer">answer to: <b>{{=comment.answer_to}}</b></span>
+													{{?}}
+													{{? comment.banned}}
+														<span class="comment-ban">banned for: <b>{{=comment.ban_reason}}</b></span>
+													{{?}}
+												</div>
+
+												<div class="cell col-1-1">
+													{{=comment.body}}
+												</div>
+
+
+											</div>
+
+
+											<br>
+										</div>
+
+									{{~}}
+
+									<div class="controls">
+										<div class="row">
+											<div class="cell col-1-4">
+												<a class="admin-button" id="ban_comments">Ban selected</a>
+											</div>
+
+											<div class="cell col-1-4">
+												<input type="text" class="ban-reason" id="ban_reason" placeholder="Ban reason" />
+											</div>
+
+											<div class="cell col-1-4">
+												<a class="admin-button" id="unban_comments">Unban selected</a>
+											</div>
+
+											<div class="cell col-1-4">
+												<a class="admin-button delete" id="delete_comments">Delete selected</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							{{?}}
+
 
 
 

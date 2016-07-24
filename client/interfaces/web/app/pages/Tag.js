@@ -33,8 +33,7 @@ var Index = React.createClass({
 			tags : this.BlogStore.getTags(),
 			blog_flags : {
 				action_completed : false
-			},
-			auth : this.BlogStore.getAuth()
+			}
 		}
 	},
 
@@ -43,7 +42,7 @@ var Index = React.createClass({
 
 		return (
 			<Grid>
-				<Header auth={this.state.auth} />
+				<Header />
 
 				<Row className="main-container">
 					<Col xs={12} >
@@ -82,8 +81,7 @@ var Index = React.createClass({
 					tags : this.state.tags,
 					blog_flags : {
 						action_completed : Actions.BLOG.MORE_POSTS_REQUESTED
-					},
-					auth: this.BlogStore.getAuth()
+					}
 				})
 			break;
 

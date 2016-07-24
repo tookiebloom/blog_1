@@ -12,6 +12,25 @@
 		}
 	}
 
+	.header-buttons {
+		a {
+			display: inline-block;
+			margin-right: 10px;
+		}
+
+		br {
+			display: none;
+		}
+	}
+
+	.header-buttons:first-child {
+		a {
+			margin-right: 0;
+		}
+
+		margin-right: 0;
+	}
+
 	.header-button {
 		display: inline-block;
 		width: 40px;
@@ -36,6 +55,24 @@
 			&:hover,
 			&:active {
 				background: lighten(#3498db, 10%);
+			}
+		}
+
+
+		&.twitter {
+			background-color: #55acee;
+			&:hover,
+			&:active {
+				background: lighten(#55acee, 10%);
+			}
+		}
+
+
+		&.github {
+			background-color: #913399;
+			&:hover,
+			&:active {
+				background: lighten(#913399, 10%);
 			}
 		}
 
@@ -68,7 +105,23 @@
 		}
 
 
+		.header-buttons {
+			a {
+				margin-right: 20px;
+				
+				&:last-child {
+					margin-top: 20px;
+				}
+				&:first-child {
+					margin-top: 0;
+				}
 
+			}
+
+			br {
+				display: inline;
+			}
+		}
 
 
 		.header-button.contact {

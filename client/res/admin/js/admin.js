@@ -19,6 +19,8 @@ $(function(){
 	$('.tag_colors').TagColorPicker();
 	$('.tag_prio').TagPrioPicker();
 
+	$('.comment-list').CommentListControls();
+
 	$('.notification-container .notification .dismiss').on('click', function(evt){
 		evt.preventDefault();
 		evt.stopPropagation();
@@ -108,4 +110,56 @@ $(function(){
 		});
 
 	});
+
+
+
+ 
+ 	$('#load_more_messages').on('click', function(evt){
+		evt.preventDefault();
+
+		//show overlay
+		$('body').trigger('show-overlay', '<i class="fa centered-m-h fa-spinner"></i>');
+
+		//calculam la cate sa faca skip
+		var skip = $('table.messages').find('tr').length - 1;
+
+
+		$.ajax({
+			url: '/system/get_messages/?interface=json&skip='+ skip +'&limit=10'
+		}).done(function( data ) {
+
+			
+			if( data.status=="success" ){
+				$('body').trigger('hide-overlay');
+
+				$.each(data.messages, function(i,msg){
+
+					$tr = $('<tr>');
+
+					var date = new Date(  parseInt( msg.timestamp )).toString().substring(0, 24);
+
+					$name = $('<td class="name"></td>').html(msg.name);
+					$email = $('<td class="email"></td>').html(msg.email);
+					$body = $('<td class="body"></td>').html(msg.body);
+					$date = $('<td class="date"></td>').html( date  );
+
+					$tr.append( $name, $email,$body, $date );
+					$('table.messages').append($tr);
+				});
+
+
+				if( data.messages.length < 10 ) {
+					$('#load_more_messages').hide();
+				}
+
+			} else {
+				$('body').trigger('set-content-overlay', data.message);
+			}
+
+		});
+
+
+	});
+
+
 });

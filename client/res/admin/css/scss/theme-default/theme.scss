@@ -827,6 +827,65 @@ html.admin {
 
 
 
+	.comment-list {
+		margin-top: -20px;
+
+		.comment {
+			margin-top: 20px;
+			border-bottom: solid 1px #999;
+
+			line-height: 25px;
+			vertical-align: middle;
+
+			font-size: 12px;
+
+			.comment-id	{
+				color: #666;
+			    font-size: 11px;
+				padding-left: 20px;
+			}
+
+			.comment-name {
+			    font-weight: bold;
+			    font-size: 14px;
+				padding-left: 20px;
+				span {
+					color: #aaa;
+					font-size: 11px;
+					padding-right: 10px;
+				}
+			}
+
+			.comment-answer,
+			.comment-ban  {
+				padding-left: 20px;
+			    font-size: 11px;
+			    color: #999;
+			}
+
+
+
+			input[type="checkbox"] {
+			    width: 20px;
+			    height: 20px;
+			    vertical-align: middle;
+			}
+		}
+
+		.controls {
+			margin-top: 20px;
+
+			*{
+				vertical-align: middle;
+			}
+
+			input[type="text"] {
+				margin-top: 0;
+				height: 30px;
+			}
+		}
+	}
+
 
 
 
@@ -1179,6 +1238,30 @@ html.admin {
 			}
 		}
 
+	}
+
+
+
+
+
+
+	table.messages {
+		font-size: 13px;
+		margin: 0 10px;
+
+
+		th{
+			font-weight: bold;
+		}
+
+		td {
+			padding: 3px 5px;
+    		border: solid 1px #aaa;
+		}
+
+		.body { 
+			width: 50%;
+		}
 	}
 
 }

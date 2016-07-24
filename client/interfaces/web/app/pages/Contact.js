@@ -1,34 +1,95 @@
+/*Bootstrap Classes*/
+var Grid = ReactBootstrap.Grid;
+var Row = ReactBootstrap.Row;
+var Col = ReactBootstrap.Col;
 
-var variablePassed = 0;
+/*Components*/
+var Header 		= require('../components/Header.js');
+var Footer 		= require('../components/Footer.js');
+var ContactInfo = require('../components/contact/ContactInfo.js');
+var ContactForm = require('../components/contact/ContactForm.js');
+var Bio 		= require('../components/contact/Bio.js');
+/*constants*/
+var Actions = require('../constants/Actions.js');
 
 
 
 var Contact = React.createClass({
+
+
 	getInitialState: function() {
-		return {variablePassed: 1};
+
+		this.BlogStore = require('../stores/BlogStore.js')();
+
+		return {
+			blog_flags : {
+				action_completed : false
+			},
+			messageSubmitErrors : []
+		};
 	},
+
+
+	render: function() {
+
+		return (
+			<Grid className="contact-page">
+				<Header />
+
+				<Row>
+
+					<ContactInfo />
+
+					<Col xs={12} md={9}  className="main-container" >
+						<Bio />
+						<ContactForm flags={this.state.blog_flags} messageSubmitErrors={this.state.messageSubmitErrors} />
+					</Col>
+
+				</Row>
+				<Footer />
+			</Grid>
+		);
+	},
+
 
 	componentDidMount: function() {
-		var self = this;
-
-		setInterval(function(){
-
-			var state = self.state;
-
-			state.variablePassed++;
-			self.setState(state);
-		}, 1000);
+		this.BlogStore.addActionCompletedListener(this._onActionCompleted);
 	},
 
-  render: function() {
-    return (
+	componentWillUnmount: function() {
+		this.BlogStore.removeActionCompletedListener(this._onActionCompleted);
+	},
 
-      <div className="Contact"> dsadsa
-        Hello, world! This is the contact page, next is the comment box:
+	_onActionCompleted : function(action, response) {
 
-      </div>
-    );
-  }
+		switch ( action ) {
+			case Actions.BLOG.MESSAGE_SUBMITTED :
+
+				if(response.status == "success") {
+					this.setState({
+						blog_flags : {
+							action_completed : Actions.BLOG.MESSAGE_SUBMITTED
+						},
+						messageSubmitErrors : []
+					});
+				} else {
+					this.setState({
+						blog_flags : {
+							action_completed : Actions.BLOG.MESSAGE_SUBMITTED
+						},
+						messageSubmitErrors : response.message.split("<|>")
+					});
+				}
+
+			break;
+
+			default:
+				//no op
+		}
+
+	}
+
+
 
 });
 

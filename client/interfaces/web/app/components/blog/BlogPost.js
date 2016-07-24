@@ -100,15 +100,15 @@ var BlogPost = React.createClass({
 						<i className="fa fa-align-justify"></i>
 						View full article
 					</a>
-					<a className="post-comments-button" href="#">
-						<i className="fa fa-comments-o"></i>
-						See comments
-					</a>
+					{ <a className="post-comments-button" href={"/p/" + this.state.permalink + "?useinterface=web#comments"}>
+											<i className="fa fa-comments-o"></i>
+											See comments
+					</a>}
 				</div>: null}
 
 				<div className="post-tags">
 					{this.state.tags.map(function(tag, i){
-						return <a href="#" className={context.tag_color_map[tag] || ''} key={i} >{tag}</a>
+						return <a href={"/t/"+tag} className={context.tag_color_map[tag] || ''} key={i} >{tag}</a>
 					})}
 				</div>
 			</article>

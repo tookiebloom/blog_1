@@ -653,6 +653,7 @@
     var TagPrioPicker = function (el, options) {
         var $el = $(el),
 			fs = this;
+
         var config = {
 
         };
@@ -692,3 +693,144 @@
     };
 
 }(jQuery, window, document));
+
+
+
+
+
+
+
+/**
+	Tag Prio Picker
+*/
+;(function ($, window, document, undefined) {
+
+    var pluginName = "CommentListControls",
+        dataKey = "plugin_" + pluginName;
+
+
+    var CommentListControls = function (el, options) {
+        var $el = $(el),
+			fs = this;
+
+        var config = {
+			post_id : $el.attr('data-post-id')
+        };
+
+        var _init = function(){
+			fs.options = $.extend(config, options);
+			setEvents();
+		};
+
+		var setEvents = function(){
+
+			$('#ban_comments').on('click', function(evt){
+				evt.preventDefault();
+
+				$('body').trigger('show-overlay', '<i class="fa centered-m-h fa-spinner"></i>');
+
+				var comment_ids = [];
+				$el.find('.comment-check').each(function(i, el){
+					$(el).is(':checked') &&
+						comment_ids.push( $(el).attr('data-comment-id') );
+				});
+
+				$.ajax({
+					url: "/system/ban_comments",
+					method: "post",
+					type: "json",
+					data: {
+						post_id 	: config.post_id,
+						comment_ids : comment_ids,
+						ban_reason 	: $el.find('#ban_reason').val()
+					}
+				}).done(function(data){
+					if( data.status == "success" ) {
+						window.location.reload();
+					} else {
+						window.scrollTo(0, 0);
+						$('body').trigger('set-content-overlay', data.message + '<br><br><a onclick="window.location.reload()">Click here to reload</a> ' );
+					}
+				});
+			});
+
+			$('#unban_comments').on('click', function(evt){
+				evt.preventDefault();
+
+				$('body').trigger('show-overlay', '<i class="fa centered-m-h fa-spinner"></i>');
+
+				var comment_ids = [];
+				$el.find('.comment-check').each(function(i, el){
+					$(el).is(':checked') &&
+						comment_ids.push( $(el).attr('data-comment-id') );
+				});
+
+				$.ajax({
+					url: "/system/unban_comments",
+					method: "post",
+					type: "json",
+					data: {
+						post_id 	: config.post_id,
+						comment_ids : comment_ids
+					}
+				}).done(function(data){
+					if( data.status == "success" ) {
+						window.location.reload();
+					} else {
+						window.scrollTo(0, 0);
+						$('body').trigger('set-content-overlay', data.message + '<br><br><a onclick="window.location.reload()">Click here to reload</a> ' );
+					}
+				});
+			});
+
+
+			$('#delete_comments').on('click', function(evt){
+				evt.preventDefault();
+
+				$('body').trigger('show-overlay', '<i class="fa centered-m-h fa-spinner"></i>');
+
+				var comment_ids = [];
+				$el.find('.comment-check').each(function(i, el){
+					$(el).is(':checked') &&
+						comment_ids.push( $(el).attr('data-comment-id') );
+				});
+
+				$.ajax({
+					url: "/system/delete_comments",
+					method: "post",
+					type: "json",
+					data: {
+						post_id 	: config.post_id,
+						comment_ids : comment_ids
+					}
+				}).done(function(data){
+					if( data.status == "success" ) {
+						window.location.reload();
+					} else {
+						window.scrollTo(0, 0);
+						$('body').trigger('set-content-overlay', data.message + '<br><br><a onclick="window.location.reload()">Click here to reload</a> ' );
+					}
+				});
+			});
+		};
+
+		_init();
+    };
+
+
+
+    $.fn[pluginName] = function (options) {
+        var plugin = this.data(dataKey);
+
+        // has plugin instantiated ?
+        if ( typeof plugin === "undefined") {
+            plugin = new CommentListControls(this, options);
+            this.data(dataKey, plugin);
+        }
+        return plugin;
+    };
+
+}(jQuery, window, document));
+
+
+

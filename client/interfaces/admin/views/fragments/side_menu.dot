@@ -36,8 +36,13 @@
         </a>
 
 
-        <a  href="/?setinterface=web" class="users">
+        <a  href="/?setinterface=web" class="switch-interface">
             <i class="fa fa-exchange"></i> Switch to web
+        </a>
+
+
+        <a  href="/logout/" class="logout-button">
+            <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
         </a>
     </div>
 

@@ -36,8 +36,9 @@ var CommentForm = React.createClass({
 			isSubmitting 	: false,
 			commentBody 	: "",
 			name			: "",
-			answerTo		: "",
-			submitErrors	: this.props.commentSubmitErrors
+			answerIndex		: "",
+			submitErrors	: this.props.commentSubmitErrors,
+			event_bus		: this.props.commentsEventBus
 		}
 	},
 
@@ -63,10 +64,10 @@ var CommentForm = React.createClass({
 									"" : this.state.name;
 
 
-		var _answerTo = this.state.isSubmitting &&
+		var _answerIndex = this.state.isSubmitting &&
 								nextProps.flags.action_completed == Actions.BLOG.COMMENT_SUBMITTED &&
 								nextProps.commentSubmitErrors.length == 0 ?
-									"" : this.state.answerTo;
+									"" : this.state.answerIndex;
 
 
 		var _submitErrors = this.state.isSubmitting &&
@@ -78,8 +79,9 @@ var CommentForm = React.createClass({
 			isSubmitting	: _isSubmitting,
 			commentBody		: _commentBody,
 			name			: _name,
-			answerTo		: _answerTo,
-			submitErrors	: _submitErrors
+			answerIndex		: _answerIndex,
+			submitErrors	: _submitErrors,
+			event_bus		: nextProps.commentsEventBus
 		});
 	},
 
@@ -102,7 +104,7 @@ var CommentForm = React.createClass({
 				<h4>Add a comment:</h4>
 
 				<form action="/" method="post" id="submit-comment-form">
-					Answer to: <input min="1"  disabled={this.state.isSubmitting} max={this.state.post.comments.length} value={this.state.answerTo} onChange={this._answerToChanged} type="number"  />
+					Answer to: <input min="1"  disabled={this.state.isSubmitting} max={this.state.post.comments.length} value={this.state.answerIndex} onChange={this._answerIndexChanged} type="number"  />
 
 					<input type="text"  disabled={this.state.isSubmitting} placeholder="Name" value={this.state.name} onChange={this._nameChanged} />
 
@@ -126,14 +128,27 @@ var CommentForm = React.createClass({
 			</div>
 		);
 	},
+	componentDidMount: function() {
+		this.state.event_bus.on(Actions.BLOG.ANSWER_INDEX_SELECTED, this._answerIndexChangedExternally)
+	},
 
-	_answerToChanged : function(e) {
+	componentWillUnmount: function() {
+		this.state.event_bus.removeListener(Actions.BLOG.ANSWER_INDEX_SELECTED, this._answerIndexChangedExternally);
+	},
+
+	_answerIndexChanged : function(e) {
 		var _state = this.state;
+		var _answer_index = parseInt( e.target.value );
+		if( _answer_index < 1 || _answer_index > _state.post.comments.length ) _answer_index = "";
+		_state.answerIndex = _answer_index;
+		this.setState(_state);
+	},
 
-		var _answer_to = parseInt( e.target.value );
-		if( _answer_to < 1 || _answer_to > _state.post.comments.length ) _answer_to = "";
-
-		_state.answerTo = _answer_to;
+	_answerIndexChangedExternally : function(answer_index) {
+		var _state = this.state;
+		var _answer_index = parseInt( answer_index );
+		if( _answer_index < 1 || _answer_index > _state.post.comments.length ) _answer_index = "";
+		_state.answerIndex = _answer_index;
 		this.setState(_state);
 	},
 
@@ -158,8 +173,15 @@ var CommentForm = React.createClass({
 		if (_errs.length == 0) {
 			_state.isSubmitting = true;
 
+			var _answer_index = parseInt( _state.answerIndex ) -1,
+				_answer_to = "";
+
+			if( !isNaN( _answer_index ) && typeof _state.post.comments[_answer_index] !== "undefined" ) {
+				_answer_to = _state.post.comments[_answer_index].id;
+			}
+
 			BlogActions.submitComment(_state.post._id, {
-				answer_to 	: _state.answerTo,
+				answer_to 	: _answer_to,
 				body		: _state.commentBody,
 				name		: _state.name,
 				timestamp	: Date.now()
@@ -169,6 +191,10 @@ var CommentForm = React.createClass({
 		}
 		this.setState(_state);
 	}
+
+
+
+
 
 });
 

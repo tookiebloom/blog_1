@@ -90,7 +90,7 @@ var BlogRoll = React.createClass({
 						<h5>Main tags:</h5>
 						<div className="tags-wrapper" >
 							{tags.map(function(tag, i){
-								return <a className={"tag-button " + (context.tag_color_map[tag.name] || '')}  href="#" key={i}>{tag.name}</a>
+								return <a className={"tag-button " + (context.tag_color_map[tag.name] || '')}  href={"/t/"+tag.name} key={i}>{tag.name}</a>
 							})}
 						</div>
 					</div>

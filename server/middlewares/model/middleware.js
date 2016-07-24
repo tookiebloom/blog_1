@@ -35,8 +35,8 @@ module.exports = function(CORE){
 
 
 
-	var _getPosts = function(opts){
-		return repo.find("posts", {},{},opts);
+	var _getPosts = function(query,opts){
+		return repo.find("posts", query,{},opts);
 	};
 
 
@@ -209,7 +209,56 @@ module.exports = function(CORE){
 				}
 			}
 		});
-	}
+	};
+
+
+	var _addMessage = function(messageComponents){
+		return repo.insert("messages",messageComponents);
+	};
+
+
+
+	var _banComments = function(postId,commentIds, banReason) {
+
+		return repo.updateFirstLevelArray("posts",  { _id: ObjectID(postId) },undefined, undefined,
+			"comments", function(comment){
+				if( commentIds.indexOf( comment.id ) >= 0 ){
+					comment.banned = true;
+					comment.ban_reason = banReason;
+				}
+			});
+	};
+
+
+	var _unbanComments = function(postId,commentIds) {
+
+		return repo.updateFirstLevelArray("posts",  { _id: ObjectID(postId) },undefined, undefined,
+			"comments", function(comment){
+				if( commentIds.indexOf( comment.id ) >= 0 ){
+					comment.banned = false;
+				}
+			});
+	};
+
+
+
+	var _deleteComments = function(postId,commentIds) {
+
+		return repo.filterItemsInFirstLevelArray("posts",  { _id: ObjectID(postId) },undefined, undefined,
+			"comments", function(comment){
+				return (commentIds.indexOf( comment.id ) == -1);
+			});
+	};
+
+
+	var _getMessages = function(skip, limit) {
+
+		return repo.find('messages', {}, {}, {
+			skip: skip,
+			limit: limit
+		});
+	};
+
 
 
 	return function (req, res, next) {
@@ -232,7 +281,12 @@ module.exports = function(CORE){
 			updateSettings 		: _updateSettings,
 			getSettings			: _getSettings,
 			getSettingsCache	: _getSettingsCache,
-			addComment			: _addComment
+			addComment			: _addComment,
+			banComments			: _banComments,
+			unbanComments		: _unbanComments,
+			deleteComments		: _deleteComments,
+			addMessage 			: _addMessage,
+			getMessages 		: _getMessages
 		}
 
 		next();

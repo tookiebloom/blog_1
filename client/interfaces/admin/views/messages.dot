@@ -1,0 +1,62 @@
+{{=it.fragments.header()}}
+
+        <div class="vertical_spacer"></div>
+
+        <section id="content">
+
+            <div class="fullwidth centered-m-h">
+
+                <div class="dark_block">
+                    <div class="vertical_spacer quarter"></div>
+                </div>
+
+                <div class="content_box box_shadow_1">
+
+                    <div class="row">
+
+                        {{=it.fragments.side_menu({
+                            columns: "1-6",
+                            selected: 'dashboard'
+                        })}}
+
+                        <div class="cell col-5-6">
+
+                            <h2>Messages</h2>
+
+
+                            <table class="messages">
+                                <tr>
+                                    <th class="name">Name</th>
+                                    <th class="email">email</th>
+                                    <th class="body">body</th>
+                                    <th class="date">timestamp</th>
+                                </tr>
+
+
+
+                                {{~it.messages :message:index}}
+                                    <tr>
+                                        <td class="name">{{=message.name}}</td>
+                                        <td class="email">{{=message.email}}</td>
+                                        <td class="body">{{=message.body}}</td>
+                                        <td class="date">{{= ( new Date(  parseInt( message.timestamp ) ) ).toString().substring(0, 24) }}</td>
+                                    </tr>
+                                {{~}}
+
+                            </table>
+
+                            <div class="vertical_spacer half"></div>
+                            <div class="row">
+                                <div class="cell col-1-2">
+                                  <a href="#" id="load_more_messages" class="admin-button">Load more messages</a>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+{{=it.fragments.footer()}}

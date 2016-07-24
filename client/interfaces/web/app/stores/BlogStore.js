@@ -12,7 +12,7 @@ var _event_bus = new Events.EventEmitter();
 var BlogStore = function(){
 
 
-	var	_posts, _media, _prio_tags, _tag_color_map, _settings, _post ;
+	var	_posts, _media, _prio_tags, _tag_color_map, _settings, _post, _validation_message, _auth ;
 
 	var _init = function(){
 		//do init
@@ -21,10 +21,16 @@ var BlogStore = function(){
 		_posts 		= pageData.posts || [];
 		_settings 	= pageData.settings || {};
 		_post 		= pageData.post || {};
+		_auth 		= pageData.auth || {}
+
+		_validation_message = pageData.validation_message || "";
 
 		pageData.media 								&& _pushMediaArray(pageData.media);
 		_settings.tag_prio && pageData.tags			&& _initTags();
 		_settings.tag_colors 						&& _initTagColorMap();
+
+
+
 	};
 
 	var _pushMediaArray = function(media){
@@ -94,6 +100,14 @@ var BlogStore = function(){
 			}
 		};
 	};
+
+
+	var _getLoginContext = function(){
+		return {
+			validation_message : _validation_message
+		}
+	};
+
 	var _getPosts = function(){
 		return _posts;
 	};
@@ -114,6 +128,10 @@ var BlogStore = function(){
     	_event_bus.removeListener(Actions.BLOG.ACTION_COMPLETED, callback);
 	};
 
+	var _getAuth = function(){
+		return _auth;
+	};
+
 
 
 	_event_bus.on(Actions.SERVER.MORE_POSTS_PROVIDED, function(response){
@@ -132,18 +150,20 @@ var BlogStore = function(){
 
 		if( response.status == "success" ) {
 			_post.comments.push({
+				id 	 : response.commentComponents.id,
 				name : response.commentComponents.name,
 				body : response.commentComponents.body,
 				answer_to : response.commentComponents.answer_to,
 				timestamp : response.commentComponents.timestamp
 			});
 		}
-
-
 		_event_bus.emit(Actions.BLOG.ACTION_COMPLETED,Actions.BLOG.COMMENT_SUBMITTED, response);
 	});
 
 
+	_event_bus.on(Actions.SERVER.MESSAGE_SENT, function(response){
+		_event_bus.emit(Actions.BLOG.ACTION_COMPLETED,Actions.BLOG.MESSAGE_SUBMITTED, response);
+	});
 
 	_init();
 
@@ -153,9 +173,11 @@ var BlogStore = function(){
 		addActionCompletedListener 		: _addActionCompletedListener,
 		removeActionCompletedListener 	: _removeActionCompletedListener,
 		getPost							: _getPost,
+		getAuth 						: _getAuth,
 
 		getHomeContext					: _getHomeContext,
-		getPostContext					: _getPostContext
+		getPostContext					: _getPostContext,
+		getLoginContext 				: _getLoginContext
 	};
 
 
@@ -183,9 +205,6 @@ AppDispatcher.register(function(action) {
 		break;
 
 		case Actions.BLOG.COMMENT_SUBMITTED:
-
-			console.log('comment submitted', action);
-
 			BlogApi.submitComment(action.postId, action.commentComponents )
 			.then(function(response){
 				_event_bus.emit(Actions.SERVER.NEW_COMMENT_ADDED, response );
@@ -198,6 +217,18 @@ AppDispatcher.register(function(action) {
 			});
 
 		break;
+
+		case Actions.BLOG.MESSAGE_SUBMITTED: 
+			BlogApi.submitMessage(action.messageComponents )
+			.then(function(response){
+				_event_bus.emit(Actions.SERVER.MESSAGE_SENT, response );
+			}, function(err) {
+				console.log('%c Event emit failed state ', 'background: #222; color: #f00');
+				_event_bus.emit(Actions.SERVER.MESSAGE_SENT, {
+					status: "error",
+					message: err.message
+				});
+			});
 
 
 		default:

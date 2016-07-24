@@ -30,7 +30,7 @@ module.exports = [
 				});
 
 			req.interface.is("web") &&
-				req.model.getPosts({
+				req.model.getPosts({},{
 					limit: req.model.getSettingsCache().page_size
 				})
 				.then(function(posts) {
@@ -51,7 +51,8 @@ module.exports = [
 							posts		: posts,
 							media		: results[0],
 							settings	: results[1],
-							tags		: results[2]
+							tags		: results[2],
+							auth		: req.auth
 						}));
 					},function(err){
 						res.send( req.interface.render("500", err) );
@@ -99,6 +100,7 @@ module.exports = [
 		path: '/login/',
 		handler : function(req, res){
 
+
 			req.auth.validateLogin( req.body.email, req.body.password )
 			.done(function(validation_result){
 
@@ -108,12 +110,15 @@ module.exports = [
 					res.redirect('/?setinterface=admin');
 				} else {
 					res.send(req.interface.render('login',{
-						validation_message : "The login failed, sad pusheen :("
+						validation_message : "The login failed :("
 					}));
 				}
 
-			},function(){
-				res.send( req.interface.to("default").render("500", {err_object: arguments}) );
+			},function(){	
+				res.send(req.interface.render('login',{
+					validation_message : "The login failed :("
+				}));
+		
 			});
 
 		},
@@ -121,6 +126,35 @@ module.exports = [
 			res.send( req.interface.to("default").render("403") );
 		}
 	},
+
+
+	/*
+	*	Get Logout
+	*/
+
+	{
+
+		access: {
+			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			interfaces: ["web","admin"]
+		},
+		method: "GET",
+		path: '/logout/',
+		handler : function(req, res){
+
+
+			res.clearCookie('jwt');
+			res.clearCookie('interface');
+			res.redirect('/');
+
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
+		}
+	},
+
+
+
 	{
 		access: {
 			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
@@ -135,6 +169,8 @@ module.exports = [
 			res.send( req.interface.to("default").render("403") );
 		}
 	},
+
+
 	{
 		access: {
 			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
@@ -149,6 +185,10 @@ module.exports = [
 			res.send( req.interface.to("default").render("403") );
 		}
 	},
+
+
+
+
 	{
 		access: {
 			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
@@ -190,5 +230,74 @@ module.exports = [
 			res.send( req.interface.to("default").render("403") );
 		}
 
-	}
+	},
+
+	/**
+	*	Admin and web GET tag page
+	*/
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			interfaces: ["web","admin"]
+		},
+		method: 'GET',
+		path: '/t/:tag',
+		handler :  function (req, res) {
+
+			req.model.getTags()
+			.then(function(tags){
+
+
+
+				if( tags.indexOf( req.params.tag ) == -1 ) {
+					res.send( req.interface.render('404') );
+					return;
+				}
+
+				req.model.getPosts({
+					tags: req.params.tag
+				},{
+					limit: req.model.getSettingsCache().page_size
+				})
+				.then(function(posts) {
+
+
+					//all the media we need
+					var primary_ids = posts.reduce(function(acc, crt){
+						crt.primary_image_id && acc.push(ObjectID(crt.primary_image_id));
+						return acc;
+					},[]);
+
+					Promise.all([
+						req.model.getMedia({ _id : {$in : primary_ids} }),
+						req.model.getSettings()
+					]).then(function(results){
+
+						
+
+						res.send( req.interface.render('homepage', {
+							posts		: posts,
+							media		: results[0],
+							settings	: results[1],
+							tags		: tags
+						}));
+					},function(err){
+						res.send( req.interface.render("500", err) );
+					});
+				}, function(err){
+					res.send( req.interface.render("500", err) );
+				});
+
+
+			}, function(err){
+				res.send( req.interface.render("500", err) );
+			})
+
+
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
+		}
+	},
+
 ];

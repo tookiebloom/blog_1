@@ -10,6 +10,7 @@
 <script src="/res/admin/js/vendor/jquery-1.10.2.min.js"></script>
 <script src="/res/admin/js/plugins/tinymce/tinymce.min.js"></script>
 <script src="/res/admin/js/plugins/custom.js"></script>
+<script src="/res/admin/js/plugins/jquery.cookie.js"></script>
 <script src="/res/admin/js/admin.js"></script>
 
 

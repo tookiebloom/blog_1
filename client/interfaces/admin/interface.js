@@ -18,7 +18,6 @@
 
 */
 
-
 module.exports = function(CORE, interface_name){
 
 	var admin_intf = CORE.factories.interface();
@@ -144,6 +143,19 @@ module.exports = function(CORE, interface_name){
 		});
 
 	});
+
+
+
+	admin_intf.view('messages',function(data){
+
+		return admin_intf.dots.messages({
+			fragments: admin_intf.fragments,
+			notifications: data.notifications,
+			messages: data.messages
+		});
+	});
+
+
 
 
 	return admin_intf;

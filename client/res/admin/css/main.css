@@ -562,6 +562,42 @@ html.admin .post-buttons select {
   color: #FFF; }
 html.admin .post-buttons.single-post {
   margin-top: 80px; }
+html.admin .comment-list {
+  margin-top: -20px; }
+  html.admin .comment-list .comment {
+    margin-top: 20px;
+    border-bottom: solid 1px #999;
+    line-height: 25px;
+    vertical-align: middle;
+    font-size: 12px; }
+    html.admin .comment-list .comment .comment-id {
+      color: #666;
+      font-size: 11px;
+      padding-left: 20px; }
+    html.admin .comment-list .comment .comment-name {
+      font-weight: bold;
+      font-size: 14px;
+      padding-left: 20px; }
+      html.admin .comment-list .comment .comment-name span {
+        color: #aaa;
+        font-size: 11px;
+        padding-right: 10px; }
+    html.admin .comment-list .comment .comment-answer,
+    html.admin .comment-list .comment .comment-ban {
+      padding-left: 20px;
+      font-size: 11px;
+      color: #999; }
+    html.admin .comment-list .comment input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle; }
+  html.admin .comment-list .controls {
+    margin-top: 20px; }
+    html.admin .comment-list .controls * {
+      vertical-align: middle; }
+    html.admin .comment-list .controls input[type="text"] {
+      margin-top: 0;
+      height: 30px; }
 html.admin iframe.media-upload {
   width: 100%;
   border: none;
@@ -749,7 +785,7 @@ html.admin .tag_colors, html.admin .tag_prio {
     html.admin .tag_colors > span ul, html.admin .tag_prio > span ul {
       position: absolute;
       padding: 0;
-      margin: -120px 0 0;
+      margin: -100px 0 0;
       list-style: none;
       left: 0;
       border: solid 1px #29475f;
@@ -776,6 +812,16 @@ html.admin .tag_colors, html.admin .tag_prio {
     padding: 2px; }
   html.admin .tag_colors.tag_prio input[type="number"], html.admin .tag_prio.tag_prio input[type="number"] {
     width: 40px; }
+html.admin table.messages {
+  font-size: 13px;
+  margin: 0 10px; }
+  html.admin table.messages th {
+    font-weight: bold; }
+  html.admin table.messages td {
+    padding: 3px 5px;
+    border: solid 1px #aaa; }
+  html.admin table.messages .body {
+    width: 50%; }
 
 *, *:after, *:before {
   -webkit-box-sizing: border-box;

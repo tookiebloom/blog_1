@@ -17,6 +17,13 @@ var BlogActions = {
 			postId 				: postId,
 			commentComponents	: commentComponents
 		});
+	},
+
+	submitMessage : function(messageComponents) {
+		AppDispatcher.dispatch({
+			actionType 			: Actions.BLOG.MESSAGE_SUBMITTED,
+			messageComponents 	: messageComponents
+		});
 	}
 }
 

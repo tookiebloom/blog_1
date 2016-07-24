@@ -6,7 +6,6 @@ var reactify = require('reactify');
 var concat = require('gulp-concat');
 var rename = require("gulp-rename");
 
-
 var scss = require('gulp-scss');
 
 gulp.task('browserify', function() {

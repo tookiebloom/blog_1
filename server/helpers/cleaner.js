@@ -18,8 +18,24 @@ module.exports = function(_config){
 	};
 
 
+	var _cleanMessageSubmit = function(messageCompoenents) {
+		return {
+			name	 	: sanitizeHtml(messageCompoenents.name),
+			body	 	: sanitizeHtml(messageCompoenents.body),
+			email	 	: sanitizeHtml(messageCompoenents.email),
+			timestamp	: messageCompoenents.timestamp
+		};
+	}
+
+	var _cleanString  = function(string) {
+		return sanitizeHtml( string );
+	};
+
+
 
 	return {
-			cleanCommentSubmit : _cleanCommentSubmit
+			cleanCommentSubmit 	: _cleanCommentSubmit,
+			cleanString			: _cleanString,
+			cleanMessageSubmit 	: _cleanMessageSubmit 
 	};
 };

@@ -64,7 +64,7 @@ module.exports = [
 		path: "/posts/",
 		handler : function(req, res){
 
-			req.model.getPosts({})
+			req.model.getPosts({},{})
 			.then(function(posts){
 				res.send( req.interface.render('posts',{
 					posts: posts
@@ -344,6 +344,41 @@ module.exports = [
 			},function(err){ //error
 				res.send( req.interface.to("default").render("500",  {err_object: arguments}) );
 			})
+
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
+		}
+	},
+
+	/**
+	*	GET /messages/
+	*/
+	{
+		access: {
+			sockets: ["GLOBAL", "REGISTERED", "ADMIN","PUBLIC"],
+			interfaces: ["admin"]
+		},
+		method: "GET",
+		path: "/messages/",
+
+		handler: function(req, res){
+
+
+			Promise.all([
+				req.model.getNotifications(),
+				req.model.getMessages(0, 10)
+			])
+			
+			.then(function(results){
+
+				res.send(  req.interface.render('messages', {
+					notifications 	: results[0],
+					messages 		: results[1] 
+				}));
+			},function(){
+				res.send( req.interface.to("default").render("500",  {err_object: arguments}) );
+			});
 
 		},
 		access_violation : function(req, res){

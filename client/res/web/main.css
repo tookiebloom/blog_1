@@ -73,6 +73,15 @@ body {
     padding-left: 16px; }
     .header .logo-wrapper img {
       max-width: 42px; }
+  .header .header-buttons a {
+    display: inline-block;
+    margin-right: 10px; }
+  .header .header-buttons br {
+    display: none; }
+  .header .header-buttons:first-child {
+    margin-right: 0; }
+    .header .header-buttons:first-child a {
+      margin-right: 0; }
   .header .header-button {
     display: inline-block;
     width: 40px;
@@ -90,6 +99,14 @@ body {
       background-color: #3498db; }
       .header .header-button.contact:hover, .header .header-button.contact:active {
         background: #5faee3; }
+    .header .header-button.twitter {
+      background-color: #55acee; }
+      .header .header-button.twitter:hover, .header .header-button.twitter:active {
+        background: #83c3f3; }
+    .header .header-button.github {
+      background-color: #913399; }
+      .header .header-button.github:hover, .header .header-button.github:active {
+        background: #b540bf; }
     .header .header-button .fa {
       top: 50%;
       left: 50%;
@@ -107,6 +124,14 @@ body {
     .header .logo-wrapper img {
       max-width: none;
       margin-top: 12px; }
+    .header .header-buttons a {
+      margin-right: 20px; }
+      .header .header-buttons a:last-child {
+        margin-top: 20px; }
+      .header .header-buttons a:first-child {
+        margin-top: 0; }
+    .header .header-buttons br {
+      display: inline; }
     .header .header-button.contact {
       width: 100px;
       height: 100px;
@@ -547,3 +572,138 @@ article.blog-post {
 @media only screen and (min-width: 992px) {
   .comment-list, .comment-form {
     padding: 30px; } }
+.contact-page .contact-info {
+  background: #29475f;
+  padding: 20px;
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+  margin-top: 40px; }
+.contact-page .contact-form {
+  margin-top: 20px;
+  max-width: 500px; }
+  .contact-page .contact-form h4 {
+    font-family: 'Rambla', sans-serif;
+    color: #29475f;
+    font-weight: bold;
+    margin-top: 0; }
+  .contact-page .contact-form input, .contact-page .contact-form textarea {
+    height: 30px;
+    background: #fff;
+    border: none;
+    display: block;
+    outline: none;
+    width: 100%;
+    margin-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px; }
+    .contact-page .contact-form input:focus, .contact-page .contact-form textarea:focus {
+      -webkit-box-shadow: 0px 2px 0px 0px #3498db;
+      -moz-box-shadow: 0px 2px 0px 0px #3498db;
+      box-shadow: 0px 2px 0px 0px #3498db; }
+  .contact-page .contact-form input[type="number"] {
+    display: inline-block;
+    margin-left: 10px;
+    width: 75px;
+    padding-right: 0; }
+  .contact-page .contact-form textarea {
+    resize: vertical;
+    height: 100px;
+    min-height: 200px;
+    padding-top: 5px;
+    padding-bottom: 5px; }
+  .contact-page .contact-form form {
+    margin-bottom: 0; }
+  .contact-page .contact-form .textarea-subtext {
+    display: block;
+    color: #aaa;
+    font-size: 12px;
+    margin-top: 5px; }
+  .contact-page .contact-form .submit-errors {
+    color: #c0392b; }
+    .contact-page .contact-form .submit-errors span {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold; }
+  .contact-page .contact-form .submit-success {
+    color: #3cb878;
+    display: block;
+    margin-top: 10px;
+    font-weight: bold; }
+  .contact-page .contact-form .submit-message-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 6px 30px;
+    background: #3cb878;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none; }
+    .contact-page .contact-form .submit-message-button .fa {
+      font-size: 12px; }
+      .contact-page .contact-form .submit-message-button .fa.fa-commenting-o {
+        padding-right: 5px; }
+      .contact-page .contact-form .submit-message-button .fa.fa-cog {
+        display: none; }
+    .contact-page .contact-form .submit-message-button.submitting {
+      background: #83d7ac; }
+      .contact-page .contact-form .submit-message-button.submitting .fa-commenting-o {
+        display: none; }
+      .contact-page .contact-form .submit-message-button.submitting .fa-cog {
+        display: inline-block; }
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px) {
+  .contact-page .contact-info {
+    margin-top: 153px;
+    padding: 40px; } }
+.login-page .login-form {
+  margin-top: 20px;
+  max-width: 500px; }
+  .login-page .login-form h4 {
+    font-family: 'Rambla', sans-serif;
+    color: #29475f;
+    font-weight: bold;
+    margin-top: 0; }
+  .login-page .login-form input, .login-page .login-form textarea {
+    height: 30px;
+    background: #fff;
+    border: none;
+    display: block;
+    outline: none;
+    width: 100%;
+    margin-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px; }
+    .login-page .login-form input:focus, .login-page .login-form textarea:focus {
+      -webkit-box-shadow: 0px 2px 0px 0px #3498db;
+      -moz-box-shadow: 0px 2px 0px 0px #3498db;
+      box-shadow: 0px 2px 0px 0px #3498db; }
+  .login-page .login-form form {
+    margin-bottom: 0; }
+  .login-page .login-form .submit-errors {
+    color: #c0392b; }
+    .login-page .login-form .submit-errors span {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold; }
+  .login-page .login-form .login-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 6px 30px;
+    background: #3cb878;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none; }
+    .login-page .login-form .login-button .fa {
+      font-size: 12px;
+      padding-right: 5px; }
+  .login-page .login-form .validation-message {
+    margin-top: 10px;
+    color: #c0392b; }
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px) {
+  .contact-page .contact-info {
+    margin-top: 153px;
+    padding: 40px; } }

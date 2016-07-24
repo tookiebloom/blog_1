@@ -85,7 +85,15 @@ module.exports = [
 
 			var page_index = parseInt(req.query.pageIndex) || 0;
 
-			req.model.getPosts({
+			//include the tag in the query object if this is present in the parameters
+			var query_obj = {};
+			if( typeof req.query.tag !== "undefined") {
+				query_obj = {
+					tags: req.query.tag
+				}
+			}
+
+			req.model.getPosts(query_obj,{
 				limit: req.model.getSettingsCache().page_size,
 				skip: req.model.getSettingsCache().page_size* page_index
 			})
@@ -132,7 +140,7 @@ module.exports = [
 	{
 		access: {
 			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
-			interfaces: ["json", "web"]
+			interfaces: ["json", "web", "admin"]
 		},
 		method: "POST",
 		path: "/system/submit_comment/",
@@ -169,7 +177,199 @@ module.exports = [
 
 		},
 		access_violation : function(req, res){
-			res.send( req.interface.to("default").render("403") );
+			res.send({
+				status: "error",
+				message: "Access violation"
+			});
+		}
+
+	},
+
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			interfaces: ["json", "web", "admin"]
+		},
+		method: "POST",
+		path: "/system/ban_comments/",
+		handler: function(req, res){
+
+			req.model.banComments(
+				req.body.post_id,
+				req.body.comment_ids,
+				req.helpers.cleaner.cleanString( req.body.ban_reason )
+			).then(function(updateResult){
+				res.send({status: "success"})
+			}, function(err){
+				res.send({
+					status: "error",
+					message: err.message
+				});
+			})
+		},
+		access_violation : function(req, res){
+			res.send({
+				status: "error",
+				message: "Access violation"
+			});
+		}
+
+	},
+
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			interfaces: ["json", "web", "admin"]
+		},
+		method: "POST",
+		path: "/system/unban_comments/",
+		handler: function(req, res){
+
+			req.model.unbanComments(
+				req.body.post_id,
+				req.body.comment_ids
+			).then(function(updateResult){
+				res.send({status: "success"})
+			}, function(err){
+				res.send({
+					status: "error",
+					message: err.message
+				});
+			})
+		},
+		access_violation : function(req, res){
+			res.send({
+				status: "error",
+				message: "Access violation"
+			});
+		}
+
+	},
+
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			interfaces: ["json", "web", "admin"]
+		},
+		method: "POST",
+		path: "/system/delete_comments/",
+		handler: function(req, res){
+
+			req.model.deleteComments(
+				req.body.post_id,
+				req.body.comment_ids
+			).then(function(updateResult){
+				res.send({status: "success"})
+			}, function(err){
+				res.send({
+					status: "error",
+					message: err.message
+				});
+			})
+		},
+		access_violation : function(req, res){
+			res.send({
+				status: "error",
+				message: "Access violation"
+			});
+		}
+
+	},
+
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			interfaces: ["json", "web", "admin"]
+		},
+		method: "POST",
+		path: "/system/submit_message/",
+		handler: function(req, res){
+
+			var errs =  req.helpers.validator.validateMessageSubmit(req.body);
+
+			if ( errs.length == 0 ) {
+				req.cleanMessageComponents = req.helpers.cleaner.cleanMessageSubmit( req.body );
+
+				req.model.addMessage(
+					req.cleanMessageComponents
+				).then(function(addResult){
+
+					if( addResult.result.n == 1 ) {
+
+						req.model.pushNotification(
+							"you received a new message! from " + req.cleanMessageComponents.name,
+							"orange",
+							{
+								url: "/messages/",
+								description: "Click here to read the message"
+							}
+						).then(function(){	
+							res.send({
+								status: "success"
+							});	
+						},function(){
+
+							res.send({
+								status: "success"
+							});
+						});
+
+					} else {
+						res.send({
+							status: "error",
+							message: "Something went wrong while adding the message to the database."
+						});
+					}
+				});
+			} else {
+				res.send({
+					status: "error",
+					message: errs.join("<|>")
+				});
+			}
+
+		},
+		access_violation : function(req, res){
+			res.send({
+				status: "error",
+				message: "Access violation"
+			});
+		}
+
+	},
+
+	{
+		access: {
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			interfaces: ["json", "web", "admin"]
+		},
+		method: "GET",
+		path: "/system/get_messages/",
+		handler: function(req, res){
+
+			var limit = parseInt(req.query.limit) || 10;
+			var skip =  parseInt(req.query.skip) || 0;
+
+			req.model.getMessages(skip,limit)
+			.then(function(messages){
+				res.send({
+					status: "success",
+					messages: messages
+				});
+			}, function(err){
+				res.send({
+					status: "error",
+					message: "Something went wrong when retreiving data from database"
+				})
+			});
+
+
+		},
+		access_violation : function(req, res){
+			res.send({
+				status: "error",
+				message: "Access violation"
+			});
 		}
 
 	}

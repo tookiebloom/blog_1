@@ -58,6 +58,14 @@ module.exports = function(CORE){
 		});
 	};
 
+	var _findClean = function(collection, query, projection, opts) {
+		opts = opts || {};
+		opts.skip = opts.skip || 0;
+		opts.limit = opts.limit || 0;
+		return _db.collection(collection).find(query, projection).skip(opts.skip).limit(opts.limit);
+	};
+
+
 	var _delete = function(collection, query){
 		return _db.collection(collection).removeAsync(query);
 	};
@@ -75,16 +83,71 @@ module.exports = function(CORE){
 		return _db.collection(collection).updateAsync( query, update_rules, projection );
 	};
 
+	var saveDocumentAndResolvePromise = function(collection, document, resolve, reject){
+		_db.collection(collection).saveAsync(document)
+		.then(function(saveResult){
+			if(saveResult.result.n > 0) {
+				resolve(true);
+			} else {
+				reject( new Error("Saving document to the database failed. Probably the product id <"+ JSON.stringify(document._id) +"> was corrupted") );
+			}
+		});
+	};
 
+	var _updateFirstLevelArray = function(collection, query, projection, opts, arrayKey ,updateCallback) {
+
+		opts = opts || {};
+		opts.skip = opts.skip || 0;
+		opts.limit = opts.limit || 0;
+
+		return new Promise(function(resolve, reject){
+			_db.collection(collection).find(query, projection).skip(opts.skip).limit(opts.limit).toArrayAsync()
+			.then(function(docs){
+				var doc = docs[0];
+				if(doc) {
+					doc[arrayKey].forEach(updateCallback);
+					saveDocumentAndResolvePromise(collection, doc, resolve, reject);
+				} else {
+					reject( new Error("Getting document from the database failed. Probably the product id <"+ JSON.stringify(query) +"> was corrupted") );
+				}
+			});
+		});
+
+	};
+
+
+	var _filterItemsInFirstLevelArray = function(collection, query, projection, opts, arrayKey ,filterCondition) {
+
+		opts = opts || {};
+		opts.skip = opts.skip || 0;
+		opts.limit = opts.limit || 0;
+
+		return new Promise(function(resolve, reject){
+			_db.collection(collection).find(query, projection).skip(opts.skip).limit(opts.limit).toArrayAsync()
+			.then(function(docs){
+				var doc = docs[0];
+				if(doc) {
+					doc[arrayKey] = doc[arrayKey].filter(filterCondition);
+					saveDocumentAndResolvePromise(collection, doc, resolve, reject);
+				} else {
+					reject( new Error("Getting document from the database failed. Probably the product id <"+ JSON.stringify(query) +"> was corrupted") );
+				}
+			});
+		});
+
+	};
 
 
 	return {
-		cleanup : _cleanup,
-		insert: _insert,
-		find:	_find,
-		delete: _delete,
-		edit : _edit,
-		looselyEdit : _looselyEdit,
-		findOne: _findOne
+		cleanup 						: _cleanup,
+		insert							: _insert,
+		find							: _find,
+		delete							: _delete,
+		edit 							: _edit,
+		looselyEdit 					: _looselyEdit,
+		findOne							: _findOne,
+		findClean						: _findClean,
+		updateFirstLevelArray			: _updateFirstLevelArray,
+		filterItemsInFirstLevelArray 	: _filterItemsInFirstLevelArray
 	};
 };
