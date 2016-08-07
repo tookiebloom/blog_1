@@ -182,7 +182,6 @@ module.exports = function(CORE){
 				//update the setting cache
 				settings_cache.page_size = settings.page_size || 10;
 				resolve(settings);
-
 			}, function(err){
 				reject(err);
 			})

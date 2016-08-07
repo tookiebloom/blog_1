@@ -8,7 +8,7 @@ module.exports = [
 
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["admin"]
 		},
 		method: "POST",
@@ -42,7 +42,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["admin", "web"]
 		},
 		method: "GET",
@@ -75,7 +75,7 @@ module.exports = [
 	/*GET A PAGE OF POSTS*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
 			interfaces: ["json", "admin", "web"]
 		},
 		method: "GET",
@@ -187,7 +187,7 @@ module.exports = [
 
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["json", "web", "admin"]
 		},
 		method: "POST",
@@ -218,7 +218,7 @@ module.exports = [
 
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["json", "web", "admin"]
 		},
 		method: "POST",
@@ -248,7 +248,7 @@ module.exports = [
 
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["json", "web", "admin"]
 		},
 		method: "POST",
@@ -340,7 +340,7 @@ module.exports = [
 
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED", "PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["json", "web", "admin"]
 		},
 		method: "GET",
@@ -362,6 +362,41 @@ module.exports = [
 					message: "Something went wrong when retreiving data from database"
 				})
 			});
+
+
+		},
+		access_violation : function(req, res){
+			res.send({
+				status: "error",
+				message: "Access violation"
+			});
+		}
+
+	},
+
+	{
+		access: {
+			sockets: ["PUBLIC"],
+			interfaces: ["json", "web", "admin"]
+		},
+		method: "GET",
+		path: "/err/",
+		handler: function(req, res){
+
+			if(req.query.m == "500"){
+				res.send( req.interface.to("default").render("500",  {err_object: {th:12 , is: " some message", with: ["an", "array"], and: { an: "object"}}}) );
+			}
+
+
+			if(req.query.m == "404"){
+				res.send( req.interface.to("default").render("404" ) );
+			}
+
+
+			if(req.query.m == "403"){
+				res.send( req.interface.to("default").render("403" ) );
+			}
+
 
 
 		},

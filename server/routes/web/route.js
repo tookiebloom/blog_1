@@ -67,6 +67,24 @@ module.exports = [
 		}
 	},
 
+	/**
+	*	Admin GET Admin Page
+	*/
+	{
+		access: {
+			sockets: ["ADMIN"],
+			interfaces: ["web", "admin"]
+		},
+
+		method: 'GET',
+		path: '/admin/',
+		handler : function(req, res) {
+			res.redirect('/');
+		},
+		access_violation : function(req, res){
+			res.send( req.interface.to("default").render("403") );
+		}
+	},
 
 	/**
 	*	Web GET Login Page

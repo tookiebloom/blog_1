@@ -5,6 +5,10 @@
 
 	border-top: solid 5px #29475f;
 
+	&>.col-xs-8 {
+		min-width: 220px;
+	}
+
 	.logo-wrapper {
 		padding-left: 16px;
 		img {
@@ -106,7 +110,9 @@
 
 
 		.header-buttons {
-			a {
+			a,
+			a.login {
+
 				margin-right: 20px;
 				
 				&:last-child {
@@ -120,7 +126,7 @@
 
 			br {
 				display: inline;
-			}
+			} 
 		}
 
 

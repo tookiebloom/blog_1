@@ -17,6 +17,8 @@ body {
       font-size: 26px;
       margin-top: 15px;
       font-weight: bold; }
+    body .main-container.error-report {
+      padding-top: 40px; }
   body .footer {
     margin-top: 30px;
     margin-bottom: 30px;
@@ -69,6 +71,8 @@ body {
   background: #dfdedd;
   padding: 10px 0;
   border-top: solid 5px #29475f; }
+  .header > .col-xs-8 {
+    min-width: 220px; }
   .header .logo-wrapper {
     padding-left: 16px; }
     .header .logo-wrapper img {
@@ -124,11 +128,14 @@ body {
     .header .logo-wrapper img {
       max-width: none;
       margin-top: 12px; }
-    .header .header-buttons a {
+    .header .header-buttons a,
+    .header .header-buttons a.login {
       margin-right: 20px; }
-      .header .header-buttons a:last-child {
+      .header .header-buttons a:last-child,
+      .header .header-buttons a.login:last-child {
         margin-top: 20px; }
-      .header .header-buttons a:first-child {
+      .header .header-buttons a:first-child,
+      .header .header-buttons a.login:first-child {
         margin-top: 0; }
     .header .header-buttons br {
       display: inline; }

@@ -18,23 +18,43 @@ module.exports = function(config){
 
 		function exitHandler(options, err) {
 
+	        if (typeof options.sig === "string") {
+	           console.log('%s: Received %s - terminating sample app ...',
+	                       Date(Date.now()), options.sig);
+
+	           CORE.cleanup();
+	           process.exit(1);
+	        }
+
+
+
+
 			if (options.cleanup ){
 				CORE.cleanup();
 			}
 
 			if (err) console.log(err.stack);
 
-			if (options.exit) process.exit();
+			if (options.exit){
+				console.log("some kind of eunhandled exception :( ");
+				process.exit();
+			}
+
+			console.log('%s: Node server stopped.', Date(Date.now()) );
 		}
 
 		//do something when app is closing
 		process.on('exit', exitHandler.bind(null,{cleanup:true}));
 
-		//catches ctrl+c event
-		process.on('SIGINT', exitHandler.bind(null, {exit:true}));
-
 		//catches uncaught exceptions
 		process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
+
+		// Removed 'SIGPIPE' from the list - bugz 852598.
+        ['SIGHUP', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
+         'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
+        ].forEach(function(element, index, array) {
+            process.on(element,  exitHandler.bind(null,{sig:element}) );
+        });
 	};
 
 
@@ -48,7 +68,7 @@ module.exports = function(config){
 		// default middlewares
 
 		//SET THE ASYNC FILE UPLADER MIDDLEWARE
-		_ctrl.app.use( multer({ dest:  config.root_path_relateive_to_core + 'client/res/uploads/tmp'}).array('filesToUpload', 15) );
+		_ctrl.app.use( multer({ dest:  config.root_path_relative_to_core + 'client/res/uploads/tmp'}).array('filesToUpload', 15) );
 
 		_ctrl.app.use( bodyParser.json() );       // to support JSON-encoded bodies
 		_ctrl.app.use( bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -57,7 +77,6 @@ module.exports = function(config){
 		_ctrl.app.use(cookieParser());
 
 		//we manually set each middleware because the order is very important
-		//attach helpers to
 
 		_ctrl.app.use(CORE.middlewares.helpers);
 		_ctrl.app.use(CORE.middlewares.model);
@@ -75,9 +94,17 @@ module.exports = function(config){
 		CORE.router(_ctrl.app);
 
 
+		var _port 		= CORE.config.port || 2111;
+		var _ipaddress 	= '127.0.0.1';
+
+		if ( CORE.config.ipaddress ) {
+			_ipaddress = CORE.config.ipaddress;
+		} else {
+			console.log('missing env variable: OPENSHIFT_NOEDJS_IP \nStarting the server on 127.0.0.1');
+		}
 
 
-		var server = _ctrl.app.listen( CORE.config.port, function () {
+		var server = _ctrl.app.listen( _port,_ipaddress, function () {
 		  var host = server.address().address;
 		  var port = server.address().port;
 

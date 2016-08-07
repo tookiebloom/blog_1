@@ -86,29 +86,19 @@ module.exports = function(CORE){
 	var _validateAndProcessMediaFiles = function(files){
 
 		return new Promise(function(resolve, reject){
-
-
 			var _valid = [], _invalid = [], i, process_file_promises = [];
 
 			for ( i = 0; i < files.length; i++ ){
-
 				process_file_promises.push(
-
 					_validateSingleMediaFile(files[i])
-
 					.then(  _processValidationResult )
-
 					.then( function( processed_file ){
-
 						var array_to_push = (processed_file.is_invalid ? _invalid : _valid  ) ;
-
 						array_to_push.push( processed_file );
 				 }));
 			}
-
-
+			
 			Promise.all(process_file_promises)
-
 			.then(function(){
 				resolve({
 					valid : _valid,

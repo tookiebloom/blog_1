@@ -38,16 +38,35 @@ module.exports = function(CORE, interface_name){
 	});
 
 	web_intf.view('404', function(data){
-		return "404";
+		return web_intf.dots.react_base({
+			pageData : {
+				err_object: {
+					err_message : "Error 404: Page not found :("
+				}
+			}
+		});
 	});
 
 	web_intf.view('403', function(data){
-		return "403";
+		return web_intf.dots.react_base({
+			pageData : {
+				err_object: {
+					err_message : "Error 403: Access is forbidden ;) "
+				}
+			}
+		});
 	});
 
 
 	web_intf.view('500', function(data){
-		return "500";
+		return web_intf.dots.react_base({
+			pageData : {
+				err_object: {
+					err_message : "Error 500: Internal server error x_x. Please help me by sending me the error report:",
+					err_report : JSON.stringify(data.err_object, null, 4)
+				}
+			}
+		});
 	});
 
 	return web_intf;

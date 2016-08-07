@@ -47,13 +47,18 @@ module.exports = function(CORE, interface_name){
 
 	admin_intf.view('settings', function(data){
 
-		var tag_color_map = data.settings.tag_colors.split('<|>').reduce(function(acc, crt){
+		var tag_color_map = data.settings && 
+							data.settings.tag_colors && 
+							data.settings.tag_colors.split('<|>').reduce(function(acc, crt){
+
 			var components = crt.split("~");
 			acc[components[0]] = components[1] || '';
 			return acc;
 		},{})
 
-		var tag_prio_map = data.settings.tag_prio.split('<|>').reduce(function(acc, crt){
+		var tag_prio_map = 	data.settings &&
+							data.settings.tag_prio && 
+							data.settings.tag_prio.split('<|>').reduce(function(acc, crt){
 			var components = crt.split("~");
 			acc[components[0]] = components[1] || '';
 			return acc;
@@ -64,8 +69,8 @@ module.exports = function(CORE, interface_name){
 			notifications	: data.notifications,
 			settings		: data.settings,
 			tags			: data.tags,
-			tag_color_map 	: tag_color_map,
-			tag_prio_map	: tag_prio_map
+			tag_color_map 	: tag_color_map || {},
+			tag_prio_map	: tag_prio_map || {}
 		});
 	});
 

@@ -12,22 +12,27 @@ var _event_bus = new Events.EventEmitter();
 var BlogStore = function(){
 
 
-	var	_posts, _media, _prio_tags, _tag_color_map, _settings, _post, _validation_message, _auth ;
+	var	_posts, _media, _prio_tags, _tag_color_map, _settings, _post, _validation_message, _auth, _err_object;
 
 	var _init = function(){
 		//do init
-		pageData = pageData || {};
+		pageData 				= pageData || {};
 
-		_posts 		= pageData.posts || [];
-		_settings 	= pageData.settings || {};
-		_post 		= pageData.post || {};
-		_auth 		= pageData.auth || {}
+		_posts 					= pageData.posts || [];
+		_settings 				= pageData.settings || {};
 
-		_validation_message = pageData.validation_message || "";
+		_settings.tag_prio 		= _settings.tag_prio || "";
+		_settings.tag_colors 	= _settings.tag_colors || "";
+
+		_post 					= pageData.post || {};
+		_auth 					= pageData.auth || {};
+		_err_object 			= pageData.err_object || "";
+
+		_validation_message 	= pageData.validation_message || "";
 
 		pageData.media 								&& _pushMediaArray(pageData.media);
-		_settings.tag_prio && pageData.tags			&& _initTags();
-		_settings.tag_colors 						&& _initTagColorMap();
+		_initTags();
+		_initTagColorMap();
 
 
 
@@ -38,17 +43,20 @@ var BlogStore = function(){
 		_media = (media || []).reduce(function(acc, crt){
 			acc[ crt._id ] = crt;
 			return acc;
-		},_media || {});
+		},_media || {}); 
 	};
 
 
 
 	var _initTags = function(){
+
+
+
 		_prio_tags = _settings.tag_prio.split("<|>")
 		.reduce(function(acc, crt){
 			var components = crt.split("~");
 
-			if (pageData.tags.indexOf(components[0]) != -1 && parseInt(components[1]) > 0 ){
+			if (pageData.tags && pageData.tags.indexOf(components[0]) != -1 && parseInt(components[1]) > 0 ){
 				acc.push({
 					name: components[0],
 					prio: parseInt(components[1])
@@ -65,6 +73,7 @@ var BlogStore = function(){
 			}
 			return 0;
 		});
+
 	};
 
 	var _initTagColorMap = function(){
@@ -105,7 +114,7 @@ var BlogStore = function(){
 	var _getLoginContext = function(){
 		return {
 			validation_message : _validation_message
-		}
+		};
 	};
 
 	var _getPosts = function(){
@@ -132,7 +141,11 @@ var BlogStore = function(){
 		return _auth;
 	};
 
-
+	var _getErrorContext = function(){
+		return {
+			err_object : _err_object
+		};
+	};
 
 	_event_bus.on(Actions.SERVER.MORE_POSTS_PROVIDED, function(response){
 
@@ -177,7 +190,8 @@ var BlogStore = function(){
 
 		getHomeContext					: _getHomeContext,
 		getPostContext					: _getPostContext,
-		getLoginContext 				: _getLoginContext
+		getLoginContext 				: _getLoginContext,
+		getErrorContext 				: _getErrorContext
 	};
 
 

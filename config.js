@@ -1,5 +1,7 @@
 module.exports = {
-	port: 2111,
+	port: process.env.OPENSHIFT_NODEJS_PORT,
+
+	ipaddress : process.env.OPENSHIFT_NODEJS_IP,
 
 	default_interface : "web",
 
@@ -12,9 +14,9 @@ module.exports = {
 		repositories: 		"./server/repositories"
 	},
 
-	root_path_relateive_to_core : "../",
+	root_path_relative_to_core : "../",
 
-	mongodb_url : "mongodb://localhost:27017/blog",
+	mongodb_url : process.env.OPENSHIFT_MONGODB_DB_URL || "mongodb://localhost:27017",
 	mongodb_db_name : "blog",
 
 	media_validator: {
@@ -24,10 +26,19 @@ module.exports = {
 	},
 
 	secrets : {
-		jwt : "Thisisareallybigandimportantsecret;shhhh!"
+		jwt : process.env.OPENSHIFT_BLOG_JWT_SECRET || "Custom string used for encoding the JWT tokens"
 	},
 
 	settings : {
-		default_page_size : 3
+		default_page_size : 10
+	},
+
+	admin_user : {
+		//username 	: "admin",
+		//password	: "somepass",
+		name 		: "Beni Hognogi",
+		email 		: "beni@hognogi.com",
+		created		: Date.now(),
+		access_keys : ["ADMIN"]
 	}
 };

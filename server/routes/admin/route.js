@@ -7,7 +7,7 @@ module.exports = [
 	*/
 	{
 		access : {
-			sockets : ["ADMIN","REGISTERED","PUBLIC"],
+			sockets : ["ADMIN","REGISTERED"],
 			interfaces : ["admin"]
 		},
 		method: 'GET',
@@ -31,7 +31,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["admin"]
 		},
 		method: "POST",
@@ -57,7 +57,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -82,7 +82,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["json"]
 		},
 		method: "GET",
@@ -111,7 +111,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["GLOBAL", "REGISTERED","PUBLIC"],
+			sockets: ["GLOBAL", "REGISTERED"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -156,7 +156,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["admin"]
 		},
 		method: "POST",
@@ -180,7 +180,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -210,7 +210,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["admin"]
 		},
 		method: "POST",
@@ -238,7 +238,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -270,7 +270,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["ADMIN", "REGISTERED","PUBLIC"],
+			sockets: ["ADMIN", "REGISTERED"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -291,7 +291,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["GLOBAL", "REGISTERED","PUBLIC"],
+			sockets: ["GLOBAL", "REGISTERED"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -329,7 +329,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["GLOBAL", "REGISTERED", "ADMIN","PUBLIC"],
+			sockets: [ "REGISTERED", "ADMIN"],
 			interfaces: ["admin"]
 		},
 		method: "GET",
@@ -356,7 +356,7 @@ module.exports = [
 	*/
 	{
 		access: {
-			sockets: ["GLOBAL", "REGISTERED", "ADMIN","PUBLIC"],
+			sockets: ["REGISTERED", "ADMIN"],
 			interfaces: ["admin"]
 		},
 		method: "GET",

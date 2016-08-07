@@ -19,7 +19,7 @@ module.exports = function(_config){
 		for( i = 0; i < helper_files.length; i++ ){
 
 			//initialize helper
-			helper_instance = require(  _config.root_path_relateive_to_core + _config.directories.helpers + "/" + helper_files[i]  )(_config);
+			helper_instance = require(  _config.root_path_relative_to_core + _config.directories.helpers + "/" + helper_files[i]  )(_config);
 
 			helper_name = helper_files[i].substr(0, helper_files[i].lastIndexOf('.'));  //remove ".js" from file name
 			helpers[helper_name] = helper_instance;
@@ -40,7 +40,7 @@ module.exports = function(_config){
 		for( i = 0; i < factories_files.length; i++ ){
 
 			//initialize factory function
-			factory_function = require(  _config.root_path_relateive_to_core +  _config.directories.factories + "/" + factories_files[i] )(CORE);
+			factory_function = require(  _config.root_path_relative_to_core +  _config.directories.factories + "/" + factories_files[i] )(CORE);
 
 			factory_name = factories_files[i].substr(0, factories_files[i].lastIndexOf('.')); //remove ".js" from file name
 			factories[factory_name] = factory_function;
@@ -61,7 +61,7 @@ module.exports = function(_config){
 
 
 			//initialize interface
-			interface_instance = require( _config.root_path_relateive_to_core + _config.directories.interfaces + "/" + interface_directories[i] + "/interface.js"  )(CORE);
+			interface_instance = require( _config.root_path_relative_to_core + _config.directories.interfaces + "/" + interface_directories[i] + "/interface.js"  )(CORE);
 
 			interface_name = interface_directories[i];
 			interface_instance.__interface_name = interface_name;
@@ -84,7 +84,7 @@ module.exports = function(_config){
 		for( i = 0; i < middleware_directories.length; i++ ){
 
 			//initialize middleware
-			middleware_function = require(  _config.root_path_relateive_to_core  + _config.directories.middlewares + "/" + middleware_directories[i] + "/middleware.js"  )(CORE);
+			middleware_function = require(  _config.root_path_relative_to_core  + _config.directories.middlewares + "/" + middleware_directories[i] + "/middleware.js"  )(CORE);
 
 			middleware_name = middleware_directories[i];
 			middlewares[middleware_name] = middleware_function;
@@ -103,7 +103,7 @@ module.exports = function(_config){
 		for( i = 0; i < repo_directories.length; i++ ){
 
 			//initialize repo
-			repo_instance = require( _config.root_path_relateive_to_core  + _config.directories.repositories + "/" + repo_directories[i] + "/repository.js" )(CORE);
+			repo_instance = require( _config.root_path_relative_to_core  + _config.directories.repositories + "/" + repo_directories[i] + "/repository.js" )(CORE);
 
 			repo_name = repo_directories[i];
 			repos[ repo_name ] = repo_instance;
@@ -122,7 +122,7 @@ module.exports = function(_config){
 		for( i = 0; i < route_directories.length; i++ ){
 
 			var _crt_dir = route_directories[i];
-			var routes_arr = require( _config.root_path_relateive_to_core +  _config.directories.routes + "/"  + _crt_dir  + "/route.js" );
+			var routes_arr = require( _config.root_path_relative_to_core +  _config.directories.routes + "/"  + _crt_dir  + "/route.js" );
 
 
 			for( j = 0; j < routes_arr.length; j++ ){
@@ -131,9 +131,22 @@ module.exports = function(_config){
 				var _path 		= routes_arr[j].path;
 				var _handler 	= CORE.factories.route_handler(routes_arr[j]);
 
+
+				console.log('setting path: ',_method, _path);
+
 				_app[_method](_path, _handler);
 			}
+
+
 		}
+
+	
+		console.log('set 404');
+
+		//404 override
+		_app.use(function(req, res){
+			res.send( req.interface.to("default").render("404" ) );
+		});
 	};
 
 
